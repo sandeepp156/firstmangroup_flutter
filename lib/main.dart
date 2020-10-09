@@ -40,7 +40,7 @@ class _State extends State<MyApp> {
             onTap: () {
               // print("tessstttttt");
               // // Navigator.pop(context);
-              Navigator.push(context, new MaterialPageRoute(builder: (context) =>  Initial()),);
+              // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  Initial()),);
             },
             child: Stack(
               children: [
@@ -53,7 +53,10 @@ class _State extends State<MyApp> {
                   ),
                 ),
                 Container(
+                  width: double.infinity,
+                  // color: Colors.grey,
                   child: Column(
+
                     children: [
                       new Flexible(child: Column(
                         children: [
@@ -86,7 +89,7 @@ class _State extends State<MyApp> {
   }
 
   Future<String> getUser(BuildContext context) async{
-    Timer(Duration(seconds: 1),()=>
+    Timer(Duration(seconds: 3),()=>
         Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
     return "";
   }

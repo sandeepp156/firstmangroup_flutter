@@ -1,0 +1,140 @@
+import 'package:firstmangroup_flutter/OTPVScreen.dart';
+import 'package:firstmangroup_flutter/customcolor.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+void main() {
+  runApp(ReferralCodeScreen());
+}
+
+class ReferralCodeScreen extends StatefulWidget {
+  @override
+  _ReferralCodeScreenState createState() => _ReferralCodeScreenState();
+}
+
+TextEditingController phCntrl = new TextEditingController();
+
+class _ReferralCodeScreenState extends State<ReferralCodeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: SafeArea(
+          child: Builder(
+            builder: (BuildContext context) {
+              return Column(
+                children: [
+                  Hero(
+                    tag: 'bnner1',
+                    child: Image.asset(
+                      "assets/bnner1.png",
+                      fit: BoxFit.cover,
+                      height: MediaQuery.of(context).size.height / 4,
+                      width: double.infinity,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 10, top: 20, bottom: 20),
+                    child: Text(
+                      "Enter Referral Code",
+                      style: TextStyle(
+                          fontFamily: GlobalVariable.Gotham,
+                          color: GlobalVariable.text_colors_black,
+                          fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30,left: 30),
+                    child: Row(
+                      children: [
+
+                        Flexible(
+                          child: TextField(
+                            controller: phCntrl,
+                            maxLength: 10,
+                            keyboardType: TextInputType.phone,
+                            style: TextStyle(
+                                fontFamily: GlobalVariable.Gotham,
+                                color: GlobalVariable.blue_main, fontSize: 20),
+                            decoration: InputDecoration(
+                                counterText: "",
+                                contentPadding:
+                                    EdgeInsets.only(bottom: -15, top: 0.0),
+                                enabledBorder: new UnderlineInputBorder(
+                                    borderSide: new BorderSide(
+                                  color: GlobalVariable.blue_main,
+                                )),
+                                // border: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  fontFamily: GlobalVariable.Gotham,
+                                    color: GlobalVariable.grey_main_,
+                                    fontSize: 18),
+                                hintText: 'Enter Referral Code'),
+                          ),
+                        ),
+                        // Expanded(child: Text("")),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        color: GlobalVariable.blue_main,
+                        borderRadius: BorderRadius.circular(35)),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          // sendOtp(context);
+                        },
+                        child: Stack(
+                          alignment: Alignment.centerRight,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0,
+                                  right: 20.0,
+                                  top: 10.0,
+                                  bottom: 10.0),
+                              child: Text(
+                                "SUBMIT",
+                                style: TextStyle(
+                                    fontFamily: GlobalVariable.GothamMedium,
+                                    color: Colors.white,
+                                    fontSize: 20),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  sendOtp(BuildContext context) {
+    if (phCntrl.text.toString() == "") {
+      Scaffold.of(context)
+          .showSnackBar(new SnackBar(content: Text('Enter Mobile Number')));
+    } else if (phCntrl.text.toString().length < 10) {
+      Scaffold.of(context).showSnackBar(
+          new SnackBar(content: Text('Enter valid Mobile Number')));
+    } else {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(builder: (context) => OTPVScreen(text:phCntrl.text.toString())),
+      );
+    }
+  }
+}

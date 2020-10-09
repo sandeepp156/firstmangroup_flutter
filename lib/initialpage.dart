@@ -26,6 +26,7 @@ class _initialState extends State<Initial> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
           child: Stack(
@@ -108,7 +109,7 @@ class _initialState extends State<Initial> {
               padding: const EdgeInsets.only(bottom: 13),
               child: InkWell(
                   onTap:(){
-                    Navigator.push(context, new MaterialPageRoute(builder: (context) =>  Registration()),);
+                    Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Registration()),);
                   },
                   child: Text("Get Started",style: TextStyle(color: Colors.white,fontSize: 25),)),
             ), visible: tem1,)

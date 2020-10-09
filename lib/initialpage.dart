@@ -99,7 +99,8 @@ class _initialState extends State<Initial> {
           // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Visibility(
-              child: new IconButton(iconSize:40,icon: new Image.asset('assets/right.png'), onPressed: () {
+              child: new
+              IconButton(iconSize:40,icon: new Image.asset('assets/right.png'), onPressed: () {
                 if(item_li==0)
                   controller.nextPage(duration: Duration(milliseconds: 180), curve: Curves.linear);
                 else

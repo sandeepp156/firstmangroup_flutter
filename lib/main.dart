@@ -8,7 +8,10 @@ import 'package:flutter/material.dart';
 import 'initialpage.dart';
 
 void main() {
-  runApp(MaterialApp(home: MyApp()));
+  runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+
+      home: MyApp()));
 }
 class MyApp extends StatefulWidget {
   @override
@@ -26,13 +29,13 @@ class _State extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getUser(context);
 
   }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
         body: Builder(builder: (BuildContext context) {
-          getUser(context);
           return InkWell(
             onTap: () {
               // print("tessstttttt");
@@ -84,7 +87,7 @@ class _State extends State<MyApp> {
 
   Future<String> getUser(BuildContext context) async{
     Timer(Duration(seconds: 1),()=>
-        Navigator.push(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
+        Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
     return "";
   }
 }

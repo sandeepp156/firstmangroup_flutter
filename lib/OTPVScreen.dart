@@ -31,119 +31,125 @@ class _OTPVScreenState extends State<OTPVScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: SafeArea(
-          child: Builder(
-            builder: (BuildContext context) {
-              return Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(3),
-                    height: 45,
-                    width: double.infinity,
-                    child: Stack(
-                      alignment: Alignment.centerLeft,
-                      children: [
+    return Scaffold(
+      body: SafeArea(
+        child: Builder(
+          builder: (BuildContext context) {
+            return Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(3),
+                  height: 45,
+                  width: double.infinity,
+                  child: Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
 
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
                           child: RotatedBox(
                             quarterTurns: 90,
                             child: Image.asset('assets/right.png',color: GlobalVariable.grey_main_,scale: 3.5,),
                           ),
                         ),
-                        Center(
-                          child:
-                          Text( "Enter the OTP sent to\n",style: TextStyle(fontFamily:GlobalVariable.Gotham,color: GlobalVariable.text_colors_black,fontSize: 13 )),
-                        ),
-                            Align(alignment: Alignment.bottomCenter,
-                                child: Text( widget.text.toString(),style: TextStyle(fontFamily:GlobalVariable.Gotham,color: GlobalVariable.blue_main,fontSize: 13 )))
-
-                      ],
-                    ),
-                  ),
-                  Hero(
-                    tag: 'bnner1',
-                    child: Image.asset(
-                      "assets/bnner1.png",
-                      fit: BoxFit.cover,
-                      height: MediaQuery.of(context).size.height / 4,
-                      width: double.infinity,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 20, ),
-                    child: Text(
-                      "Verify OTP",
-                      style: TextStyle(
-              fontFamily:GlobalVariable.Gotham,
-                          color: GlobalVariable.text_colors_black,
-                          fontSize: 16),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      optTextFiled(),
-                      optTextFiled1(),
-                      optTextFiled2(),
-                      optTextFiled3(),
-                      optTextFiled4(),
-                      optTextFiled5(),
-                      // Expanded(child: Text("")),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top:30,bottom: 7  ),
-                    child:
-                    Text('Didn\'t get the OTP ?',style: TextStyle(fontFamily: GlobalVariable.Gotham), ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Resend OTP',style: TextStyle(fontFamily: GlobalVariable.GothamMedium,color: Colors.pinkAccent), ),
-                      Image.asset(
-                        "assets/rightarrow.png",
-                        color: Colors.pinkAccent,
                       ),
+                      Center(
+                        child:
+                        Text( "Enter the OTP sent to\n",style: TextStyle(fontFamily:GlobalVariable.Gotham,color: GlobalVariable.text_colors_black,fontSize: 13 )),
+                      ),
+                      Align(alignment: Alignment.bottomCenter,
+                          child: Text( widget.text.toString(),style: TextStyle(fontFamily:GlobalVariable.Gotham,color: GlobalVariable.blue_main,fontSize: 13 )))
+
                     ],
                   ),
-                  Spacer(),
-                  Container(
+                ),
+                Hero(
+                  tag: 'bnner1',
+                  child: Image.asset(
+                    "assets/bnner1.png",
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height / 4,
                     width: double.infinity,
-                    padding: const EdgeInsets.only(top:15,bottom: 10),
-                    decoration: BoxDecoration(
-                        color: GlobalVariable.blue_main,
-                        // borderRadius: BorderRadius.circular(10)
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10, right: 10, top: 20, ),
+                  child: Text(
+                    "Verify OTP",
+                    style: TextStyle(
+                        fontFamily:GlobalVariable.Gotham,
+                        color: GlobalVariable.text_colors_black,
+                        fontSize: 16),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    optTextFiled(),
+                    optTextFiled1(),
+                    optTextFiled2(),
+                    optTextFiled3(),
+                    optTextFiled4(),
+                    optTextFiled5(),
+                    // Expanded(child: Text("")),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top:30,bottom: 7  ),
+                  child:
+                  Text('Didn\'t get the OTP ?',style: TextStyle(fontFamily: GlobalVariable.Gotham), ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Resend OTP',style: TextStyle(fontFamily: GlobalVariable.GothamMedium,color: Colors.pinkAccent), ),
+                    Image.asset(
+                      "assets/rightarrow.png",
+                      color: Colors.pinkAccent,
                     ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
+                  ],
+                ),
+                Spacer(),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top:15,bottom: 10),
+                  decoration: BoxDecoration(
+                    color: GlobalVariable.blue_main,
+                    // borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
 
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(builder: (context) => ReferralCodeScreen()),
-                          );
-                        },
-                        child: Text(
-                          "SUBMIT",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: GlobalVariable.GothamMedium,
-                              color: GlobalVariable.yellow_main,
-                              fontSize: 16),
-                        ),
+                        Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(builder: (context) => ReferralCodeScreen()),
+                        );
+
+                        // Navigator.pushNamedAndRemoveUntil(context, '/ReferralCodeScreen', ModalRoute.withName('/'));
+
+
+                      },
+                      child: Text(
+                        "SUBMIT",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: GlobalVariable.GothamMedium,
+                            color: GlobalVariable.yellow_main,
+                            fontSize: 16),
                       ),
                     ),
-                  )
-                ],
-              );
-            },
-          ),
+                  ),
+                )
+              ],
+            );
+          },
         ),
       ),
     );

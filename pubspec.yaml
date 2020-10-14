@@ -148,6 +148,18 @@ flutter:
     - drawable/eye.png
     - drawable/eye_blue.png
     - drawable/faq.png
+    - drawable/personal_page.png
+    - drawable/terms_checked.png
+    - drawable/menu.png
+    - drawable/home.png
+    - drawable/home_act.png
+    - drawable/sales_list.png
+    - drawable/sales_list_act.png
+    - drawable/my_office.png
+    - drawable/my_office_act.png
+    - drawable/select_city.png
+    - drawable/select_city_fill.png
+    - drawable/realestate_back.png
 
   #   - images/a_dot_ham.jpeg
 

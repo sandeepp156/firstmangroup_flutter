@@ -74,7 +74,8 @@ class _RegistrationState extends State<Registration> {
                                 enabledBorder: new UnderlineInputBorder(
                                     borderSide: new BorderSide(
                                   color: GlobalVariable.blue_main,
-                                )),
+                                )
+                                ),
                                 // border: InputBorder.none,
                                 hintStyle: TextStyle(
                                     color: GlobalVariable.grey_main,

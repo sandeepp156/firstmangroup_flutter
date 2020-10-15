@@ -28,6 +28,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
+  delayed_display: ^1.0.3
+
 
 dev_dependencies:
   flutter_test:
@@ -163,12 +165,15 @@ flutter:
     - drawable/searchhouse.png
     - drawable/fmnet.png
     - drawable/tracklead.png
-    - drawable/contactrm.png
     - drawable/invfm.png
     - drawable/offers.png
-    - drawable/eventss.png
     - drawable/notification_new.png
-    - drawable/emi_calcu.png
+    - drawable/green_on.png
+    - drawable/logout.png
+    - drawable/user_pro.png
+    - drawable/kyc.png
+    - drawable/tpnetwork.png
+    - drawable/my_listingss.png
 
   #   - images/a_dot_ham.jpeg
 

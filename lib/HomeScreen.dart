@@ -1,5 +1,6 @@
 // import 'dart:html';
 
+import 'package:delayed_display/delayed_display.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -21,14 +22,15 @@ final controller = PageController(
 bool tem = true;
 bool tem1 = false;
 int item_li = 0;
+bool showId = false;
+var _scale = 0.0;
 List<Widget> pages = [
   Container(
-  color: Colors.black,
+    color: Colors.black,
   ),
   Container(
     color: Colors.lightBlue,
   ),
-
   Container(
     color: Colors.lightGreen,
   ),
@@ -76,7 +78,520 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 bottommenu(),
               ],
-            )
+            ),
+            GestureDetector(
+              onTap: (){
+                setState(() {
+                  showId = false;
+                });
+              },
+              child: Visibility(visible: showId,
+                child: Container(
+                  alignment: Alignment.topRight,
+                  color: GlobalVariable.text_colors_black.withOpacity(0.4),
+                  child: Wrap(
+                    children: [
+                      DelayedDisplay(
+                        delay: Duration(milliseconds: 100),
+                        slidingBeginOffset: Offset(0.35, -0.35),
+                        slidingCurve: Curves.fastLinearToSlowEaseIn,
+                        child: Container(
+                          width:MediaQuery.of(context).size.width / 1.7,
+                          padding: EdgeInsets.only(top: 10),
+                          color: GlobalVariable.white,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Image.asset(
+                                      'drawable/app_new_icon.png',
+                                      height: 25,
+                                      width: 30,
+                                    ),
+                                    Text(
+                                      'FM181002004',
+                                      style: TextStyle(
+                                          color: GlobalVariable.yellow_main,
+                                          fontFamily: GlobalVariable.Gotham),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding:
+                                    EdgeInsets.only(left: 13, top: 5, bottom: 5),
+                                margin: EdgeInsets.only(top: 3),
+                                width: double.infinity,
+                                color: GlobalVariable.grey_main,
+                                child: Text(
+                                  'Personal',
+                                  // textAlign:TextAlign.left,
+                                  style: TextStyle(
+                                      color: GlobalVariable.blue_main,
+                                      fontFamily: GlobalVariable.GothamMedium),
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5,bottom: 7,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/user_pro.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Profile',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 5,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/kyc.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'KYC Update',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 7,left: 2),
+                                      child: Image.asset('drawable/green_on.png',height: 7,width: 10,),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/bank.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Bank Account',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 7,left: 3),
+                                      child:
+                                      Text(
+                                        'Not Submitted',
+                                        style: TextStyle(
+                                            fontSize: 7,
+                                            color: Colors.red,
+                                            fontFamily: GlobalVariable.GothamMedium),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/contact_rm.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'My Assistant (RM)',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 4,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/tpnetwork.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'My FM\'s Network',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/my_listingss.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'My Office',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/chips_bag.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'My Credits',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                color: GlobalVariable.grey_main,
+                                padding: const EdgeInsets.only(bottom: 5,top: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15,right: 10),
+                                      child: Image.asset(
+                                        'drawable/logout.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Logout',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Visibility(visible: true,
+              child: Container(
+                alignment: Alignment.topLeft,
+                color: GlobalVariable.text_colors_black.withOpacity(0.4),
+                child: Wrap(
+                  children: [
+                    DelayedDisplay(
+                      delay: Duration(milliseconds: 100),
+                      slidingBeginOffset: Offset(0.35, -0.35),
+                      slidingCurve: Curves.fastLinearToSlowEaseIn,
+                      child: Container(
+                        width:MediaQuery.of(context).size.width / 1.7,
+                        padding: EdgeInsets.only(top: 10),
+                        color: GlobalVariable.white,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, right: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Image.asset(
+                                  //   'drawable/app_new_icon.png',
+                                  //   height: 25,
+                                  //   width: 30,
+                                  // ),
+                                  Text(
+                                    'Menu',
+                                    style: TextStyle(
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding:
+                              EdgeInsets.only(left: 13, top: 5, bottom: 5),
+                              margin: EdgeInsets.only(top: 3),
+                              width: double.infinity,
+                              color: GlobalVariable.grey_main,
+                              child: Text(
+                                'Business Gadget',
+                                // textAlign:TextAlign.left,
+                                style: TextStyle(
+                                    color: GlobalVariable.blue_main,
+                                    fontFamily: GlobalVariable.GothamMedium),
+                              ),
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5,bottom: 7,left: 5),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Image.asset(
+                                      'drawable/user_pro.png',
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Profile',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10,top: 5,left: 5),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Image.asset(
+                                      'drawable/kyc.png',
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    'KYC Update',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 7,left: 2),
+                                    child: Image.asset('drawable/green_on.png',height: 7,width: 10,),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Image.asset(
+                                      'drawable/bank.png',
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Bank Account',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 7,left: 3),
+                                    child:
+                                    Text(
+                                      'Not Submitted',
+                                      style: TextStyle(
+                                          fontSize: 7,
+                                          color: Colors.red,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Image.asset(
+                                      'drawable/contact_rm.png',
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    'My Assistant (RM)',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10,top: 4,left: 5),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Image.asset(
+                                      'drawable/tpnetwork.png',
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    'My FM\'s Network',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Image.asset(
+                                      'drawable/my_listingss.png',
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    'My Office',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Image.asset(
+                                      'drawable/chips_bag.png',
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    'My Credits',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              color: GlobalVariable.grey_main,
+                              padding: const EdgeInsets.only(bottom: 5,top: 5),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15,right: 10),
+                                    child: Image.asset(
+                                      'drawable/logout.png',
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Logout',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium),
+                                  )
+                                ],
+                              ),
+                            ),
+
+
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -120,12 +635,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 7, left: 3),
-              child: Image.asset(
-                'drawable/app_new_icon.png',
-                height: 25,
-                width: 30,
+            InkWell(
+              onTap: (){
+                setState(() {
+                  showId = true;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 7, left: 3),
+                child: Image.asset(
+                  'drawable/app_new_icon.png',
+                  height: 25,
+                  width: 30,
+                ),
               ),
             ),
           ],
@@ -245,7 +767,12 @@ class _HomeScreenState extends State<HomeScreen> {
             alignment: Alignment.bottomRight,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Read More',style: TextStyle(color: GlobalVariable.yellow_main,fontFamily: GlobalVariable.Gotham),),
+              child: Text(
+                'Read More',
+                style: TextStyle(
+                    color: GlobalVariable.yellow_main,
+                    fontFamily: GlobalVariable.Gotham),
+              ),
               // child: arrows(context),
             ),
           ),
@@ -327,56 +854,193 @@ class _HomeScreenState extends State<HomeScreen> {
             margin: EdgeInsets.only(top: 3, bottom: 12),
           ),
           SizedBox(
-            height: 90,
-            width: double.infinity,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 3,
-              itemBuilder: (BuildContext context, int pos) {
-                return Container(
-                  decoration: BoxDecoration(boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5.0,
-                    ),
-                  ]),
-                  margin: EdgeInsets.only(left: 10),
-                  height: 85,
-                  width: 125,
-                  // color: Colors.green,
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(5.0),
-                          child: Image.asset(
-                            'drawable/realestate_back.png',
-                            height: 100,
-                            fit: BoxFit.fill,
-                          )),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Center(
-                              child: Image.asset(
-                            'drawable/searchhouse.png',
-                            height: 20,
-                            color: GlobalVariable.white,
-                          )),
-                          Text(
-                            'Real Estate',
-                            style: TextStyle(
-                                fontFamily: GlobalVariable.Gotham,
-                                color: GlobalVariable.white),
-                          )
-                        ],
+              height: 90,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 5.0,
+                          ),
+                        ]),
+                        margin: EdgeInsets.only(left: 10),
+                        height: 85,
+                        // width: 125,
+                        // color: Colors.green,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(5.0),
+                                child: Image.asset(
+                                  'drawable/realestate_back.png',
+                                  height: 100,
+                                  fit: BoxFit.fill,
+                                )),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Center(
+                                    child: Image.asset(
+                                  'drawable/searchhouse.png',
+                                  height: 20,
+                                  color: GlobalVariable.white,
+                                )),
+                                Text(
+                                  'Real Estate',
+                                  style: TextStyle(
+                                      fontFamily: GlobalVariable.Gotham,
+                                      color: GlobalVariable.white),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 5.0,
+                          ),
+                        ]),
+                        margin: EdgeInsets.only(left: 10),
+                        height: 85,
+                        // width: 125,
+                        // color: Colors.green,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(5.0),
+                                child: Image.asset(
+                                  'drawable/realestate_back.png',
+                                  height: 100,
+                                  fit: BoxFit.fill,
+                                )),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Center(
+                                    child: Image.asset(
+                                  'drawable/searchhouse.png',
+                                  height: 20,
+                                  color: GlobalVariable.white,
+                                )),
+                                Text(
+                                  'Real Estate',
+                                  style: TextStyle(
+                                      fontFamily: GlobalVariable.Gotham,
+                                      color: GlobalVariable.white),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 5.0,
+                          ),
+                        ]),
+                        margin: EdgeInsets.only(left: 10),
+                        height: 85,
+                        // width: 125,
+                        // color: Colors.green,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(5.0),
+                                child: Image.asset(
+                                  'drawable/realestate_back.png',
+                                  height: 100,
+                                  fit: BoxFit.fill,
+                                )),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Center(
+                                    child: Image.asset(
+                                  'drawable/searchhouse.png',
+                                  height: 20,
+                                  color: GlobalVariable.white,
+                                )),
+                                Text(
+                                  'Real Estate',
+                                  style: TextStyle(
+                                      fontFamily: GlobalVariable.Gotham,
+                                      color: GlobalVariable.white),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   scrollDirection: Axis.horizontal,
+              //   itemCount: 3,
+              //   itemBuilder: (BuildContext context, int pos) {
+              //     return Container(
+              //       decoration: BoxDecoration(boxShadow: [
+              //         BoxShadow(
+              //           color: Colors.grey,
+              //           blurRadius: 5.0,
+              //         ),
+              //       ]),
+              //       margin: EdgeInsets.only(left: 10),
+              //       height: 85,
+              //       width: 125,
+              //       // color: Colors.green,
+              //       child: Stack(
+              //         children: [
+              //           ClipRRect(
+              //               borderRadius: BorderRadius.circular(5.0),
+              //               child: Image.asset(
+              //                 'drawable/realestate_back.png',
+              //                 height: 100,
+              //                 fit: BoxFit.fill,
+              //               )),
+              //           Column(
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             crossAxisAlignment: CrossAxisAlignment.center,
+              //             children: [
+              //               Center(
+              //                   child: Image.asset(
+              //                 'drawable/searchhouse.png',
+              //                 height: 20,
+              //                 color: GlobalVariable.white,
+              //               )),
+              //               Text(
+              //                 'Real Estate',
+              //                 style: TextStyle(
+              //                     fontFamily: GlobalVariable.Gotham,
+              //                     color: GlobalVariable.white),
+              //               )
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     );
+              //   },
+              // ),
+              ),
         ],
       ),
     );
@@ -543,23 +1207,51 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Stack(
+                    // alignment: Alignment.center,
                     children: [
-                      Image.asset(
-                        'drawable/notification_new.png',
-                        height: 45,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3),
-                        child: Text(
-                          'Notifications',
-                          style: TextStyle(
-                              color: GlobalVariable.blue_main,
-                              fontSize: 10,
-                              fontFamily: GlobalVariable.Gotham),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'drawable/notification_new.png',
+                              height: 45,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 3),
+                              child: Text(
+                                'Notifications',
+                                style: TextStyle(
+                                    color: GlobalVariable.blue_main,
+                                    fontSize: 10,
+                                    fontFamily: GlobalVariable.Gotham),
+                              ),
+                            )
+                          ],
                         ),
-                      )
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            // padding: EdgeInsets.only(left: 3,right: 3),
+                            margin: EdgeInsets.only(left: 35),
+                            decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 1, bottom: 1),
+                              child: Text(
+                                '1',
+                                style: TextStyle(
+                                    color: GlobalVariable.white,
+                                    fontFamily: GlobalVariable.Gotham,
+                                    fontSize: 10),
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -655,7 +1347,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             color: Colors.indigoAccent,
           ),
-
         ],
       ),
     );

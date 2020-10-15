@@ -160,6 +160,15 @@ flutter:
     - drawable/select_city.png
     - drawable/select_city_fill.png
     - drawable/realestate_back.png
+    - drawable/searchhouse.png
+    - drawable/fmnet.png
+    - drawable/tracklead.png
+    - drawable/contactrm.png
+    - drawable/invfm.png
+    - drawable/offers.png
+    - drawable/eventss.png
+    - drawable/notification_new.png
+    - drawable/emi_calcu.png
 
   #   - images/a_dot_ham.jpeg
 

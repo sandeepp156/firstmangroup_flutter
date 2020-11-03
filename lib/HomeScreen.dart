@@ -5,6 +5,7 @@ import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'BannersScreen.dart';
 import 'initialpage.dart';
 
 void main() {
@@ -23,6 +24,7 @@ bool tem = true;
 bool tem1 = false;
 int item_li = 0;
 bool showId = false;
+bool showMenu = false;
 var _scale = 0.0;
 List<Widget> pages = [
   Container(
@@ -339,256 +341,428 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Visibility(visible: true,
-              child: Container(
-                alignment: Alignment.topLeft,
-                color: GlobalVariable.text_colors_black.withOpacity(0.4),
-                child: Wrap(
-                  children: [
-                    DelayedDisplay(
-                      delay: Duration(milliseconds: 100),
-                      slidingBeginOffset: Offset(0.35, -0.35),
-                      slidingCurve: Curves.fastLinearToSlowEaseIn,
-                      child: Container(
-                        width:MediaQuery.of(context).size.width / 1.7,
-                        padding: EdgeInsets.only(top: 10),
-                        color: GlobalVariable.white,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10, right: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // Image.asset(
-                                  //   'drawable/app_new_icon.png',
-                                  //   height: 25,
-                                  //   width: 30,
-                                  // ),
-                                  Text(
-                                    'Menu',
-                                    style: TextStyle(
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding:
-                              EdgeInsets.only(left: 13, top: 5, bottom: 5),
-                              margin: EdgeInsets.only(top: 3),
-                              width: double.infinity,
-                              color: GlobalVariable.grey_main,
-                              child: Text(
-                                'Business Gadget',
-                                // textAlign:TextAlign.left,
-                                style: TextStyle(
-                                    color: GlobalVariable.blue_main,
-                                    fontFamily: GlobalVariable.GothamMedium),
-                              ),
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5,bottom: 7,left: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Image.asset(
-                                      'drawable/user_pro.png',
-                                      height: 20,
-                                      width: 20,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Profile',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10,top: 5,left: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Image.asset(
-                                      'drawable/kyc.png',
-                                      height: 20,
-                                      width: 20,
-                                    ),
-                                  ),
-                                  Text(
-                                    'KYC Update',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 7,left: 2),
-                                    child: Image.asset('drawable/green_on.png',height: 7,width: 10,),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Image.asset(
-                                      'drawable/bank.png',
-                                      height: 20,
-                                      width: 20,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Bank Account',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 7,left: 3),
-                                    child:
+            GestureDetector(
+              onTap: (){
+                setState(() {
+                  showMenu = false;
+                });
+              },
+              child: Visibility(visible: showMenu,
+                child: Container(
+                  alignment: Alignment.topLeft,
+                  color: GlobalVariable.text_colors_black.withOpacity(0.4),
+                  child: Wrap(
+                    children: [
+                      DelayedDisplay(
+                        delay: Duration(milliseconds: 100),
+                        slidingBeginOffset: Offset(-0.35, -0.35),
+                        slidingCurve: Curves.fastLinearToSlowEaseIn,
+                        child: Container(
+                          width:MediaQuery.of(context).size.width / 1.7,
+                          padding: EdgeInsets.only(top: 10),
+                          color: GlobalVariable.white,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Image.asset(
+                                    //   'drawable/app_new_icon.png',
+                                    //   height: 25,
+                                    //   width: 30,
+                                    // ),
                                     Text(
-                                      'Not Submitted',
+                                      'Menu',
                                       style: TextStyle(
-                                          fontSize: 7,
-                                          color: Colors.red,
+                                          color: GlobalVariable.blue_main,
                                           fontFamily: GlobalVariable.GothamMedium),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Image.asset(
-                                      'drawable/contact_rm.png',
-                                      height: 20,
-                                      width: 20,
+                              Container(
+                                padding:
+                                EdgeInsets.only(left: 13, top: 5, bottom: 5),
+                                margin: EdgeInsets.only(top: 3),
+                                width: double.infinity,
+                                color: GlobalVariable.grey_main,
+                                child: Text(
+                                  'Business Gadget',
+                                  // textAlign:TextAlign.left,
+                                  style: TextStyle(
+                                      color: GlobalVariable.blue_main,
+                                      fontFamily: GlobalVariable.GothamMedium),
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5,bottom: 7,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/ex_track_lead.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    'My Assistant (RM)',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium),
-                                  )
-                                ],
+                                    Text(
+                                      'Track Lead',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10,top: 4,left: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Image.asset(
-                                      'drawable/tpnetwork.png',
-                                      height: 20,
-                                      width: 20,
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 5,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/extra_site_visit.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    'My FM\'s Network',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Image.asset(
-                                      'drawable/my_listingss.png',
-                                      height: 20,
-                                      width: 20,
+                                    Text(
+                                      'Site Visits',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
                                     ),
-                                  ),
-                                  Text(
-                                    'My Office',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium),
-                                  )
-                                ],
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(bottom: 7,left: 2),
+                                    //   child: Image.asset('drawable/green_on.png',height: 7,width: 10,),
+                                    // ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Image.asset(
-                                      'drawable/chips_bag.png',
-                                      height: 20,
-                                      width: 20,
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/sales_list_act.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    'My Credits',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              color: GlobalVariable.grey_main,
-                              padding: const EdgeInsets.only(bottom: 5,top: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15,right: 10),
-                                    child: Image.asset(
-                                      'drawable/logout.png',
-                                      height: 20,
-                                      width: 20,
+                                    Text(
+                                      'Sales List',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
                                     ),
-                                  ),
-                                  Text(
-                                    'Logout',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium),
-                                  )
-                                ],
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(bottom: 7,left: 3),
+                                    //   child:
+                                    //   Text(
+                                    //     'Payouts',
+                                    //     style: TextStyle(
+                                    //         fontSize: 7,
+                                    //         color: Colors.red,
+                                    //         fontFamily: GlobalVariable.GothamMedium),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/addlisting.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Add Listings',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+
+                              ),
+                              Container(
+                                padding:
+                                EdgeInsets.only(left: 13, top: 5, bottom: 5),
+                                margin: EdgeInsets.only(top: 3),
+                                width: double.infinity,
+                                color: GlobalVariable.grey_main,
+                                child: Text(
+                                  'Tools',
+                                  // textAlign:TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                      color: GlobalVariable.blue_main,
+                                      fontFamily: GlobalVariable.GothamMedium),
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 4,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/emicalculator.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'EMI Calculator',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/premiumcalculator.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Premium Calculator',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/loaneligibility.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Loan Eligibility',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/inviteba.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Invite FM',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding:
+                                EdgeInsets.only(left: 13, top: 5, bottom: 5),
+                                margin: EdgeInsets.only(top: 3),
+                                width: double.infinity,
+                                color: GlobalVariable.grey_main,
+                                child: Text(
+                                  'Support',
+                                  // textAlign:TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                      color: GlobalVariable.blue_main,
+                                      fontFamily: GlobalVariable.GothamMedium),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/event_icon.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Events',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/annoucements.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Announcements',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/my_listingss.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'About Us',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/terms.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Terms And Service',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Image.asset(
+                                        'drawable/faq.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'FAQ\'s',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
+
+                              Container(
+                                color: GlobalVariable.grey_main,
+                                padding: const EdgeInsets.only(bottom: 5,top: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15,right: 10),
+                                      child: Image.asset(
+                                        'drawable/logout.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      '9346999999',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily: GlobalVariable.GothamMedium),
+                                    )
+                                  ],
+                                ),
+                              ),
 
 
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -604,12 +778,20 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 7, right: 3),
-              child: Image.asset(
-                'drawable/menu.png',
-                height: 30,
-                width: 30,
+            InkWell(
+              onTap: (){
+                setState(() {
+                  showMenu = true;
+
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 7, right: 3),
+                child: Image.asset(
+                  'drawable/menu.png',
+                  height: 30,
+                  width: 30,
+                ),
               ),
             ),
             Image.asset(
@@ -796,9 +978,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget HomePage() {
     return ListView(
       children: [
-        Image.asset(
-          'drawable/app_icon.png',
-          height: 175,
+        GestureDetector(
+          onTap: (){
+            // BannersScreen
+            Navigator.push(context, new MaterialPageRoute(builder: (context) =>  BannersScreen()),);
+
+          },
+          child: Image.asset(
+            'drawable/app_icon.png',
+            height: 175,
+          ),
         ),
         Container(
           margin: EdgeInsets.only(bottom: 10),

@@ -179,7 +179,10 @@ flutter:
     - drawable/inviteba.png
     - drawable/terms.png
     - drawable/map_location.png
+    - drawable/map.png
     - drawable/whatsapp_new.png
+    - drawable/user.png
+    - drawable/phone.png
 
   #   - images/a_dot_ham.jpeg
 

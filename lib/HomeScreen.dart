@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'BannersScreen.dart';
+import 'MyFmNw.dart';
 import 'initialpage.dart';
 
 void main() {
@@ -1260,7 +1261,11 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      //MyFmNwScreen
+                      Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
+
+                    },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

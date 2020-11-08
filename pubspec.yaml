@@ -183,6 +183,7 @@ flutter:
     - drawable/whatsapp_new.png
     - drawable/user.png
     - drawable/phone.png
+    - drawable/phone_icon.png
 
   #   - images/a_dot_ham.jpeg
 

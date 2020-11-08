@@ -1,6 +1,7 @@
 // import 'dart:html';
 
 import 'package:delayed_display/delayed_display.dart';
+import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -1288,24 +1289,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'drawable/tracklead.png',
-                        height: 45,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3),
-                        child: Text(
-                          'Track Lead',
-                          style: TextStyle(
-                              color: GlobalVariable.blue_main,
-                              fontSize: 10,
-                              fontFamily: GlobalVariable.Gotham),
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.push(context, new MaterialPageRoute(builder: (context) =>  TrackLeadsScreen()),);
+
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'drawable/tracklead.png',
+                          height: 45,
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 3),
+                          child: Text(
+                            'Track Lead',
+                            style: TextStyle(
+                                color: GlobalVariable.blue_main,
+                                fontSize: 10,
+                                fontFamily: GlobalVariable.Gotham),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(

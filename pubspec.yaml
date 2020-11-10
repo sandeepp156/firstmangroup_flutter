@@ -182,8 +182,13 @@ flutter:
     - drawable/map.png
     - drawable/whatsapp_new.png
     - drawable/user.png
+    - drawable/user_yellow.png
     - drawable/phone.png
     - drawable/phone_icon.png
+    - drawable/mobile.png
+    - drawable/trackclock.png
+    - drawable/tracktick.png
+    - drawable/rupee.png
 
   #   - images/a_dot_ham.jpeg
 

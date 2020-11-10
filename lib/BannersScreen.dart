@@ -31,9 +31,14 @@ class _BannersScreenState extends State<BannersScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: RotatedBox(
-                            quarterTurns: 90,
-                            child: Image.asset('assets/right.png',color: GlobalVariable.white,scale: 3.5,),
+                          child: InkWell(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: RotatedBox(
+                              quarterTurns: 90,
+                              child: Image.asset('assets/right.png',color: GlobalVariable.white,scale: 3.5,),
+                            ),
                           ),
                         ),
                       ],

@@ -25,10 +25,15 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                   height: 45,
                   child: Row(
                     children: [
-                      Image.asset(
-                        'drawable/back_black.png',
-                        height: 30,
-                        width: 40,
+                      InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Image.asset(
+                          'drawable/back_black.png',
+                          height: 30,
+                          width: 40,
+                        ),
                       ),
                       Text(
                         'FM\'s List',

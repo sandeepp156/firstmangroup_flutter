@@ -283,7 +283,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                                 color: GlobalVariable.yellow_main,
                                 child: Row(
                                   children: [
-                                    Image.asset('drawable/eve_location.png',height: 20,width: 30,),
+                                    Image.asset('drawable/meal.png',height: 20,width: 30,),
                                     Text('Meal\nPreference:',style: TextStyle(color: GlobalVariable.white,fontSize: 10,fontFamily: GlobalVariable.GothamMedium),)
                                   ],
                                 ),

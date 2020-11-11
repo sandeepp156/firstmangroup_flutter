@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 
 import 'BannersScreen.dart';
 import 'MyFmNw.dart';
+import 'RealEstateScreen.dart';
 import 'initialpage.dart';
 
 void main() {
@@ -1052,45 +1053,51 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                          ),
-                        ]),
-                        margin: EdgeInsets.only(left: 10),
-                        height: 85,
-                        // width: 125,
-                        // color: Colors.green,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(5.0),
-                                child: Image.asset(
-                                  'drawable/realestate_back.png',
-                                  height: 100,
-                                  fit: BoxFit.fill,
-                                )),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Center(
-                                    child: Image.asset(
-                                  'drawable/searchhouse.png',
-                                  height: 20,
-                                  color: GlobalVariable.white,
-                                )),
-                                Text(
-                                  'Real Estate',
-                                  style: TextStyle(
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.white),
-                                )
-                              ],
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.push(context, new MaterialPageRoute(builder: (context) =>  RealEstateScreen()),);
+
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5.0,
                             ),
-                          ],
+                          ]),
+                          margin: EdgeInsets.only(left: 10),
+                          height: 85,
+                          // width: 125,
+                          // color: Colors.green,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child: Image.asset(
+                                    'drawable/realestate_back.png',
+                                    height: 100,
+                                    fit: BoxFit.fill,
+                                  )),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Center(
+                                      child: Image.asset(
+                                    'drawable/searchhouse.png',
+                                    height: 20,
+                                    color: GlobalVariable.white,
+                                  )),
+                                  Text(
+                                    'Real Estate',
+                                    style: TextStyle(
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.white),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

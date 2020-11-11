@@ -13,6 +13,7 @@ class CitySelectScreen extends StatefulWidget {
 }
 
 class _CitySelectScreenState extends State<CitySelectScreen> {
+  int isSelected  = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,31 +47,53 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
                           crossAxisCount: 3),
                       itemCount: 6,
                       itemBuilder: (BuildContext context, int pos) {
-                        return Container(
-                          margin: EdgeInsets.only(left: 10, top: 10),
-                          height: 100,
-                          width: 150,
-                          // color: GlobalVariable.yellow_main,
+                        return InkWell(
+                          onTap: (){
+                            setState(() {
+                              isSelected = pos;
+                            });
+                          },
                           child: Container(
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    color: GlobalVariable.yellow_main,
+                            margin: EdgeInsets.only(left: 10, top: 10),
+                            height: 100,
+                            width: 150,
+                            // color: GlobalVariable.yellow_main,
+                            child: Container(
+                              child: Stack(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          color: GlobalVariable.yellow_main,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 3, bottom: 3),
+                                        child: Text(
+                                          'Vijayawada',
+                                          style: TextStyle(
+                                              color: GlobalVariable.blue_main,
+                                              fontSize: 12,
+                                              fontFamily: GlobalVariable.Gotham),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 3, bottom: 3),
-                                  child: Text(
-                                    'Vijayawada',
-                                    style: TextStyle(
-                                        color: GlobalVariable.blue_main,
-                                        fontSize: 12,
-                                        fontFamily: GlobalVariable.Gotham),
-                                  ),
-                                )
-                              ],
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 5,right: 5),
+                                      child: Image.asset(isSelected != null && isSelected == pos ?'drawable/select_city_fill.png':'drawable/select_city.png',height: 15,width: 15,
+                                      ),
+                                      //isSelected != null && isSelected == index //set condition like this. voila! if isSelected and list index matches it will colored as white else orange.
+                                      //                              ? Colors.white
+                                      //                              : Colors.orange,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );

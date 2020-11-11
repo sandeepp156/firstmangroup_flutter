@@ -29,8 +29,11 @@ class _OTPVScreenState extends State<OTPVScreen> {
   final String text;
   _OTPVScreenState({this.text});
 
+
   @override
   Widget build(BuildContext context) {
+    final node = FocusScope.of(context);
+
     return Scaffold(
       body: SafeArea(
         child: Builder(
@@ -90,12 +93,189 @@ class _OTPVScreenState extends State<OTPVScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    optTextFiled(),
-                    optTextFiled1(),
-                    optTextFiled2(),
-                    optTextFiled3(),
-                    optTextFiled4(),
-                    optTextFiled5(),
+                    // optTextFiled(),
+                    Container(
+                      margin: EdgeInsets.only(left: 5,right: 5),
+                      width: 27,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: oneCntrl,
+                        onChanged: (_){
+                          node.nextFocus();
+                        },
+                        maxLength: 1,
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                            fontFamily: GlobalVariable.Gotham,
+
+                            color: GlobalVariable.blue_main, fontSize: 14),
+                        decoration: InputDecoration(
+
+                            counterText: "",
+                            contentPadding:
+                            EdgeInsets.only(bottom: -25, top: 0.0),
+                            enabledBorder: new UnderlineInputBorder(
+                                borderSide: new BorderSide(
+                                  color: GlobalVariable.blue_main,
+                                )),
+                            // border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                fontFamily: GlobalVariable.Gotham,
+
+                                color: GlobalVariable.grey_main,
+                                fontSize: 14),
+                            hintText: '*'),
+                      ),
+                    ),
+                    // optTextFiled1(),
+                    Container(
+                      margin: EdgeInsets.only(left: 5,right: 5),
+                      width: 27,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: twoCntrl,
+                        onChanged: (_){
+                          node.nextFocus();
+                        },
+                        maxLength: 1,
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                            color: GlobalVariable.blue_main, fontSize: 14),
+                        decoration: InputDecoration(
+                            counterText: "",
+                            contentPadding:
+                            EdgeInsets.only(bottom: -25, top: 0.0),
+                            enabledBorder: new UnderlineInputBorder(
+                                borderSide: new BorderSide(
+                                  color: GlobalVariable.blue_main,
+                                )),
+                            // border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                color: GlobalVariable.grey_main,
+                                fontSize: 14),
+                            hintText: '*'),
+                      ),
+                    ),
+                    // optTextFiled2(),
+                    Container(
+                      margin: EdgeInsets.only(left: 5,right: 5),
+                      width: 27,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: threeCntrl,
+                        onChanged: (_){
+                          node.nextFocus();
+                        },
+                        maxLength: 1,
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                            color: GlobalVariable.blue_main, fontSize: 14),
+                        decoration: InputDecoration(
+
+                            counterText: "",
+                            contentPadding:
+                            EdgeInsets.only(bottom: -25, top: 0.0),
+                            enabledBorder: new UnderlineInputBorder(
+                                borderSide: new BorderSide(
+                                  color: GlobalVariable.blue_main,
+                                )),
+                            // border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                color: GlobalVariable.grey_main,
+                                fontSize: 14),
+                            hintText: '*'),
+                      ),
+                    ),
+                    // optTextFiled3(),
+                    Container(
+                      margin: EdgeInsets.only(left: 5,right: 5),
+                      width: 27,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: fourCntrl,
+                        maxLength: 1,
+                        onChanged: (_){
+                          node.nextFocus();
+                        },
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                            color: GlobalVariable.blue_main, fontSize: 14),
+                        decoration: InputDecoration(
+
+                            counterText: "",
+                            contentPadding:
+                            EdgeInsets.only(bottom: -25, top: 0.0),
+                            enabledBorder: new UnderlineInputBorder(
+                                borderSide: new BorderSide(
+                                  color: GlobalVariable.blue_main,
+                                )),
+                            // border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                color: GlobalVariable.grey_main,
+                                fontSize: 14),
+                            hintText: '*'),
+                      ),
+                    ),
+                    // optTextFiled4(),
+                    Container(
+                      margin: EdgeInsets.only(left: 5,right: 5),
+                      width: 27,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: fiveCntrl,
+                        maxLength: 1,
+                        onChanged: (_){
+                          node.nextFocus();
+                        },
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                            color: GlobalVariable.blue_main, fontSize: 14),
+                        decoration: InputDecoration(
+
+                            counterText: "",
+                            contentPadding:
+                            EdgeInsets.only(bottom: -25, top: 0.0),
+                            enabledBorder: new UnderlineInputBorder(
+                                borderSide: new BorderSide(
+                                  color: GlobalVariable.blue_main,
+                                )),
+                            // border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                color: GlobalVariable.grey_main,
+                                fontSize: 14),
+                            hintText: '*'),
+                      ),
+                    ),
+                    // optTextFiled5(),
+                    Container(
+                      margin: EdgeInsets.only(left: 5,right: 5),
+                      width: 27,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: sixCntrl,
+                        maxLength: 1,
+                        onChanged: (_){
+                          node.nextFocus();
+                        },
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                            color: GlobalVariable.blue_main, fontSize: 14),
+                        decoration: InputDecoration(
+
+                            counterText: "",
+                            contentPadding:
+                            EdgeInsets.only(bottom: -25, top: 0.0),
+                            enabledBorder: new UnderlineInputBorder(
+                                borderSide: new BorderSide(
+                                  color: GlobalVariable.blue_main,
+                                )),
+                            // border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                color: GlobalVariable.grey_main,
+                                fontSize: 14),
+                            hintText: '*'),
+                      ),
+                    )
                     // Expanded(child: Text("")),
                   ],
                 ),
@@ -117,7 +297,6 @@ class _OTPVScreenState extends State<OTPVScreen> {
                 Spacer(),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.only(top:15,bottom: 10),
                   decoration: BoxDecoration(
                     color: GlobalVariable.blue_main,
                     // borderRadius: BorderRadius.circular(10)
@@ -125,24 +304,23 @@ class _OTPVScreenState extends State<OTPVScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {
-
+                      onTap: (){
                         Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(builder: (context) => ReferralCodeScreen()),
                         );
-
-                        // Navigator.pushNamedAndRemoveUntil(context, '/ReferralCodeScreen', ModalRoute.withName('/'));
-
-
                       },
-                      child: Text(
-                        "SUBMIT",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: GlobalVariable.GothamMedium,
-                            color: GlobalVariable.yellow_main,
-                            fontSize: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:15,bottom: 10),
+
+                        child: Text(
+                          "SUBMIT",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: GlobalVariable.GothamMedium,
+                              color: GlobalVariable.yellow_main,
+                              fontSize: 16),
+                        ),
                       ),
                     ),
                   ),
@@ -162,6 +340,9 @@ class _OTPVScreenState extends State<OTPVScreen> {
       child: TextField(
         textAlign: TextAlign.center,
         controller: oneCntrl,
+        onChanged: (_){
+
+        },
         maxLength: 1,
         keyboardType: TextInputType.phone,
         style: TextStyle(

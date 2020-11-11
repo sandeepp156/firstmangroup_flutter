@@ -5,6 +5,7 @@ import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'BannersScreen.dart';
 import 'MyFmNw.dart';
@@ -85,12 +86,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 setState(() {
                   showId = false;
                 });
               },
-              child: Visibility(visible: showId,
+              child: Visibility(
+                visible: showId,
                 child: Container(
                   alignment: Alignment.topRight,
                   color: GlobalVariable.text_colors_black.withOpacity(0.4),
@@ -101,16 +103,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         slidingBeginOffset: Offset(0.35, -0.35),
                         slidingCurve: Curves.fastLinearToSlowEaseIn,
                         child: Container(
-                          width:MediaQuery.of(context).size.width / 1.7,
+                          width: MediaQuery.of(context).size.width / 1.7,
                           padding: EdgeInsets.only(top: 10),
                           color: GlobalVariable.white,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Image.asset(
                                       'drawable/app_new_icon.png',
@@ -127,8 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Container(
-                                padding:
-                                    EdgeInsets.only(left: 13, top: 5, bottom: 5),
+                                padding: EdgeInsets.only(
+                                    left: 13, top: 5, bottom: 5),
                                 margin: EdgeInsets.only(top: 3),
                                 width: double.infinity,
                                 color: GlobalVariable.grey_main,
@@ -140,13 +144,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontFamily: GlobalVariable.GothamMedium),
                                 ),
                               ),
-
                               Padding(
-                                padding: const EdgeInsets.only(top: 5,bottom: 7,left: 5),
+                                padding: const EdgeInsets.only(
+                                    top: 5, bottom: 7, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/user_pro.png',
                                         height: 20,
@@ -156,19 +161,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Text(
                                       'Profile',
                                       style: TextStyle(
-                                        fontSize: 12,
+                                          fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 5,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 5, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/kyc.png',
                                         height: 20,
@@ -180,21 +188,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom: 7,left: 2),
-                                      child: Image.asset('drawable/green_on.png',height: 7,width: 10,),
+                                      padding: const EdgeInsets.only(
+                                          bottom: 7, left: 2),
+                                      child: Image.asset(
+                                        'drawable/green_on.png',
+                                        height: 7,
+                                        width: 10,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/bank.png',
                                         height: 20,
@@ -206,28 +222,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom: 7,left: 3),
-                                      child:
-                                      Text(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 7, left: 3),
+                                      child: Text(
                                         'Not Submitted',
                                         style: TextStyle(
                                             fontSize: 7,
                                             color: Colors.red,
-                                            fontFamily: GlobalVariable.GothamMedium),
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/contact_rm.png',
                                         height: 20,
@@ -239,17 +259,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 4,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 4, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/tpnetwork.png',
                                         height: 20,
@@ -261,17 +284,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/my_listingss.png',
                                         height: 20,
@@ -283,17 +309,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/chips_bag.png',
                                         height: 20,
@@ -305,18 +334,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Container(
                                 color: GlobalVariable.grey_main,
-                                padding: const EdgeInsets.only(bottom: 5,top: 5),
+                                padding:
+                                    const EdgeInsets.only(bottom: 5, top: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 15,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 10),
                                       child: Image.asset(
                                         'drawable/logout.png',
                                         height: 20,
@@ -328,13 +360,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
-
-
                             ],
                           ),
                         ),
@@ -345,12 +376,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 setState(() {
                   showMenu = false;
                 });
               },
-              child: Visibility(visible: showMenu,
+              child: Visibility(
+                visible: showMenu,
                 child: Container(
                   alignment: Alignment.topLeft,
                   color: GlobalVariable.text_colors_black.withOpacity(0.4),
@@ -361,16 +393,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         slidingBeginOffset: Offset(-0.35, -0.35),
                         slidingCurve: Curves.fastLinearToSlowEaseIn,
                         child: Container(
-                          width:MediaQuery.of(context).size.width / 1.7,
+                          width: MediaQuery.of(context).size.width / 1.7,
                           padding: EdgeInsets.only(top: 10),
                           color: GlobalVariable.white,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     // Image.asset(
                                     //   'drawable/app_new_icon.png',
@@ -381,14 +415,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       'Menu',
                                       style: TextStyle(
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     ),
                                   ],
                                 ),
                               ),
                               Container(
-                                padding:
-                                EdgeInsets.only(left: 13, top: 5, bottom: 5),
+                                padding: EdgeInsets.only(
+                                    left: 13, top: 5, bottom: 5),
                                 margin: EdgeInsets.only(top: 3),
                                 width: double.infinity,
                                 color: GlobalVariable.grey_main,
@@ -400,13 +435,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontFamily: GlobalVariable.GothamMedium),
                                 ),
                               ),
-
                               Padding(
-                                padding: const EdgeInsets.only(top: 5,bottom: 7,left: 5),
+                                padding: const EdgeInsets.only(
+                                    top: 5, bottom: 7, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/ex_track_lead.png',
                                         height: 20,
@@ -418,17 +454,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 5,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 5, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/extra_site_visit.png',
                                         height: 20,
@@ -440,7 +479,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     ),
                                     // Padding(
                                     //   padding: const EdgeInsets.only(bottom: 7,left: 2),
@@ -450,11 +490,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/sales_list_act.png',
                                         height: 20,
@@ -466,7 +508,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     ),
                                     // Padding(
                                     //   padding: const EdgeInsets.only(bottom: 7,left: 3),
@@ -483,11 +526,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/addlisting.png',
                                         height: 20,
@@ -499,15 +544,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
-
                               ),
                               Container(
-                                padding:
-                                EdgeInsets.only(left: 13, top: 5, bottom: 5),
+                                padding: EdgeInsets.only(
+                                    left: 13, top: 5, bottom: 5),
                                 margin: EdgeInsets.only(top: 3),
                                 width: double.infinity,
                                 color: GlobalVariable.grey_main,
@@ -515,18 +560,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'Tools',
                                   // textAlign:TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 14,
+                                      fontSize: 14,
                                       color: GlobalVariable.blue_main,
                                       fontFamily: GlobalVariable.GothamMedium),
                                 ),
                               ),
-
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 4,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 4, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/emicalculator.png',
                                         height: 20,
@@ -538,17 +584,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/premiumcalculator.png',
                                         height: 20,
@@ -560,17 +609,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/loaneligibility.png',
                                         height: 20,
@@ -582,17 +634,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/inviteba.png',
                                         height: 20,
@@ -604,14 +659,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Container(
-                                padding:
-                                EdgeInsets.only(left: 13, top: 5, bottom: 5),
+                                padding: EdgeInsets.only(
+                                    left: 13, top: 5, bottom: 5),
                                 margin: EdgeInsets.only(top: 3),
                                 width: double.infinity,
                                 color: GlobalVariable.grey_main,
@@ -619,17 +675,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'Support',
                                   // textAlign:TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 14,
+                                      fontSize: 14,
                                       color: GlobalVariable.blue_main,
                                       fontFamily: GlobalVariable.GothamMedium),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/event_icon.png',
                                         height: 20,
@@ -641,17 +699,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/annoucements.png',
                                         height: 20,
@@ -663,17 +724,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/my_listingss.png',
                                         height: 20,
@@ -685,17 +749,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/terms.png',
                                         height: 20,
@@ -707,17 +774,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 3,left: 5),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, top: 3, left: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Image.asset(
                                         'drawable/faq.png',
                                         height: 20,
@@ -729,19 +799,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
-
                               Container(
                                 color: GlobalVariable.grey_main,
-                                padding: const EdgeInsets.only(bottom: 5,top: 5),
+                                padding:
+                                    const EdgeInsets.only(bottom: 5, top: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 15,right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 10),
                                       child: Image.asset(
                                         'drawable/logout.png',
                                         height: 20,
@@ -753,13 +825,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: GlobalVariable.blue_main,
-                                          fontFamily: GlobalVariable.GothamMedium),
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
                                     )
                                   ],
                                 ),
                               ),
-
-
                             ],
                           ),
                         ),
@@ -782,10 +853,9 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             InkWell(
-              onTap: (){
+              onTap: () {
                 setState(() {
                   showMenu = true;
-
                 });
               },
               child: Padding(
@@ -821,7 +891,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 setState(() {
                   showId = true;
                 });
@@ -982,16 +1052,28 @@ class _HomeScreenState extends State<HomeScreen> {
     return ListView(
       children: [
         GestureDetector(
-          onTap: (){
-            // BannersScreen
-            Navigator.push(context, new MaterialPageRoute(builder: (context) =>  BannersScreen()),);
+            onTap: () {
+              // BannersScreen
+              Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => BannersScreen()),
+              );
+            },
+            child: SizedBox(
+              height: 175,
+              child: Swiper(
+                itemCount: 2,
+                autoplay: true,
+                itemBuilder: (context, pos) {
+                  return new Image.network(
+                    "http://via.placeholder.com/350x150",
+                    fit: BoxFit.fill,
+                  );
+                },
+                pagination: SwiperPagination.dots,
+              ),
 
-          },
-          child: Image.asset(
-            'drawable/app_icon.png',
-            height: 175,
-          ),
-        ),
+            )),
         Container(
           margin: EdgeInsets.only(bottom: 10),
           height: 1,
@@ -1054,9 +1136,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: (){
-                          Navigator.push(context, new MaterialPageRoute(builder: (context) =>  RealEstateScreen()),);
-
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => RealEstateScreen()),
+                          );
                         },
                         child: Container(
                           decoration: BoxDecoration(boxShadow: [
@@ -1271,8 +1356,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: InkWell(
                     onTap: () {
                       //MyFmNwScreen
-                      Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
-
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => MyFmNwScreen()),
+                      );
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -1297,9 +1385,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: (){
-                      Navigator.push(context, new MaterialPageRoute(builder: (context) =>  TrackLeadsScreen()),);
-
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => TrackLeadsScreen()),
+                      );
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

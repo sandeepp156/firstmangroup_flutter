@@ -11,8 +11,10 @@ class BannersScreen extends StatefulWidget {
   _BannersScreenState createState() => _BannersScreenState();
 }
 
-class _BannersScreenState extends State<BannersScreen> {
+class _BannersScreenState extends State<BannersScreen>
+    with SingleTickerProviderStateMixin {
   int tab = 0;
+  int _amenities = 0;
   List<String> propertyOptionList = [
     'BKH',
     'Facing',
@@ -31,6 +33,19 @@ class _BannersScreenState extends State<BannersScreen> {
     'drawable/price_white.png',
     'drawable/plan.png',
   ];
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = new TabController(vsync: this, length: 3);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -303,7 +318,7 @@ class _BannersScreenState extends State<BannersScreen> {
                     ),
                   ),
                   Container(
-                    child:propertyoptions(),
+                    child: amenities(),
                   ),
 
                   Container(
@@ -663,7 +678,7 @@ class _BannersScreenState extends State<BannersScreen> {
     );
   }
 
-  Widget propertyoptions(){
+  Widget propertyoptions() {
     return Column(
       children: [
         Container(
@@ -686,8 +701,7 @@ class _BannersScreenState extends State<BannersScreen> {
                     Container(
                       margin: EdgeInsets.only(right: 20, left: 20),
                       child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 5, bottom: 5),
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Text(
                           propertyOptionList[0],
                           style: TextStyle(
@@ -700,8 +714,7 @@ class _BannersScreenState extends State<BannersScreen> {
                     Container(
                       margin: EdgeInsets.only(right: 20, left: 20),
                       child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 5, bottom: 5),
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Text(
                           propertyOptionList[0],
                           style: TextStyle(
@@ -714,8 +727,7 @@ class _BannersScreenState extends State<BannersScreen> {
                     Container(
                       margin: EdgeInsets.only(right: 20, left: 20),
                       child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 5, bottom: 5),
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Text(
                           propertyOptionList[0],
                           style: TextStyle(
@@ -728,8 +740,7 @@ class _BannersScreenState extends State<BannersScreen> {
                     Container(
                       margin: EdgeInsets.only(right: 20, left: 20),
                       child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 5, bottom: 5),
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Text(
                           propertyOptionList[0],
                           style: TextStyle(
@@ -742,8 +753,7 @@ class _BannersScreenState extends State<BannersScreen> {
                     Container(
                       margin: EdgeInsets.only(right: 20, left: 20),
                       child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 5, bottom: 5),
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Text(
                           propertyOptionList[0],
                           style: TextStyle(
@@ -756,8 +766,7 @@ class _BannersScreenState extends State<BannersScreen> {
                     Container(
                       margin: EdgeInsets.only(right: 20, left: 20),
                       child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 5, bottom: 5),
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Text(
                           propertyOptionList[0],
                           style: TextStyle(
@@ -770,8 +779,7 @@ class _BannersScreenState extends State<BannersScreen> {
                     Container(
                       margin: EdgeInsets.only(right: 20, left: 20),
                       child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 5, bottom: 5),
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Text(
                           propertyOptionList[0],
                           style: TextStyle(
@@ -786,6 +794,167 @@ class _BannersScreenState extends State<BannersScreen> {
               );
             }),
       ],
+    );
+  }
+
+  Widget amenities() {
+    return Container(
+      margin: EdgeInsets.only(top: 5),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _amenities = 0;
+                  });
+                },
+                child: AnimatedContainer(
+                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  // color: tab == 0
+                  //     ? GlobalVariable.blue_main
+
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeOutSine,
+                  child: Column(
+                    children: [
+                      Text(
+                        'Fitness',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: GlobalVariable.GothamMedium,
+                            color: GlobalVariable.blue_main,
+                            fontSize: 12),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        color: GlobalVariable.yellow_main,
+                        height: _amenities == 0 ? 1 : 0,
+                        width: 50,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _amenities = 1;
+                  });
+                },
+                child: AnimatedContainer(
+                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  // color: tab == 0
+                  //     ? GlobalVariable.blue_main
+
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeOutSine,
+                  child: Column(
+                    children: [
+                      Text(
+                        'Fitness',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: GlobalVariable.GothamMedium,
+                            color: GlobalVariable.blue_main,
+                            fontSize: 12),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        color: GlobalVariable.yellow_main,
+                        height: _amenities == 1 ? 1 : 0,
+                        width: 50,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _amenities = 2;
+                  });
+                },
+                child: AnimatedContainer(
+                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  // color: tab == 0
+                  //     ? GlobalVariable.blue_main
+
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeOutSine,
+                  child: Column(
+                    children: [
+                      Text(
+                        'Fitness',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: GlobalVariable.GothamMedium,
+                            color: GlobalVariable.blue_main,
+                            fontSize: 12),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        color: GlobalVariable.yellow_main,
+                        height: _amenities == 2 ? 1 : 0,
+                        width: 50,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _amenities = 3;
+                  });
+                },
+                child: AnimatedContainer(
+                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  // color: tab == 0
+                  //     ? GlobalVariable.blue_main
+
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeOutSine,
+                  child: Column(
+                    children: [
+                      Text(
+                        'Fitness',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: GlobalVariable.GothamMedium,
+                            color: GlobalVariable.blue_main,
+                            fontSize: 12),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        color: GlobalVariable.yellow_main,
+                        height: _amenities == 3 ? 1 : 0,
+                        width: 50,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+
+              // Container(color: GlobalVariable.grey_main_,height: 2,),
+            ],
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+              itemBuilder: (context,pos){
+            return Container(
+              child: Row(
+                children: [
+                  Image.asset('drawable/meals.png',height: 20,width: 20,)
+                ],
+              ),
+            );
+          })
+        ],
+      ),
     );
   }
 

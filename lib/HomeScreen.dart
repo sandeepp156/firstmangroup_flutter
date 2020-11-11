@@ -1,6 +1,7 @@
 // import 'dart:html';
 
 import 'package:delayed_display/delayed_display.dart';
+import 'package:firstmangroup_flutter/InviteFMScreen.dart';
 import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'BannersScreen.dart';
+import 'MyAssistantScreen.dart';
 import 'MyFmNw.dart';
 import 'RealEstateScreen.dart';
 import 'initialpage.dart';
@@ -1414,45 +1416,62 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'drawable/contactrm.png',
-                        height: 45,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3),
-                        child: Text(
-                          'My Assistant (RM)',
-                          style: TextStyle(
-                              color: GlobalVariable.blue_main,
-                              fontSize: 10,
-                              fontFamily: GlobalVariable.Gotham),
+                  child: InkWell(
+                    onTap: (){
+
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(builder: (context) => MyAssistantScreen()),
+                      );
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'drawable/contactrm.png',
+                          height: 45,
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 3),
+                          child: Text(
+                            'My Assistant (RM)',
+                            style: TextStyle(
+                                color: GlobalVariable.blue_main,
+                                fontSize: 10,
+                                fontFamily: GlobalVariable.Gotham),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'drawable/invfm.png',
-                        height: 45,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3),
-                        child: Text(
-                          'Invite FM',
-                          style: TextStyle(
-                              color: GlobalVariable.blue_main,
-                              fontSize: 10,
-                              fontFamily: GlobalVariable.Gotham),
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(builder: (context) => InviteFMScreen()),
+                      );
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'drawable/invfm.png',
+                          height: 45,
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 3),
+                          child: Text(
+                            'Invite FM',
+                            style: TextStyle(
+                                color: GlobalVariable.blue_main,
+                                fontSize: 10,
+                                fontFamily: GlobalVariable.Gotham),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],

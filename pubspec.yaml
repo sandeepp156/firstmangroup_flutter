@@ -157,6 +157,7 @@ flutter:
     - drawable/menu.png
     - drawable/home.png
     - drawable/home_act.png
+    - drawable/user_circle.png
     - drawable/sales_list.png
     - drawable/sales_list_act.png
     - drawable/my_office.png

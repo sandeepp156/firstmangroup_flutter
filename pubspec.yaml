@@ -30,6 +30,11 @@ dependencies:
   cupertino_icons: ^1.0.0
   delayed_display: ^1.0.3
   flutter_swiper: ^1.1.6
+  carousel_pro: ^1.0.0
+
+#  carousel_slider: ^2.3.1
+
+
 
 
 
@@ -190,6 +195,7 @@ flutter:
     - drawable/user.png
     - drawable/user_yellow.png
     - drawable/phone.png
+    - drawable/scroll_back.png
     - drawable/phone_icon.png
     - drawable/mobile.png
     - drawable/trackclock.png

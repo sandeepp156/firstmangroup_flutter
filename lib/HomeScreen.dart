@@ -1,5 +1,6 @@
 // import 'dart:html';
 
+// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firstmangroup_flutter/InviteFMScreen.dart';
 import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
@@ -7,6 +8,7 @@ import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 
 import 'BannersScreen.dart';
 import 'MyAssistantScreen.dart';
@@ -1063,17 +1065,40 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: SizedBox(
               height: 175,
-              child: Swiper(
-                itemCount: 2,
-                autoplay: true,
-                itemBuilder: (context, pos) {
-                  return new Image.network(
-                    "http://via.placeholder.com/350x150",
-                    fit: BoxFit.fill,
-                  );
-                },
-                pagination: SwiperPagination.dots,
+              child:
+              Carousel(
+                images: [
+                  NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
+                  NetworkImage('https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg'),
+                  // ExactAssetImage("assets/images/LaunchImage.jpg")
+                ],
+                showIndicator: true,
+                borderRadius: false,
+                dotSize: 4.0,
+                dotSpacing: 15.0,
+                dotColor: Colors.white,
+                indicatorBgPadding: 5.0,
+                dotBgColor: Colors.transparent,
+
+                // moveIndicatorFromBottom: 180.0,
+                noRadiusForIndicator: true,
+                // overlayShadow: true,
+                // overlayShadowColors: Colors.white,
+                // overlayShadowSize: 0.7,
               ),
+
+
+              // Swiper(
+              //   itemCount: 2,
+              //   autoplay: true,
+              //   itemBuilder: (context, pos) {
+              //     return new Image.network(
+              //       "http://via.placeholder.com/350x150",
+              //       fit: BoxFit.fill,
+              //     );
+              //   },
+              //   pagination: SwiperPagination.dots,
+              // ),
 
             )),
         Container(
@@ -1607,7 +1632,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 100,
       child: Stack(
         children: [
-          // Image.asset('name'),
+          Image.asset('drawable/scroll_back.png'),
           Container(
               // color: Colors.lightBlue,
               ),

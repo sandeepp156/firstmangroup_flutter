@@ -189,6 +189,7 @@ flutter:
     - drawable/inviteba.png
     - drawable/terms.png
     - drawable/map_location.png
+    - drawable/location.png
     - drawable/map.png
     - drawable/whatsapp_new.png
     - drawable/fff.png
@@ -199,7 +200,11 @@ flutter:
     - drawable/phone_icon.png
     - drawable/mobile.png
     - drawable/trackclock.png
+    - drawable/tiechecked.png
+    - drawable/tieunchecked.png
     - drawable/tracktick.png
+    - drawable/propery_type_rupee_syembol.png
+    - drawable/propertytype.png
     - drawable/rupee.png
     - drawable/house.png
     - drawable/new_prop.png
@@ -210,7 +215,17 @@ flutter:
     - drawable/propery_type_facing.png
     - drawable/price_white.png
     - drawable/plan.png
+    - drawable/insurance_back.png
     - drawable/parking.png
+    - drawable/insure.png
+    - drawable/winner_back.png
+    - drawable/winner_top_per.png
+    - drawable/winners_stage.png
+    - drawable/winner1.png
+    - drawable/winner2.png
+    - drawable/winner3.png
+    - drawable/userbg.png
+    - drawable/loan_icon_act.png
 
   #   - images/a_dot_ham.jpeg
 

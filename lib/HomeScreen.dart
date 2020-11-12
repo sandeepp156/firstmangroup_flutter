@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
+import 'AddListingScreen.dart';
 import 'BannersScreen.dart';
 import 'MyAssistantScreen.dart';
 import 'MyFmNw.dart';
@@ -529,29 +530,37 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: 10, top: 3, left: 5),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: Image.asset(
-                                        'drawable/addlisting.png',
-                                        height: 20,
-                                        width: 20,
+                              InkWell(
+                                onTap: (){
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(builder: (context) => AddLisitingScreen()),
+                                    );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 10, top: 3, left: 5),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        child: Image.asset(
+                                          'drawable/addlisting.png',
+                                          height: 20,
+                                          width: 20,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      'Add Listings',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: GlobalVariable.blue_main,
-                                          fontFamily:
-                                              GlobalVariable.GothamMedium),
-                                    )
-                                  ],
+                                      Text(
+                                        'Add Listings',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: GlobalVariable.blue_main,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                               Container(
@@ -1003,24 +1012,64 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 150,
       child: Stack(
         children: [
-          PageView(
-            children: pages,
-            controller: controller,
-            scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
-            onPageChanged: (index) => {
-              item_li = index,
-              setState(() {
-                if (index == 2) {
-                  tem = false;
-                  tem1 = true;
-                } else {
-                  tem1 = false;
-                  tem = true;
-                }
-              }),
-            },
+          Carousel(
+            images: [
+              NetworkImage('http://via.placeholder.com/350x150'),
+              NetworkImage('http://via.placeholder.com/350x150'),
+              // ExactAssetImage("assets/images/LaunchImage.jpg")
+            ],
+            // onImageTap:(pos){
+            //   Navigator.push(
+            //     context,
+            //     new MaterialPageRoute(builder: (context) => BannersScreen()),
+            //   );
+            // } ,
+            showIndicator: true,
+            borderRadius: false,
+            dotSize: 4.0,
+            dotSpacing: 15.0,
+            dotIncreasedColor: GlobalVariable.white,
+            dotColor: GlobalVariable.grey_main_,
+            indicatorBgPadding: 5.0,
+            dotBgColor: Colors.transparent,
+
+            // moveIndicatorFromBottom: 180.0,
+            noRadiusForIndicator: true,
+            // overlayShadow: true,
+            // overlayShadowColors: Colors.white,
+            // overlayShadowSize: 0.7,
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10,bottom: 10),
+                  child: Text('TitleTileldleldldl',style: TextStyle(color: GlobalVariable.white,fontSize: 16 ),),
+                ),
+                Text('Description',maxLines: 2,style: TextStyle(color: GlobalVariable.white, fontSize: 14,),)
+              ],
+            ),
+          ),
+          // PageView(
+          //   children: pages,
+          //   controller: controller,
+          //   scrollDirection: Axis.horizontal,
+          //   physics: BouncingScrollPhysics(),
+          //   onPageChanged: (index) => {
+          //     item_li = index,
+          //     setState(() {
+          //       if (index == 2) {
+          //         tem = false;
+          //         tem1 = true;
+          //       } else {
+          //         tem1 = false;
+          //         tem = true;
+          //       }
+          //     }),
+          //   },
+          // ),
           // Text("Started",style: TextStyle(color: Colors.green,fontSize: 20),),
           Align(
             alignment: Alignment.bottomRight,
@@ -1035,18 +1084,18 @@ class _HomeScreenState extends State<HomeScreen> {
               // child: arrows(context),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 10),
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                for (int i = 0; i < 3; i++)
-                  if (i == item_li) circleBar_(true) else circleBar_(false),
-              ],
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.only(bottom: 10),
+          //   alignment: Alignment.bottomCenter,
+          //   child: Row(
+          //     mainAxisSize: MainAxisSize.min,
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: <Widget>[
+          //       for (int i = 0; i < 3; i++)
+          //         if (i == item_li) circleBar_(true) else circleBar_(false),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -1065,18 +1114,24 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: SizedBox(
               height: 175,
-              child:
-              Carousel(
+              child: Carousel(
                 images: [
-                  NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
-                  NetworkImage('https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg'),
+                  NetworkImage('http://via.placeholder.com/350x150'),
+                  NetworkImage('http://via.placeholder.com/350x150'),
                   // ExactAssetImage("assets/images/LaunchImage.jpg")
                 ],
+                onImageTap:(pos){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => BannersScreen()),
+                  );
+                } ,
                 showIndicator: true,
                 borderRadius: false,
                 dotSize: 4.0,
                 dotSpacing: 15.0,
-                dotColor: Colors.white,
+                dotIncreasedColor: GlobalVariable.white,
+                dotColor: GlobalVariable.grey_main_,
                 indicatorBgPadding: 5.0,
                 dotBgColor: Colors.transparent,
 
@@ -1086,7 +1141,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 // overlayShadowColors: Colors.white,
                 // overlayShadowSize: 0.7,
               ),
-
 
               // Swiper(
               //   itemCount: 2,
@@ -1099,7 +1153,6 @@ class _HomeScreenState extends State<HomeScreen> {
               //   },
               //   pagination: SwiperPagination.dots,
               // ),
-
             )),
         Container(
           margin: EdgeInsets.only(bottom: 10),
@@ -1114,16 +1167,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         gadgets(),
         Container(
-          margin: EdgeInsets.only(top: 13, bottom: 5),
+          margin: EdgeInsets.only(top: 13, bottom: 2),
           height: 1,
           color: GlobalVariable.grey_main_,
         ),
         count(),
-        Container(
-          margin: EdgeInsets.only(top: 13),
-          height: 1,
-          color: GlobalVariable.grey_main_,
-        ),
+        // Container(
+        //   margin: EdgeInsets.only(top: 13),
+        //   height: 1,
+        //   color: GlobalVariable.grey_main_,
+        // ),
         ads(),
         Container(
           // margin: EdgeInsets.only(top: 13),
@@ -1163,11 +1216,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () {
+                        onTap: (){
                           Navigator.push(
                             context,
-                            new MaterialPageRoute(
-                                builder: (context) => RealEstateScreen()),
+                            new MaterialPageRoute(builder: (context) => RealEstateScreen()),
                           );
                         },
                         child: Container(
@@ -1190,29 +1242,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 100,
                                     fit: BoxFit.fill,
                                   )),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Center(
-                                      child: Image.asset(
-                                    'drawable/searchhouse.png',
-                                    height: 20,
-                                    color: GlobalVariable.white,
-                                  )),
-                                  Text(
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 17),
+                                child: Center(
+                                    child: Image.asset(
+                                      'drawable/searchhouse.png',
+                                      fit: BoxFit.fill,
+                                      height: 20,
+                                      // width: 25,
+                                      color: GlobalVariable.white,
+                                    )),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 30),
+                                  child: Text(
                                     'Real Estate',
                                     style: TextStyle(
                                         fontFamily: GlobalVariable.Gotham,
                                         color: GlobalVariable.white),
-                                  )
-                                ],
-                              ),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ),
                       ),
                     ),
+
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(boxShadow: [
@@ -1230,28 +1287,32 @@ class _HomeScreenState extends State<HomeScreen> {
                             ClipRRect(
                                 borderRadius: BorderRadius.circular(5.0),
                                 child: Image.asset(
-                                  'drawable/realestate_back.png',
+                                  'drawable/loans.png',
                                   height: 100,
                                   fit: BoxFit.fill,
                                 )),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Center(
-                                    child: Image.asset(
-                                  'drawable/searchhouse.png',
-                                  height: 20,
-                                  color: GlobalVariable.white,
-                                )),
-                                Text(
-                                  'Real Estate',
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Center(
+                                  child: Image.asset(
+                                'drawable/loan_icon_act.png',
+                                fit: BoxFit.fill,
+                                height: 35,
+                                // width: 25,
+                                color: GlobalVariable.white,
+                              )),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 30),
+                                child: Text(
+                                  'Loans',
                                   style: TextStyle(
                                       fontFamily: GlobalVariable.Gotham,
                                       color: GlobalVariable.white),
-                                )
-                              ],
-                            ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -1273,28 +1334,32 @@ class _HomeScreenState extends State<HomeScreen> {
                             ClipRRect(
                                 borderRadius: BorderRadius.circular(5.0),
                                 child: Image.asset(
-                                  'drawable/realestate_back.png',
+                                  'drawable/insurance_back.png',
                                   height: 100,
                                   fit: BoxFit.fill,
                                 )),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Center(
-                                    child: Image.asset(
-                                  'drawable/searchhouse.png',
-                                  height: 20,
-                                  color: GlobalVariable.white,
-                                )),
-                                Text(
-                                  'Real Estate',
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Center(
+                                  child: Image.asset(
+                                'drawable/insure.png',
+                                fit: BoxFit.fill,
+                                height: 25,
+                                // width: 25,
+                                color: GlobalVariable.white,
+                              )),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 30),
+                                child: Text(
+                                  'Insurance',
                                   style: TextStyle(
                                       fontFamily: GlobalVariable.Gotham,
                                       color: GlobalVariable.white),
-                                )
-                              ],
-                            ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -1442,11 +1507,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: (){
-
+                    onTap: () {
                       Navigator.push(
                         context,
-                        new MaterialPageRoute(builder: (context) => MyAssistantScreen()),
+                        new MaterialPageRoute(
+                            builder: (context) => MyAssistantScreen()),
                       );
                     },
                     child: Column(
@@ -1472,10 +1537,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                         context,
-                        new MaterialPageRoute(builder: (context) => InviteFMScreen()),
+                        new MaterialPageRoute(
+                            builder: (context) => InviteFMScreen()),
                       );
                     },
                     child: Column(
@@ -1629,13 +1695,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget count() {
     return SizedBox(
-      height: 100,
+      height: 110,
       child: Stack(
         children: [
-          Image.asset('drawable/scroll_back.png'),
-          Container(
-              // color: Colors.lightBlue,
-              ),
+          Image.asset('drawable/scroll_back.png',
+            fit: BoxFit.fitHeight,
+            width: double.infinity,
+            height: 125,
+
+          ),
+          // Container(
+          //     // color: Colors.lightBlue,
+          //     ),
           Row(
             children: [
               Column(
@@ -1683,13 +1754,145 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget news() {
     return SizedBox(
-      height: 110,
+      height: 125,
       child: Stack(
         children: [
-          // Image.asset('name'),
-          Container(
-            color: Colors.indigoAccent,
+          Image.asset('drawable/winner_back.png',
+            fit: BoxFit.fill,width: double.infinity,
           ),
+          SizedBox(
+            height: 125,
+            width: double.infinity,
+            child: Row(
+              children: [
+                Image.asset('drawable/winner_top_per.png',
+                  fit: BoxFit.fill,
+                  width: 80,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 50),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Image.asset('drawable/winners_stage.png',
+                          fit: BoxFit.fill,
+                          // width: 75,
+                        ),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          //winner2
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Stack(
+                              children: [
+                                Image.asset('drawable/winner2.png',
+                                  // fit: BoxFit.fill,
+                                  width: 75,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5,top: 3),
+                                  child: Column(
+                                    children: [
+                                      Text('Sandeeasdfsadp',overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: TextStyle(color: GlobalVariable.white,fontSize: 7)),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Text('Sandeep',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(color: GlobalVariable.white,fontSize: 7)),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                          // winner1
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Stack(
+                              children: [
+                                Image.asset('drawable/winner1.png',
+                                  fit: BoxFit.fill,
+                                  width: 75,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 3,left: 7),
+                                  child: Column(
+                                    children: [
+                                      Text('Sandeepsadfs',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(color: GlobalVariable.white,fontSize: 7)),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Text('Sandeep',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,
+
+                                            style: TextStyle(color: GlobalVariable.white,fontSize: 7)),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          //winner3
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Stack(
+                              // alignment: Alignment.center,
+                              children: [
+                                Image.asset('drawable/winner3.png',
+                                  fit: BoxFit.fill,
+                                  width: 75,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5,top: 3),
+                                  child: Column(
+                                    children: [
+                                      Text('Sandeeasdfsadp',
+                                          maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(color: GlobalVariable.white,fontSize: 7,)),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Text('Sandeep',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(color: GlobalVariable.white,fontSize: 7)),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        ],
+                      ),
+                      //userbg
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
+          // Container(
+          //   color: GlobalVariable.blue_main,
+          // ),
         ],
       ),
     );

@@ -15,7 +15,10 @@ import 'package:flutter/material.dart';
     static var grey_main=Color(0xffd3d3d3);
     static var grey_main_=Colors.grey;
     static var light_blue=Colors.blue;
-    static var BASE_URL = 'greenindiavision.com';
+    static var BASE_URL = 'firstmangroup.in';
+    static var member_id = '4';
+    //member_id=4
+    //https://firstmangroup.in/api/
     static var GothamMedium = 'GothamMedium';
     static var Gotham = 'Gotham';
     static var GothamLight = 'GothamLight';

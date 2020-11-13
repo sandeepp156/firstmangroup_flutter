@@ -2,8 +2,10 @@
 import 'dart:ui';
 import 'dart:async';
 
+import 'package:firstmangroup_flutter/HomeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'initialpage.dart';
 
@@ -90,7 +92,21 @@ class _State extends State<MyApp> {
 
   Future<String> getUser(BuildContext context) async{
     Timer(Duration(seconds: 3),()=>
-        Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
+        Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) { return HomeScreen();}),));
+
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // if(prefs.getString('member_id')!='-1'){
+    //   Timer(Duration(seconds: 3),()=>
+    //       Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  HomeScreen()),));
+    //
+    // }
+    // else if(prefs.getString('member_id')==null||prefs.getString('member_id')=='-1'){
+    //   Timer(Duration(seconds: 3),()=>
+    //       Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
+    //
+    // }
+    // Timer(Duration(seconds: 3),()=>
+    //     Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
     return "";
   }
 }

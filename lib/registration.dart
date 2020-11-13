@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:firstmangroup_flutter/OTPVScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(Registration());
@@ -74,8 +81,7 @@ class _RegistrationState extends State<Registration> {
                                 enabledBorder: new UnderlineInputBorder(
                                     borderSide: new BorderSide(
                                   color: GlobalVariable.blue_main,
-                                )
-                                ),
+                                )),
                                 // border: InputBorder.none,
                                 hintStyle: TextStyle(
                                     color: GlobalVariable.grey_main,
@@ -147,8 +153,52 @@ class _RegistrationState extends State<Registration> {
     } else {
       Navigator.push(
         context,
-        new MaterialPageRoute(builder: (context) => OTPVScreen(text:phCntrl.text.toString())),
+        new MaterialPageRoute(
+            builder: (context) => OTPVScreen(text: phCntrl.text.toString())),
       );
+      // callOtp(context);
+
+    }
+  }
+
+  Future<void> callOtp(BuildContext context) async {
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+    var queryParameters = {
+      'phone': '' + phCntrl.text.toString(),
+    };
+    var uri =
+        Uri.https(GlobalVariable.BASE_URL, '/new/app/member', queryParameters);
+    print(uri);
+    Response response = await get(uri);
+    int statusCode = response.statusCode;
+    String json = response.body;
+    Map<String, dynamic> map = jsonDecode(json);
+    if (statusCode == 200) {
+      print('$json');
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      await pr.hide();
+      if (map['status'] == 'Success') {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) => OTPVScreen(text: phCntrl.text.toString())),
+        );
+      } else {
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text(map['message'])));
+        // showMyDialog(context, map['message']);
+      }
     }
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:firstmangroup_flutter/EventsScreen.dart';
 import 'package:flutter/material.dart';
 
+import 'DataEvents.dart';
 import 'customcolor.dart';
 
 void main() {
@@ -9,12 +11,18 @@ void main() {
 }
 
 class EventDetailsScreen extends StatefulWidget {
+  final DataEvents dataEvents;
+
+  EventDetailsScreen({this.dataEvents});
   @override
   _EventDetailsScreenState createState() => _EventDetailsScreenState();
 }
 
 class _EventDetailsScreenState extends State<EventDetailsScreen>
     with SingleTickerProviderStateMixin {
+  final DataEvents dataEvents;
+
+  _EventDetailsScreenState({this.dataEvents});
   bool _show = true;
   Timer _timer;
 
@@ -112,12 +120,12 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
             Container(
               padding: EdgeInsets.only(bottom: 5, left: 3, right: 3),
               color: GlobalVariable.white,
-              height: 200,
+              height: 225,
               // color: GlobalVariable.grey_main,
               child: Card(
                   elevation: 5.0,
-                  child: Image.asset(
-                    'drawable/bnner1.png',
+                  child: Image.network(
+                  widget.dataEvents.image,
                     width: double.infinity,
                     fit: BoxFit.fill,
                   )),
@@ -126,14 +134,34 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
               alignment: Alignment.bottomLeft,
               child: Card(
                 child: Container(
-                  padding: EdgeInsets.only(left: 5),
+
+                  padding: EdgeInsets.only(left: 7,right: 7,top: 5,bottom: 20),
                   width: double.infinity,
-                  child: Text(
-                    'Title',
-                    // textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: GlobalVariable.blue_main,
-                        fontFamily: GlobalVariable.GothamMedium),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          widget.dataEvents.title,
+                          // textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: GlobalVariable.blue_main,
+                              fontFamily: GlobalVariable.GothamMedium),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          // textAlign: TextAlign.left,
+                          parseHtmlString(widget.dataEvents.description),
+
+                          style: TextStyle(
+                              color: GlobalVariable.text_colors_black,
+                              fontSize: 10,
+                              fontFamily: GlobalVariable.Gotham),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

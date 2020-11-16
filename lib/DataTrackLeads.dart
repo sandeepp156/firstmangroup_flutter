@@ -51,7 +51,7 @@ class Lead {
   String name;
   String phone;
   String email;
-  City city;
+  String city;
   String type;
   // Property propertyType;
   String propertyType;
@@ -65,10 +65,10 @@ class Lead {
   String loanReq;
   String insuranceType;
   String amount;
-  Area area;
+  String area;
   RmSupport rmSupport;
   String comments;
-  CurStatus curStatus;
+  String curStatus;
   String date;
   List<Tracking> tracking;
 
@@ -78,7 +78,8 @@ class Lead {
     name: json["name"],
     phone: json["phone"],
     email: json["email"],
-    city: cityValues.map[json["city"]],
+    // city: cityValues.map[json["city"]],
+    city: json["city"],
     type: json["type"],
     propertyType:json["property_type"],
     // propertyType: propertyValues.map[json["property_type"]],
@@ -92,10 +93,12 @@ class Lead {
     loanReq: json["loan_req"],
     insuranceType: json["insurance_type"],
     amount: json["amount"],
-    area: areaValues.map[json["area"]],
+    area: json["area"],
+    // area: areaValues.map[json["area"]],
     rmSupport: rmSupportValues.map[json["rm_support"]],
     comments: json["comments"],
-    curStatus: curStatusValues.map[json["cur_status"]],
+    curStatus: json["cur_status"],
+    // curStatus: curStatusValues.map[json["cur_status"]],
     date: json["date"],
     tracking: List<Tracking>.from(json["tracking"].map((x) => Tracking.fromJson(x))),
   );
@@ -120,10 +123,10 @@ class Lead {
     "loan_req": loanReq,
     "insurance_type": insuranceType,
     "amount": amount,
-    "area": areaValues.reverse[area],
+    "area": area,
     "rm_support": rmSupportValues.reverse[rmSupport],
     "comments": comments,
-    "cur_status": curStatusValues.reverse[curStatus],
+    "cur_status": curStatus,
     "date": date,
     "tracking": List<dynamic>.from(tracking.map((x) => x.toJson())),
   };

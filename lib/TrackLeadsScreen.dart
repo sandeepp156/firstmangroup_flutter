@@ -365,14 +365,15 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Image.asset(
-                                'drawable/map.png',
+                                'drawable/area.png',
                                 height: 15,
                                 width: 20,
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text('Vijayawada',
+                              child: Text(
+                                  dataTrackLeads.length==0?'':dataTrackLeads[0].leads[pos].propertyType,
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.blue_main,
@@ -401,11 +402,20 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text('Vijayawada',
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: GlobalVariable.blue_main,
-                                      fontFamily: GlobalVariable.GothamMedium)),
+                              child: SizedBox(
+                                // width: 100,
+                                child: Text(
+
+                                    dataTrackLeads.length==0?'':dataTrackLeads[0].leads[pos].area+','+dataTrackLeads[0].leads[pos].city,
+                                    overflow: TextOverflow.ellipsis,
+
+                                    // 'Vijayawada',
+                                    style: TextStyle(
+
+                                        fontSize: 9,
+                                        color: GlobalVariable.blue_main,
+                                        fontFamily: GlobalVariable.GothamMedium)),
+                              ),
                             ),
                           ],
                         ),
@@ -416,14 +426,17 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Image.asset(
-                                'drawable/map.png',
+                                'drawable/amount.png',
                                 height: 15,
                                 width: 20,
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text('Vijayawada',
+                              child: Text(
+                                  // 'Vijayawada',
+                                  dataTrackLeads.length==0?'':dataTrackLeads[0].leads[pos].amount,
+
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.blue_main,
@@ -443,14 +456,17 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 5),
                             child: Image.asset(
-                              'drawable/map.png',
+                              'drawable/loan_req.png',
                               height: 15,
                               width: 20,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
-                            child: Text('Vijayawada',
+                            child: Text(
+                                // 'Vijayawada',
+                                dataTrackLeads.length==0?'':dataTrackLeads[0].leads[pos].loanReq,
+
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: GlobalVariable.blue_main,
@@ -465,14 +481,17 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 5),
                             child: Image.asset(
-                              'drawable/map.png',
+                              'drawable/help.png',
                               height: 15,
                               width: 20,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
-                            child: Text('Vijayawada',
+                            child: Text(
+                                // 'Vijayawada',
+                                dataTrackLeads.length==0?'':dataTrackLeads[0].leads[pos].curStatus,
+
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: GlobalVariable.blue_main,
@@ -517,12 +536,17 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                       ),
                       Align(
                         alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 50),
-                          child: Image.asset(
-                            'drawable/delete.png',
-                            height: 25,
-                            width: 25,
+                        child: InkWell(
+                          onTap: (){
+                            deleteTrackLead(context,dataTrackLeads[0].leads[pos].id);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 50),
+                            child: Image.asset(
+                              'drawable/delete.png',
+                              height: 25,
+                              width: 25,
+                            ),
                           ),
                         ),
                       ),
@@ -1258,6 +1282,53 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       print('getTrackLeadsData->error');
+
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<void> deleteTrackLead(BuildContext context,String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/leads_del.php?member_id="+prefs.getString("member_id")+"+&lead_id="+id);
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      // Map<String, dynamic> map = jsonDecode(json);
+      // for(Map i in )
+      // for (Map i in jsonDecode(json)) {
+      //   dataTrackLeads.add(DataTrackLeads.fromJson(i));
+      // }
+      print('deleteTrackLead->' + data.toString());
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('deleteTrackLead->error');
 
       throw Exception('Failed to load album');
     }

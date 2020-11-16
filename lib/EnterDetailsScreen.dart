@@ -1,3 +1,4 @@
+import 'package:firstmangroup_flutter/DataEvents.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ void main() {
 }
 
 class EnterDetailsScreen extends StatefulWidget {
+
   @override
   _EnterDetailsScreenState createState() => _EnterDetailsScreenState();
 }
@@ -24,6 +26,7 @@ bool advisor = false,
 
 class _EnterDetailsScreenState extends State<EnterDetailsScreen>
     with TickerProviderStateMixin {
+
   AnimationController _controller;
   Animation<Offset> _animation;
 

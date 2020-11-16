@@ -36,6 +36,7 @@ dependencies:
   shared_preferences: ^0.5.10
   carousel_slider: ^2.3.1
   countup: ^0.1.3
+  html: ^0.14.0+4
 
 
 
@@ -229,6 +230,8 @@ flutter:
     - drawable/winner3.png
     - drawable/userbg.png
     - drawable/loan_icon_act.png
+    - drawable/loan_req.png
+    - drawable/help.png
 
   #   - images/a_dot_ham.jpeg
 

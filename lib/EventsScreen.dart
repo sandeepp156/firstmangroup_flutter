@@ -133,10 +133,13 @@ class _EventsScreenState extends State<EventsScreen> {
                 // color: GlobalVariable.grey_main,
                 child: Card(
                     elevation: 5.0,
-                    child: Image.network(
-                      dataEvents.length==0?'http://via.placeholder.com/300x175':dataEvents[pos].image,
-                      width: double.infinity,
-                      fit: BoxFit.fill,
+                    child: Hero(
+                      tag: dataEvents[pos].id,
+                      child: Image.network(
+                        dataEvents.length==0?'http://via.placeholder.com/300x175':dataEvents[pos].image,
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                      ),
                     )),
               ),
               Align(

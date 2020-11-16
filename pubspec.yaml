@@ -215,6 +215,7 @@ flutter:
     - drawable/loans.png
     - drawable/partner.png
     - drawable/share_new.png
+    - drawable/share.png
     - drawable/offers_new.png
     - drawable/propery_type_facing.png
     - drawable/price_white.png

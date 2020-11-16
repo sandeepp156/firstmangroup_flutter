@@ -1,9 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:firstmangroup_flutter/EventsScreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'DataEvents.dart';
+import 'package:http/http.dart' as http;
+
 import 'customcolor.dart';
 
 void main() {
@@ -14,15 +21,21 @@ class EventDetailsScreen extends StatefulWidget {
   final DataEvents dataEvents;
 
   EventDetailsScreen({this.dataEvents});
+
   @override
   _EventDetailsScreenState createState() => _EventDetailsScreenState();
 }
+
+int veg = 0;
+bool veg_ = true;
+var attends='';
 
 class _EventDetailsScreenState extends State<EventDetailsScreen>
     with SingleTickerProviderStateMixin {
   final DataEvents dataEvents;
 
   _EventDetailsScreenState({this.dataEvents});
+
   bool _show = true;
   Timer _timer;
 
@@ -32,6 +45,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
       setState(() => _show = !_show);
     });
     super.initState();
+    getAttendsData(context);
   }
 
   @override
@@ -89,7 +103,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                                 fontSize: 8),
                           ),
                           Text(
-                            '10 Registrations',
+                            attends,
                             style: _show
                                 ? TextStyle(
                                     color: GlobalVariable.text_colors_black,
@@ -125,7 +139,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
               child: Card(
                   elevation: 5.0,
                   child: Image.network(
-                  widget.dataEvents.image,
+                    widget.dataEvents.image,
                     width: double.infinity,
                     fit: BoxFit.fill,
                   )),
@@ -134,8 +148,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
               alignment: Alignment.bottomLeft,
               child: Card(
                 child: Container(
-
-                  padding: EdgeInsets.only(left: 7,right: 7,top: 5,bottom: 20),
+                  padding: EdgeInsets.only(left: 7, right: 7, bottom: 20),
                   width: double.infinity,
                   child: Column(
                     children: [
@@ -172,7 +185,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Image.asset(
-                      'drawable/app_icon.png',
+                      'drawable/eve_anima.png',
                       height: 100,
                       width: 100,
                     ),
@@ -190,7 +203,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Text(
-                                '1 Nov 2018 - 01 Dec 2018',
+                                widget.dataEvents.launch_date +
+                                    " - " +
+                                    widget.dataEvents.conclude_date,
                                 // textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: GlobalVariable.text_colors_black,
@@ -211,7 +226,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Text(
-                                  '10 AM - 01 PM',
+                                  widget.dataEvents.start_time +
+                                      " - " +
+                                      widget.dataEvents.end_time,
                                   // textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: GlobalVariable.text_colors_black,
@@ -231,7 +248,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Text(
-                                'Vijayawada',
+                                widget.dataEvents.city.title,
                                 // textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: GlobalVariable.text_colors_black,
@@ -261,8 +278,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                 children: [
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Image.asset(
-                      'drawable/app_icon.png',
+                    child: Image.network(
+                      widget.dataEvents.venue_image,
+                      fit: BoxFit.fill,
                       height: 100,
                       width: 75,
                     ),
@@ -285,7 +303,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                           width: 50,
                         ),
                         Text(
-                          'Inotel',
+                          widget.dataEvents.venue,
                           style: TextStyle(
                               color: GlobalVariable.text_colors_black,
                               fontSize: 12,
@@ -293,12 +311,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                               fontFamily: GlobalVariable.GothamMedium),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 5,bottom: 10),
+                          padding: const EdgeInsets.only(top: 5, bottom: 5),
                           child: Text(
-                            'Near Ramavarpadu IRR',
+                            widget.dataEvents.venue_address,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: GlobalVariable.text_colors_black,
-                                fontSize: 10,
+                                fontSize: 9,
                                 // decoration: TextDecoration.underline,
                                 fontFamily: GlobalVariable.GothamMedium),
                           ),
@@ -307,43 +326,89 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                           children: [
                             Expanded(
                               child: Container(
-                                padding: EdgeInsets.only(top: 5,bottom: 5),
+                                padding: EdgeInsets.only(top: 5, bottom: 5),
                                 color: GlobalVariable.yellow_main,
                                 child: Row(
                                   children: [
-                                    Image.asset('drawable/meal.png',height: 20,width: 30,),
-                                    Text('Meal\nPreference:',style: TextStyle(color: GlobalVariable.white,fontSize: 10,fontFamily: GlobalVariable.GothamMedium),)
+                                    Image.asset(
+                                      'drawable/meal.png',
+                                      height: 20,
+                                      width: 30,
+                                    ),
+                                    Text(
+                                      'Meal\nPreference:',
+                                      style: TextStyle(
+                                          color: GlobalVariable.white,
+                                          fontSize: 10,
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium),
+                                    )
                                   ],
                                 ),
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.only(top: 7,bottom: 7),
-
-                                color: GlobalVariable.yellow_main_thick,
-                                child: Row(
-                                  children: [
-                                    Image.asset('drawable/checkoff1.png',height: 20,width: 30,),
-                                    Text('VEG:',style: TextStyle(color: GlobalVariable.white,fontSize: 10,fontFamily: GlobalVariable.GothamMedium),)
-                                  ],
+                              child: InkWell(
+                                onTap: () {
+                                  veg = 1;
+                                  veg_ = true;
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 7, bottom: 7),
+                                  color: GlobalVariable.yellow_main_thick,
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        veg_ == true
+                                            ? 'drawable/checkon1.png'
+                                            : 'drawable/checkoff1.png',
+                                        height: 20,
+                                        width: 30,
+                                      ),
+                                      Text(
+                                        'VEG:',
+                                        style: TextStyle(
+                                            color: GlobalVariable.white,
+                                            fontSize: 10,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.only(top: 7,bottom: 7),
-
-                                color: GlobalVariable.yellow_main_thick,
-                                child: Row(
-                                  children: [
-                                    Image.asset('drawable/checkoff1.png',height: 20,width: 30,),
-                                    Text('NON-VEG',style: TextStyle(color: GlobalVariable.white,fontSize: 10,fontFamily: GlobalVariable.GothamMedium),)
-                                  ],
+                              child: InkWell(
+                                onTap: () {
+                                  veg = 0;
+                                  veg_ = false;
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 7, bottom: 7),
+                                  color: GlobalVariable.yellow_main_thick,
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        veg_ == false
+                                            ? 'drawable/checkon1.png'
+                                            : 'drawable/checkoff1.png',
+                                        height: 20,
+                                        width: 30,
+                                      ),
+                                      Text(
+                                        'NON-VEG',
+                                        style: TextStyle(
+                                            color: GlobalVariable.white,
+                                            fontSize: 10,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-
                           ],
                         )
                       ],
@@ -356,5 +421,53 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
         ),
       ),
     );
+  }
+
+  Future<void> getAttendsData(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+
+    final response = await http
+        .get("https://" + GlobalVariable.BASE_URL + "/api/event-attends.php?event_id="+""+widget.dataEvents.id);
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+
+
+      print('getAttendsData->' + data.toString());
+      Map<String, dynamic> map = jsonDecode(json);
+      attends = map['willbe'];
+      print(attends);
+
+
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getAttendsData->error');
+
+      throw Exception('Failed to load album');
+    }
   }
 }

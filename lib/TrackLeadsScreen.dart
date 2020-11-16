@@ -1,8 +1,16 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:firstmangroup_flutter/DataTrackLeads.dart';
 import 'package:firstmangroup_flutter/EventDetailsScreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'TrackLeadDetailsScreen.dart';
 import 'customcolor.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(TrackLeadsScreen());
@@ -13,7 +21,16 @@ class TrackLeadsScreen extends StatefulWidget {
   _TrackLeadsScreenState createState() => _TrackLeadsScreenState();
 }
 
+final List<DataTrackLeads> dataTrackLeads = new List<DataTrackLeads>();
+
 class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTrackLeadsData(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +57,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 12,bottom: 10),
+                    padding: const EdgeInsets.only(top: 12, bottom: 10),
                     child: Text(
                       'Leads',
                       style: TextStyle(
@@ -185,6 +202,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
               color: GlobalVariable.white,
               height: 40,
               child: ListView.builder(
+                  itemCount: 7,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, pos) {
                     return Container(
@@ -226,8 +244,10 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
               child: Container(
                 padding: EdgeInsets.only(top: 10),
                 color: GlobalVariable.grey_main,
-                child: ListView.builder(itemBuilder: (context, pos) {
-                  return eventsitem();//trackLeadItem
+                child: ListView.builder(
+                  itemCount: dataTrackLeads.length==0?0:dataTrackLeads.length,
+                    itemBuilder: (context, pos) {
+                  return trackLeaditem(context, pos); //trackLeadItem
                 }),
               ),
             )
@@ -236,7 +256,8 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       ),
     );
   }
-  Widget trackLeaditem(){
+
+  Widget trackLeaditem(BuildContext context, int pos) {
     return Container(
       margin: EdgeInsets.only(bottom: 15, left: 10, right: 10),
       // padding: EdgeInsets.only(top: 10),
@@ -245,12 +266,13 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 10,top: 10),
+            padding: const EdgeInsets.only(bottom: 10, top: 10),
             child: Text(
-              'user(R200110011)',
+              dataTrackLeads.length==0?'':dataTrackLeads[0].leads[pos].name+"("+dataTrackLeads[0].leads[pos].leadId+")",
               style: TextStyle(
                   color: GlobalVariable.white,
-                  fontFamily: GlobalVariable.GothamMedium,fontSize: 16),
+                  fontFamily: GlobalVariable.GothamMedium,
+                  fontSize: 16),
             ),
           ),
           Container(
@@ -266,19 +288,21 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 5),
                             child: Image.asset(
-                              'drawable/map.png',
+                              'drawable/mobile.png',
                               height: 15,
                               width: 20,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
-                            child: Text('Vijayawada',
+                            child: Text(
+                                dataTrackLeads.length==0?'':dataTrackLeads[0].leads[pos].phone,
+
+                                // 'Vijayawada',
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: GlobalVariable.blue_main,
-                                    fontFamily:
-                                    GlobalVariable.GothamMedium)),
+                                    fontFamily: GlobalVariable.GothamMedium)),
                           ),
                         ],
                       ),
@@ -289,19 +313,19 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 5),
                             child: Image.asset(
-                              'drawable/map.png',
-                              height: 15,
+                              'drawable/calendar.png',
+                              height: 12,
                               width: 20,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
-                            child: Text('Vijayawada',
+                            child: Text(
+                                dataTrackLeads.length==0?'':dataTrackLeads[0].leads[pos].date,
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: GlobalVariable.blue_main,
-                                    fontFamily:
-                                    GlobalVariable.GothamMedium)),
+                                    fontFamily: GlobalVariable.GothamMedium)),
                           ),
                         ],
                       ),
@@ -309,8 +333,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                   ],
                 ),
                 Padding(
-                  padding:
-                  const EdgeInsets.only(top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Row(
                     children: [
                       Expanded(
@@ -319,19 +342,19 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Image.asset(
-                                'drawable/map.png',
+                                'drawable/bhk.png',
                                 height: 15,
                                 width: 20,
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text('Vijayawada',
+                              child: Text(
+                                  dataTrackLeads.length==0?'':dataTrackLeads[0].leads[pos].propertyType,
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.blue_main,
-                                      fontFamily:
-                                      GlobalVariable.GothamMedium)),
+                                      fontFamily: GlobalVariable.GothamMedium)),
                             ),
                           ],
                         ),
@@ -353,8 +376,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.blue_main,
-                                      fontFamily:
-                                      GlobalVariable.GothamMedium)),
+                                      fontFamily: GlobalVariable.GothamMedium)),
                             ),
                           ],
                         ),
@@ -363,8 +385,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                   ),
                 ),
                 Padding(
-                  padding:
-                  const EdgeInsets.only( bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Row(
                     children: [
                       Expanded(
@@ -384,8 +405,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.blue_main,
-                                      fontFamily:
-                                      GlobalVariable.GothamMedium)),
+                                      fontFamily: GlobalVariable.GothamMedium)),
                             ),
                           ],
                         ),
@@ -407,8 +427,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.blue_main,
-                                      fontFamily:
-                                      GlobalVariable.GothamMedium)),
+                                      fontFamily: GlobalVariable.GothamMedium)),
                             ),
                           ],
                         ),
@@ -435,8 +454,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: GlobalVariable.blue_main,
-                                    fontFamily:
-                                    GlobalVariable.GothamMedium)),
+                                    fontFamily: GlobalVariable.GothamMedium)),
                           ),
                         ],
                       ),
@@ -458,8 +476,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: GlobalVariable.blue_main,
-                                    fontFamily:
-                                    GlobalVariable.GothamMedium)),
+                                    fontFamily: GlobalVariable.GothamMedium)),
                           ),
                         ],
                       ),
@@ -473,18 +490,21 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                     children: [
                       Center(
                         child: InkWell(
-                          onTap: (){
-                            Navigator.push(context, new MaterialPageRoute(builder: (context) =>  TrackLeadDetailsScreen()),);
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) =>
+                                      TrackLeadDetailsScreen()),
+                            );
                           },
                           child: Container(
-                            margin:
-                            EdgeInsets.only( bottom: 10),
+                            margin: EdgeInsets.only(bottom: 10),
                             padding: EdgeInsets.only(
                                 left: 40, right: 40, top: 5, bottom: 5),
                             decoration: BoxDecoration(
                                 color: GlobalVariable.yellow_main,
-                                borderRadius:
-                                BorderRadius.circular(15)),
+                                borderRadius: BorderRadius.circular(15)),
                             child: Text(
                               'Track',
                               style: TextStyle(
@@ -517,6 +537,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       ),
     );
   }
+
   Widget salesItem() {
     return Container(
       margin: EdgeInsets.only(bottom: 15, left: 5, right: 5),
@@ -525,220 +546,226 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       width: double.infinity,
       child: Column(
         children: [
-         Row(
-           children: [
-             Container(
-               margin: EdgeInsets.only(left: 7,right: 7),
-               decoration: BoxDecoration(
-                 borderRadius: BorderRadius.circular(15)
-               ),
-               height: 100,width: 100,
-               child: Stack(
-                 // alignment: Alignment.bottomCenter ,
-                 children: [
-                   Image.asset('drawable/app_icon.png',height: 100,width: 100,),
-                   Align(
-                     alignment: Alignment.bottomCenter,
-                     child: Container(
-                       width: 100,
-                       padding: EdgeInsets.only(top: 5,bottom: 5),
-                       color: Colors.black.withOpacity(0.5),
-                       child: Text('Niwas',
-                         textAlign: TextAlign.center,
-                         style: TextStyle(fontFamily: GlobalVariable.Gotham,fontSize: 8,color: GlobalVariable.white),),
-                     ),
-                   )
-                 ],
-               ),
-             ),
-             Expanded(
-               child: Container(
-                 // color: GlobalVariable.grey_main,
-                 child: Column(
-                   children: [
-                     Padding(
-                       padding: const EdgeInsets.only(top: 10),
-                       child: Row(
-                         children: [
-                           Expanded(
-                             child: Row(
-                               children: [
-                                 Padding(
-                                   padding: const EdgeInsets.only(left: 5),
-                                   child: Image.asset(
-                                     'drawable/user_yellow.png',
-                                     height: 15,
-                                     width: 20,
-                                   ),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.only(left: 10),
-                                   child: Text('Vijayawada',
-                                       style: TextStyle(
-                                           fontSize: 11,
-                                           color: GlobalVariable.blue_main,
-                                           fontFamily:
-                                           GlobalVariable.GothamMedium)),
-                                 ),
-                               ],
-                             ),
-                           ),
-                           Expanded(
-                             child: Row(
-                               children: [
-                                 Padding(
-                                   padding: const EdgeInsets.only(left: 5),
-                                   child: Image.asset(
-                                     'drawable/mobile.png',
-                                     height: 15,
-                                     width: 20,
-                                   ),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.only(left: 10),
-                                   child: Text('9494949494',
-                                       style: TextStyle(
-                                           fontSize: 11,
-                                           color: GlobalVariable.blue_main,
-                                           fontFamily:
-                                           GlobalVariable.GothamMedium)),
-                                 ),
-                               ],
-                             ),
-                           ),
-                         ],
-                       ),
-                     ),
-                     Padding(
-                       padding: const EdgeInsets.only(top: 15,bottom: 15),
-                       child: Row(
-                         children: [
-                           Expanded(
-                             child: Row(
-                               children: [
-                                 Padding(
-                                   padding: const EdgeInsets.only(left: 7),
-                                   child: Image.asset(
-                                     'drawable/bed.png',
-                                     height: 10,
-                                     width: 15,
-                                   ),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.only(left: 12),
-                                   child: Text('Open Plots',
-                                       style: TextStyle(
-                                           fontSize: 11,
-                                           color: GlobalVariable.blue_main,
-                                           fontFamily:
-                                           GlobalVariable.GothamMedium)),
-                                 ),
-                               ],
-                             ),
-                           ),
-                           Expanded(
-                             child: Row(
-                               children: [
-                                 Padding(
-                                   padding: const EdgeInsets.only(left: 5),
-                                   child: Image.asset(
-                                     'drawable/area.png',
-                                     height: 15,
-                                     width: 20,
-                                   ),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.only(left: 10),
-                                   child: Text('150',
-                                       style: TextStyle(
-                                           fontSize: 11,
-                                           color: GlobalVariable.blue_main,
-                                           fontFamily:
-                                           GlobalVariable.GothamMedium)),
-                                 ),
-                               ],
-                             ),
-                           ),
-                         ],
-                       ),
-                     ),
-                     Row(
-                       children: [
-                         Expanded(
-                           child: Row(
-                             children: [
-                               Padding(
-                                 padding: const EdgeInsets.only(left: 5),
-                                 child: Image.asset(
-                                   'drawable/map.png',
-                                   height: 15,
-                                   width: 20,
-                                 ),
-                               ),
-                               Padding(
-                                 padding: const EdgeInsets.only(left: 10),
-                                 child: Text('Vijayawada,',
-
-                                     maxLines: 2,
-                                     overflow: TextOverflow.ellipsis,
-                                     style: TextStyle(
-                                         fontSize: 11,
-                                         color: GlobalVariable.blue_main,
-                                         fontFamily:
-                                         GlobalVariable.GothamMedium)),
-                               ),
-                             ],
-                           ),
-                         ),
-                         Expanded(
-                           child: Row(
-                             children: [
-                               Padding(
-                                 padding: const EdgeInsets.only(left: 7),
-                                 child: Image.asset(
-                                   'drawable/calendar.png',
-                                   height: 15,
-                                   width: 15,
-                                 ),
-                               ),
-                               Padding(
-                                 padding: const EdgeInsets.only(left: 12),
-                                 child: Text('21-02-2020',
-                                     style: TextStyle(
-                                         fontSize: 11,
-                                         color: GlobalVariable.blue_main,
-                                         fontFamily:
-                                         GlobalVariable.GothamMedium)),
-                               ),
-                             ],
-                           ),
-                         ),
-                       ],
-                     ),
-
-                   ],
-                 ),
-               ),
-             )
-           ],
-         ),
+          Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 7, right: 7),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                height: 100,
+                width: 100,
+                child: Stack(
+                  // alignment: Alignment.bottomCenter ,
+                  children: [
+                    Image.asset(
+                      'drawable/app_icon.png',
+                      height: 100,
+                      width: 100,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        width: 100,
+                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        color: Colors.black.withOpacity(0.5),
+                        child: Text(
+                          'Niwas',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: GlobalVariable.Gotham,
+                              fontSize: 8,
+                              color: GlobalVariable.white),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  // color: GlobalVariable.grey_main,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Image.asset(
+                                      'drawable/user_yellow.png',
+                                      height: 15,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text('Vijayawada',
+                                        style: TextStyle(
+                                            fontSize: 11,
+                                            color: GlobalVariable.blue_main,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Image.asset(
+                                      'drawable/mobile.png',
+                                      height: 15,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text('9494949494',
+                                        style: TextStyle(
+                                            fontSize: 11,
+                                            color: GlobalVariable.blue_main,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15, bottom: 15),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 7),
+                                    child: Image.asset(
+                                      'drawable/bed.png',
+                                      height: 10,
+                                      width: 15,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12),
+                                    child: Text('Open Plots',
+                                        style: TextStyle(
+                                            fontSize: 11,
+                                            color: GlobalVariable.blue_main,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Image.asset(
+                                      'drawable/area.png',
+                                      height: 15,
+                                      width: 20,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text('150',
+                                        style: TextStyle(
+                                            fontSize: 11,
+                                            color: GlobalVariable.blue_main,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Image.asset(
+                                    'drawable/map.png',
+                                    height: 15,
+                                    width: 20,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text('Vijayawada,',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 11,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 7),
+                                  child: Image.asset(
+                                    'drawable/calendar.png',
+                                    height: 15,
+                                    width: 15,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: Text('21-02-2020',
+                                      style: TextStyle(
+                                          fontSize: 11,
+                                          color: GlobalVariable.blue_main,
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
           Padding(
-            padding: const EdgeInsets.only(top: 10,bottom: 2),
+            padding: const EdgeInsets.only(top: 10, bottom: 2),
             child: Row(
               children: [
                 Expanded(
                   child: Container(
-
                     // height: 36,
 
-                    padding: EdgeInsets.only(top: 3,bottom: 3),
+                    padding: EdgeInsets.only(top: 3, bottom: 3),
                     color: GlobalVariable.blue_main,
                     child: Center(
                       child: Text(
                         'Original Price',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          // decoration: TextDecoration.underline,
+                            // decoration: TextDecoration.underline,
 
                             fontFamily: GlobalVariable.GothamMedium,
                             color: GlobalVariable.yellow_main,
@@ -753,14 +780,14 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
 
                     // height: 36,
 
-                    padding: EdgeInsets.only(top: 3,bottom: 3),
+                    padding: EdgeInsets.only(top: 3, bottom: 3),
                     color: GlobalVariable.blue_main,
                     child: Center(
                       child: Text(
                         'Gross Commission',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          // decoration: TextDecoration.underline,
+                            // decoration: TextDecoration.underline,
 
                             fontFamily: GlobalVariable.GothamMedium,
                             color: GlobalVariable.yellow_main,
@@ -771,7 +798,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.only(top: 3,bottom: 3),
+                    padding: EdgeInsets.only(top: 3, bottom: 3),
                     margin: EdgeInsets.only(left: 2),
 
                     // height: 36,
@@ -783,7 +810,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                         'Status',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          // decoration: TextDecoration.underline,
+                            // decoration: TextDecoration.underline,
 
                             fontFamily: GlobalVariable.GothamMedium,
                             color: GlobalVariable.yellow_main,
@@ -799,17 +826,16 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
             children: [
               Expanded(
                 child: Container(
-
                   // height: 36,
 
-                  padding: EdgeInsets.only(top: 5,bottom: 5),
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
                   color: GlobalVariable.blue_main,
                   child: Center(
                     child: Text(
                       '870000',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        // decoration: TextDecoration.underline,
+                          // decoration: TextDecoration.underline,
 
                           fontFamily: GlobalVariable.GothamMedium,
                           color: GlobalVariable.white,
@@ -824,14 +850,14 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
 
                   // height: 36,
 
-                  padding: EdgeInsets.only(top: 5,bottom: 5),
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
                   color: GlobalVariable.blue_main,
                   child: Center(
                     child: Text(
                       '60000',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        // decoration: TextDecoration.underline,
+                          // decoration: TextDecoration.underline,
 
                           fontFamily: GlobalVariable.GothamMedium,
                           color: GlobalVariable.white,
@@ -842,7 +868,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.only(top: 5,bottom: 5),
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
                   margin: EdgeInsets.only(left: 2),
 
                   // height: 36,
@@ -854,7 +880,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                       'Pending',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        // decoration: TextDecoration.underline,
+                          // decoration: TextDecoration.underline,
 
                           fontFamily: GlobalVariable.GothamMedium,
                           color: GlobalVariable.red,
@@ -869,6 +895,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       ),
     );
   }
+
   Widget myofficeItem() {
     return Container(
       margin: EdgeInsets.only(bottom: 15, left: 10, right: 10),
@@ -877,9 +904,10 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       width: double.infinity,
       child: Column(
         children: [
-
           Container(
-            padding: EdgeInsets.only(top: 15,),
+            padding: EdgeInsets.only(
+              top: 15,
+            ),
             color: GlobalVariable.white,
             child: Column(
               children: [
@@ -892,24 +920,26 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             margin: EdgeInsets.only(left: 5),
                             color: Colors.grey[200],
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 5, bottom: 5),
                               child: Text('Posted On',
                                   style: TextStyle(
                                       fontSize: 10,
                                       color: GlobalVariable.grey_main_,
-                                      fontFamily:
-                                      GlobalVariable.Gotham)),
+                                      fontFamily: GlobalVariable.Gotham)),
                             ),
                           ),
-                          Text(' : ',style: TextStyle(color: GlobalVariable.blue_main),),
+                          Text(
+                            ' : ',
+                            style: TextStyle(color: GlobalVariable.blue_main),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(left: 5),
                             child: Text('Vijayawada',
                                 style: TextStyle(
                                     fontSize: 10,
                                     color: GlobalVariable.blue_main,
-                                    fontFamily:
-                                    GlobalVariable.GothamMedium)),
+                                    fontFamily: GlobalVariable.GothamMedium)),
                           ),
                         ],
                       ),
@@ -921,24 +951,26 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             margin: EdgeInsets.only(left: 5),
                             color: Colors.grey[200],
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 5, bottom: 5),
                               child: Text('Valid For',
                                   style: TextStyle(
                                       fontSize: 10,
                                       color: GlobalVariable.grey_main_,
-                                      fontFamily:
-                                      GlobalVariable.Gotham)),
+                                      fontFamily: GlobalVariable.Gotham)),
                             ),
                           ),
-                          Text(' : ',style: TextStyle(color: GlobalVariable.blue_main),),
+                          Text(
+                            ' : ',
+                            style: TextStyle(color: GlobalVariable.blue_main),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(left: 5),
                             child: Text('Vijayawada',
                                 style: TextStyle(
                                     fontSize: 10,
                                     color: GlobalVariable.blue_main,
-                                    fontFamily:
-                                    GlobalVariable.GothamMedium)),
+                                    fontFamily: GlobalVariable.GothamMedium)),
                           ),
                         ],
                       ),
@@ -946,9 +978,8 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                   ],
                 ),
                 Padding(
-                  padding:
-                  const EdgeInsets.only(top: 10, bottom: 10,left: 5),
-                  child:   Row(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10, left: 5),
+                  child: Row(
                     children: [
                       Expanded(
                         child: Row(
@@ -956,24 +987,26 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             Container(
                               color: Colors.grey[200],
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 5, bottom: 5),
                                 child: Text('Posted On',
                                     style: TextStyle(
                                         fontSize: 10,
                                         color: GlobalVariable.grey_main_,
-                                        fontFamily:
-                                        GlobalVariable.Gotham)),
+                                        fontFamily: GlobalVariable.Gotham)),
                               ),
                             ),
-                            Text(' : ',style: TextStyle(color: GlobalVariable.blue_main),),
+                            Text(
+                              ' : ',
+                              style: TextStyle(color: GlobalVariable.blue_main),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Text('Vijayawada',
                                   style: TextStyle(
                                       fontSize: 10,
                                       color: GlobalVariable.blue_main,
-                                      fontFamily:
-                                      GlobalVariable.GothamMedium)),
+                                      fontFamily: GlobalVariable.GothamMedium)),
                             ),
                           ],
                         ),
@@ -984,24 +1017,26 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             Container(
                               color: Colors.grey[200],
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 5, bottom: 5),
                                 child: Text('Valid For',
                                     style: TextStyle(
                                         fontSize: 10,
                                         color: GlobalVariable.grey_main_,
-                                        fontFamily:
-                                        GlobalVariable.Gotham)),
+                                        fontFamily: GlobalVariable.Gotham)),
                               ),
                             ),
-                            Text(' : ',style: TextStyle(color: GlobalVariable.blue_main),),
+                            Text(
+                              ' : ',
+                              style: TextStyle(color: GlobalVariable.blue_main),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Text('Vijayawada',
                                   style: TextStyle(
                                       fontSize: 10,
                                       color: GlobalVariable.blue_main,
-                                      fontFamily:
-                                      GlobalVariable.GothamMedium)),
+                                      fontFamily: GlobalVariable.GothamMedium)),
                             ),
                           ],
                         ),
@@ -1014,20 +1049,27 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                   // color: GlobalVariable.grey_main,
                   child: Stack(
                     children: [
-                      Image.asset('drawable/bnner1.png',width: double.infinity,fit: BoxFit.fill,),
+                      Image.asset(
+                        'drawable/bnner1.png',
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                      ),
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 5,bottom: 10),
+                          padding: const EdgeInsets.only(left: 5, bottom: 10),
                           child: Row(
                             children: [
-                              Image.asset('drawable/eye.png',height: 15,width: 20,),
+                              Image.asset(
+                                'drawable/eye.png',
+                                height: 15,
+                                width: 20,
+                              ),
                               Text(' 100 Views',
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.white,
-                                      fontFamily:
-                                      GlobalVariable.GothamMedium)),
+                                      fontFamily: GlobalVariable.GothamMedium)),
                             ],
                           ),
                         ),
@@ -1037,22 +1079,20 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                         child: Container(
                           color: GlobalVariable.white,
                           margin: EdgeInsets.all(25),
-                          padding: const EdgeInsets.only(left: 10,bottom: 5,top: 5,right: 10),
+                          padding: const EdgeInsets.only(
+                              left: 10, bottom: 5, top: 5, right: 10),
                           child: Text('Beau Fort',
                               style: TextStyle(
                                   fontSize: 11,
                                   color: GlobalVariable.blue_main,
-                                  fontFamily:
-                                  GlobalVariable.GothamMedium)),
+                                  fontFamily: GlobalVariable.GothamMedium)),
                         ),
                       ),
                     ],
                   ),
-
                 ),
                 Padding(
-                  padding:
-                  const EdgeInsets.only( bottom: 10,top: 10),
+                  padding: const EdgeInsets.only(bottom: 10, top: 10),
                   child: Row(
                     children: [
                       Expanded(
@@ -1073,8 +1113,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.blue_main,
-                                      fontFamily:
-                                      GlobalVariable.GothamMedium)),
+                                      fontFamily: GlobalVariable.GothamMedium)),
                             ),
                           ],
                         ),
@@ -1096,8 +1135,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.blue_main,
-                                      fontFamily:
-                                      GlobalVariable.GothamMedium)),
+                                      fontFamily: GlobalVariable.GothamMedium)),
                             ),
                           ],
                         ),
@@ -1105,7 +1143,6 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                     ],
                   ),
                 ),
-
               ],
             ),
           ),
@@ -1113,13 +1150,15 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       ),
     );
   }
+
   Widget eventsitem() {
     return Card(
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           Navigator.push(
               context,
-              new MaterialPageRoute(builder: (context) => EventDetailsScreen(),
+              new MaterialPageRoute(
+                builder: (context) => EventDetailsScreen(),
               ));
         },
         child: Container(
@@ -1133,29 +1172,41 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 5,top: 5),
-                  child: Text('Title',
+                  padding: const EdgeInsets.only(left: 5, top: 5),
+                  child: Text(
+                    'Title',
                     // textAlign: TextAlign.left,
-                    style: TextStyle(color: GlobalVariable.blue_main,fontFamily: GlobalVariable.GothamMedium),),
+                    style: TextStyle(
+                        color: GlobalVariable.blue_main,
+                        fontFamily: GlobalVariable.GothamMedium),
+                  ),
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(bottom: 5,left: 4,right: 5),
+                padding: EdgeInsets.only(bottom: 5, left: 4, right: 5),
                 color: GlobalVariable.white,
                 height: 175,
                 // color: GlobalVariable.grey_main,
                 child: Card(
-                  elevation:5.0 ,
-                    child: Image.asset('drawable/bnner1.png',width: double.infinity,fit: BoxFit.fill,)),
-
+                    elevation: 5.0,
+                    child: Image.asset(
+                      'drawable/bnner1.png',
+                      width: double.infinity,
+                      fit: BoxFit.fill,
+                    )),
               ),
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 5,top: 5,bottom: 7),
-                  child: Text('Title',
+                  padding: const EdgeInsets.only(left: 5, top: 5, bottom: 7),
+                  child: Text(
+                    'Title',
                     // textAlign: TextAlign.left,
-                    style: TextStyle(color: GlobalVariable.text_colors_black,fontSize: 10,fontFamily: GlobalVariable.GothamMedium),),
+                    style: TextStyle(
+                        color: GlobalVariable.text_colors_black,
+                        fontSize: 10,
+                        fontFamily: GlobalVariable.GothamMedium),
+                  ),
                 ),
               ),
             ],
@@ -1165,4 +1216,50 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
     );
   }
 
+  Future<void> getTrackLeadsData(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/leads.php?member_id="+prefs.getString("member_id")+"+&type=1");
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      // Map<String, dynamic> map = jsonDecode(json);
+      // for(Map i in )
+      for (Map i in jsonDecode(json)) {
+        dataTrackLeads.add(DataTrackLeads.fromJson(i));
+      }
+      print('getTrackLeadsData->' + data.toString());
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getTrackLeadsData->error');
+
+      throw Exception('Failed to load album');
+    }
+  }
 }

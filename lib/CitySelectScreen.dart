@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:firstmangroup_flutter/DataCities.dart';
 import 'package:firstmangroup_flutter/HomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'customcolor.dart';
 
@@ -11,9 +15,17 @@ class CitySelectScreen extends StatefulWidget {
   @override
   _CitySelectScreenState createState() => _CitySelectScreenState();
 }
+final List<DataCities> dataCities = new List<DataCities>();
+
 
 class _CitySelectScreenState extends State<CitySelectScreen> {
   int isSelected  = -1;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCitiesData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +57,7 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
                   GridView.builder(
                       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
-                      itemCount: 6,
+                      itemCount: dataCities.length==0?1:dataCities.length,
                       itemBuilder: (BuildContext context, int pos) {
                         return InkWell(
                           onTap: (){
@@ -65,14 +77,17 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
                                     children: [
                                       Expanded(
                                         child: Container(
-                                          color: GlobalVariable.yellow_main,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(image: NetworkImage(dataCities.length==0?'https://ak6.picdn.net/shutterstock/videos/6982306/thumb/1.jpg':dataCities[pos].image))
+                                          ),
+                                          // color: GlobalVariable.yellow_main,
                                         ),
                                       ),
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(top: 3, bottom: 3),
                                         child: Text(
-                                          'Vijayawada',
+                                          dataCities.length==0?'':dataCities[pos].title,
                                           style: TextStyle(
                                               color: GlobalVariable.blue_main,
                                               fontSize: 12,
@@ -177,3 +192,32 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
     );
   }
 }
+
+Future<void> getCitiesData() async {
+  final response = await http.get("https://" +
+      GlobalVariable.BASE_URL +
+      "/api/cities.php");
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    // return Album.fromJson(jsonDecode(response.body));
+    final data = jsonDecode(response.body);
+    int statusCode = response.statusCode;
+    String json = response.body;
+    // Map<String, dynamic> map = jsonDecode(json);
+    // for(Map i in )
+    for (Map i in jsonDecode(json)) {
+      dataCities.add(DataCities.fromJson(i));
+    }
+    print('getCities->' + data.toString());
+
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    print('getHome->error');
+
+    throw Exception('Failed to load album');
+  }
+}
+

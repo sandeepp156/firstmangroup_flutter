@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:countup/countup.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firstmangroup_flutter/InviteFMScreen.dart';
 import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
@@ -22,10 +23,12 @@ import 'BannersScreen.dart';
 import 'DataBanners.dart';
 import 'DataBannersText.dart';
 import 'DataHome.dart';
+import 'DataTopper.dart';
 import 'MyAssistantScreen.dart';
 import 'MyFmNw.dart';
 import 'RealEstateScreen.dart';
 import 'initialpage.dart';
+import 'main.dart';
 
 void main() {
   runApp(HomeScreen());
@@ -44,6 +47,8 @@ bool tem1 = false;
 int item_li = 0;
 bool showId = false;
 bool showMenu = false;
+var bannerTitle = 'test';
+var bannerDes = 'test';
 var _scale = 0.0;
 List<Widget> pages = [
   Container(
@@ -58,6 +63,7 @@ List<Widget> pages = [
 ];
 final List<DataHome> dataHome = new List<DataHome>();
 final List<DataBanners> dataBanners = new List<DataBanners>();
+final List<DataToppers> dataToppers = new List<DataToppers>();
 final List<DataBannersText> dataBannersText = new List<DataBannersText>();
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -88,10 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
     initialPage: 0,
   );
   final _imageUrls = [
-    "https://png.pngtree.com/thumb_back/fw800/back_pic/00/03/35/09561e11143119b.jpg",
-    "https://png.pngtree.com/thumb_back/fw800/back_pic/04/61/87/28586f2eec77c26.jpg",
-    "https://png.pngtree.com/thumb_back/fh260/back_pic/04/29/70/37583fdf6f4050d.jpg",
-    "https://ak6.picdn.net/shutterstock/videos/6982306/thumb/1.jpg"
+    // "https://png.pngtree.com/thumb_back/fw800/back_pic/00/03/35/09561e11143119b.jpg",
+    // "https://png.pngtree.com/thumb_back/fw800/back_pic/04/61/87/28586f2eec77c26.jpg",
+    // "https://png.pngtree.com/thumb_back/fh260/back_pic/04/29/70/37583fdf6f4050d.jpg",
+    // "https://ak6.picdn.net/shutterstock/videos/6982306/thumb/1.jpg"
   ];
 
   @override
@@ -905,6 +911,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 setState(() {
                   showMenu = true;
+                  clearUser();
                 });
               },
               child: Padding(
@@ -1049,30 +1056,57 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Stack(
         children: [
           Carousel(
-            images: dataBannersText.length == 0
-                ? Image.network(
-                    '',
-                    fit: BoxFit.cover,
-                  )
-                : dataBannersText.map((e) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Image.network(
-                          e.image,
-                          fit: BoxFit.cover,
-                        );
-                        // Container(
-                        //        color: Colors.lightGreen
-                        //      );
-                      },
-                    );
-                  }).toList(),
+            images:dataBannersText.length==0?[
+              // Image.asset('drawable/bnner1.png'),
+              Padding(
+                padding: const EdgeInsets.only(left: 150,right: 150,top: 50,bottom: 50),
+                child: CircularProgressIndicator(backgroundColor: Colors.white,),
+              ),            ]:dataBannersText.map((imgURL){
+              return Builder(builder: (BuildContext context) {
+                return Image.network( imgURL.image,fit: BoxFit.fill,);
+              },);
+            }).toList(),
+            onImageTap: (i){
+              // print(''+i.toString());
+              print(''+dataToppers[2].id);
+            },
+            onImageChange: (i,j){
+              // print('i='+i.toString()+',j='+j.toString());
+              setState(() {
+                bannerTitle = ''+dataBannersText[j].title;
+                bannerDes = ''+dataBannersText[j].description;
+              });
+            }
+            // images:
+            //
+            // _imageUrls
+            // dataBannersText.length == 0
+            //     ? Image.network(
+            //         '',
+            //         fit: BoxFit.cover,
+            //       )
+            //     : dataBannersText.map((e) {
+            //         return Builder(
+            //           builder: (BuildContext context) {
+            //             return Image.network(
+            //               e.image,
+            //               fit: BoxFit.cover,
+            //             );
+            //             // Container(
+            //             //        color: Colors.lightGreen
+            //             //      );
+            //           },
+            //         );
+            //       }).toList(),
+
+
             // onImageTap:(pos){
             //   Navigator.push(
             //     context,
             //     new MaterialPageRoute(builder: (context) => BannersScreen()),
             //   );
             // } ,
+            ,
             showIndicator: true,
             borderRadius: false,
             dotSize: 4.0,
@@ -1097,12 +1131,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    'TitleTileldleldldl',
+                    ''+bannerTitle,
                     style: TextStyle(color: GlobalVariable.white, fontSize: 16),
                   ),
                 ),
                 Text(
-                  'Description',
+                  ''+bannerDes,
                   maxLines: 2,
                   style: TextStyle(
                     color: GlobalVariable.white,
@@ -1175,19 +1209,37 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SizedBox(
               height: 225,
               child: Carousel(
-                images: dataBanners.map((e) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Image.network(
-                        e.image,
-                        fit: BoxFit.cover,
-                      );
-                      // Container(
-                      //        color: Colors.lightGreen
-                      //      );
-                    },
-                  );
+                images:dataBanners.length==0?[
+                  // Image.asset('drawable/bnner1.png'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 175,right: 175,top: 100,bottom: 100),
+                    child: CircularProgressIndicator(backgroundColor: Colors.white,),
+                  ),
+                ]:dataBanners.map((imgURL){
+                  return Builder(builder: (BuildContext context) { 
+                    return Image.network( imgURL.image,fit: BoxFit.fill,);
+                  },);
                 }).toList(),
+                onImageTap: (i){
+                  print(''+i.toString());
+                }
+
+                // dataBanners.map((e) {
+                //   return Builder(
+                //     builder: (BuildContext context) {
+                //       return Image.network(
+                //         e.image,
+                //         fit: BoxFit.cover,
+                //       );
+                //       // Container(
+                //       //        color: Colors.lightGreen
+                //       //      );
+                //     },
+                //   );
+                // }).toList(),
+
+
+
                 // images: dataBanners.length == 0
                 //     ?NetworkImage('http://via.placeholder.com/350x150')
                 //     : dataBanners
@@ -1210,7 +1262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 //   //       builder: (context) => BannersScreen()),
                 //   // );
                 // },
-                showIndicator: true,
+                ,showIndicator: true,
                 borderRadius: false,
                 dotSize: 4.0,
                 dotSpacing: 10.0,
@@ -1261,7 +1313,7 @@ class _HomeScreenState extends State<HomeScreen> {
         //   height: 1,
         //   color: GlobalVariable.grey_main_,
         // ),
-        ads(),
+       ads(),
         Container(
           // margin: EdgeInsets.only(top: 13),
           height: 1,
@@ -1827,7 +1879,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               Expanded(
-                child: Center(child: Text('00001234')),
+                child: Center(child:
+                Countup(
+                  begin: 0,
+                  end: 7500,
+                  duration: Duration(seconds: 5),
+                  // separator: ' ',
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontFamily: GlobalVariable.GothamMedium,
+                    color: GlobalVariable.white,
+                    backgroundColor: GlobalVariable.blue_main
+                  ),
+                )
+                // Text('00001234')
+                ),
               )
             ],
           )
@@ -1886,20 +1952,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const EdgeInsets.only(left: 5, top: 3),
                                   child: Column(
                                     children: [
-                                      Text('Sandeeasdfsadp',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              color: GlobalVariable.white,
-                                              fontSize: 7)),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Text('Sandeep',
-                                            maxLines: 1,
+                                      SizedBox(
+                                        width: 60,
+                                        child: Text(
+                                            dataToppers.length==0?'':dataToppers[0].name,
                                             overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
                                             style: TextStyle(
+
                                                 color: GlobalVariable.white,
                                                 fontSize: 7)),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: SizedBox(
+                                          // width: 60,
+                                          child: Text(
+                                              dataToppers.length==0?'':dataToppers[0].member_code,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: GlobalVariable.white,
+                                                  fontSize: 7)),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -1922,16 +1997,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const EdgeInsets.only(top: 3, left: 7),
                                   child: Column(
                                     children: [
-                                      Text('Sandeepsadfs',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: GlobalVariable.white,
-                                              fontSize: 7)),
+                                      SizedBox(
+                                        width: 60,
+                                        child: Text(
+                                            dataToppers.length==0?'':dataToppers[0].name,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: GlobalVariable.white,
+                                                fontSize: 7)),
+                                      ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5),
-                                        child: Text('Sandeep',
+                                        child: Text(
+                                            dataToppers.length==0?'':dataToppers[0].member_code,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.center,
@@ -1961,16 +2041,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const EdgeInsets.only(left: 5, top: 3),
                                   child: Column(
                                     children: [
-                                      Text('Sandeeasdfsadp',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: GlobalVariable.white,
-                                            fontSize: 7,
-                                          )),
+                                      SizedBox(
+                                        width: 60,
+                                        child: Text(
+                                            dataToppers.length==0?'':dataToppers[0].name,
+
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: GlobalVariable.white,
+                                              fontSize: 7,
+                                            )),
+                                      ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5),
-                                        child: Text('Sandeep',
+                                        child: Text(
+                                            dataToppers.length==0?'':dataToppers[0].member_code,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -2037,9 +2123,13 @@ class _HomeScreenState extends State<HomeScreen> {
       print('getHome->' + data.toString());
       for (Map i in map['banners']) {
         dataBanners.add(DataBanners.fromJson(i));
+        // _imageUrls.add(map[dataBanners][i.length]["image"]);
       }
       for (Map i in map['banner_text']) {
         dataBannersText.add(DataBannersText.fromJson(i));
+      }
+      for (Map i in map['toppers']) {
+        dataToppers.add(DataToppers.fromJson(i));
       }
     } else {
       // If the server did not return a 200 OK response,
@@ -2065,5 +2155,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> saveDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('member_id', '4');
+  }
+
+  Future<void> clearUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    Navigator.pushReplacement(
+      context,
+      new MaterialPageRoute(
+          builder: (context) =>
+              MyApp()),
+    );
+    // Navigator.pop(context);
   }
 }

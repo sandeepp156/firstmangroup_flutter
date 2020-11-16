@@ -90,24 +90,28 @@ class _State extends State<MyApp> {
     );
   }
 
-  Future<String> getUser(BuildContext context) async{
-    Timer(Duration(seconds: 3),()=>
-        Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) { return HomeScreen();}),));
-
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // if(prefs.getString('member_id')!='-1'){
-    //   Timer(Duration(seconds: 3),()=>
-    //       Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  HomeScreen()),));
-    //
-    // }
-    // else if(prefs.getString('member_id')==null||prefs.getString('member_id')=='-1'){
-    //   Timer(Duration(seconds: 3),()=>
-    //       Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
-    //
-    // }
+  Future<void> getUser(BuildContext context) async{
     // Timer(Duration(seconds: 3),()=>
-    //     Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
-    return "";
+    //     Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) { return HomeScreen();}),));
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // print('getUser'+prefs.getString('member_id'));
+   if(prefs.getString('member_id')==null||prefs.getString('member_id')=='-1'){
+      Timer(Duration(seconds: 3),()=>
+          Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
+
+    }
+    else if(prefs.getString('member_id')!='-1'){
+      Timer(Duration(seconds: 3),()=>
+          Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  HomeScreen()),));
+
+    }
+
+    else {
+      Timer(Duration(seconds: 3),()=>
+          Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
+
+    }
   }
 }
 

@@ -435,25 +435,25 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
   Future<void> getAttendsData(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    ProgressDialog pr = ProgressDialog(context);
-    pr = ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
-    pr.style(
-      message: 'Please wait',
-      progressWidget: Platform.isIOS
-          ? CupertinoActivityIndicator()
-          : Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: CircularProgressIndicator(),
-            ),
-    );
-    await pr.show();
+    // ProgressDialog pr = ProgressDialog(context);
+    // pr = ProgressDialog(context,
+    //     type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    // pr.style(
+    //   message: 'Please wait',
+    //   progressWidget: Platform.isIOS
+    //       ? CupertinoActivityIndicator()
+    //       : Padding(
+    //           padding: const EdgeInsets.all(10.0),
+    //           child: CircularProgressIndicator(),
+    //         ),
+    // );
+    // await pr.show();
 
     final response = await http
         .get("https://" + GlobalVariable.BASE_URL + "/api/event-attends.php?event_id="+""+widget.dataEvents.id);
 
     if (response.statusCode == 200) {
-      await pr.hide();
+      // await pr.hide();
 
       // If the server did return a 200 OK response,
       // then parse the JSON.
@@ -465,12 +465,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
 
       print('getAttendsData->' + data.toString());
       Map<String, dynamic> map = jsonDecode(json);
-      attends = map['willbe'].toString()+" Registrations";
+      setState(() {
+        attends = map['willbe'].toString()+" Registrations";
+      });
       print(attends);
 
 
     } else {
-      await pr.hide();
+      // await pr.hide();
 
       // If the server did not return a 200 OK response,
       // then throw an exception.

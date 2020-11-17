@@ -194,10 +194,12 @@ class _EventsScreenState extends State<EventsScreen> {
       int statusCode = response.statusCode;
       String json = response.body;
       // Map<String, dynamic> map = jsonDecode(json);
-      // for(Map i in )
-      for (Map i in jsonDecode(json)) {
-        dataEvents.add(DataEvents.fromJson(i));
-      }
+      setState(() {
+        for (Map i in jsonDecode(json)) {
+          dataEvents.add(DataEvents.fromJson(i));
+        }
+      });
+
       print('getEventsData->' + data.toString());
       print('getEventsData->' + dataEvents.length.toString());
     } else {

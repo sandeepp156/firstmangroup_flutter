@@ -6,6 +6,8 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:countup/countup.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firstmangroup_flutter/InviteFMScreen.dart';
 import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
@@ -421,7 +423,7 @@ class _HomeScreenState extends State<HomeScreen> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    // showMenu = false;
+                    showMenu = false;
                   });
                 },
                 child: Visibility(
@@ -742,11 +744,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Row(
                                     children: [
                                       InkWell(
-                                        onTap: (){
+                                        onTap: () {
                                           Navigator.push(
                                               context,
                                               new MaterialPageRoute(
-                                                builder: (context) => EventsScreen(),
+                                                builder: (context) =>
+                                                    EventsScreen(),
                                               ));
                                         },
                                         child: Padding(
@@ -2135,33 +2138,49 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> getHome() async {
-    var uri = Uri.https(GlobalVariable.BASE_URL,
-        '/api/home.php?city=1&announce_id=0&offers_id=0');
-    Response response = await get(uri);
-    print('getHome-->' + uri.toString());
-    int statusCode = response.statusCode;
-    String json = response.body;
-    if (statusCode == 200) {
-      final data = jsonDecode(response.body);
-
-      print('getHome-->' + json);
-      setState(() {
-        for (Map i in data) {
-          // listModel.add(User.fromJson(i));
-          // homeData.add(HomeScreenData.fromJson(i));
-          // homeData_temp.add(HomeScreenData_temp.fromJson(i));
-        }
-      });
-    }
-  }
+  // Future<void> getHome() async {
+  //   var uri = Uri.https(GlobalVariable.BASE_URL,
+  //       '/api/home.php?city=1&announce_id=0&offers_id=0');
+  //   Response response = await get(uri);
+  //   print('getHome-->' + uri.toString());
+  //   int statusCode = response.statusCode;
+  //   String json = response.body;
+  //   if (statusCode == 200) {
+  //     final data = jsonDecode(response.body);
+  //
+  //     print('getHome-->' + json);
+  //     setState(() {
+  //       for (Map i in data) {
+  //         // listModel.add(User.fromJson(i));
+  //         // homeData.add(HomeScreenData.fromJson(i));
+  //         // homeData_temp.add(HomeScreenData_temp.fromJson(i));
+  //       }
+  //     });
+  //   }
+  // }
 
   Future<void> getHomeData_() async {
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
         "/api/home.php?city=1&announce_id=0&offers_id=0");
 
     if (response.statusCode == 200) {
+      await pr.hide();
+
       // If the server did return a 200 OK response,
       // then parse the JSON.
       // return Album.fromJson(jsonDecode(response.body));
@@ -2170,17 +2189,22 @@ class _HomeScreenState extends State<HomeScreen> {
       String json = response.body;
       Map<String, dynamic> map = jsonDecode(json);
       print('getHome->' + data.toString());
-      for (Map i in map['banners']) {
-        dataBanners.add(DataBanners.fromJson(i));
-        // _imageUrls.add(map[dataBanners][i.length]["image"]);
-      }
-      for (Map i in map['banner_text']) {
-        dataBannersText.add(DataBannersText.fromJson(i));
-      }
-      for (Map i in map['toppers']) {
-        dataToppers.add(DataToppers.fromJson(i));
-      }
+      setState(() {
+        for (Map i in map['banners']) {
+          dataBanners.add(DataBanners.fromJson(i));
+          // _imageUrls.add(map[dataBanners][i.length]["image"]);
+        }
+        for (Map i in map['banner_text']) {
+          dataBannersText.add(DataBannersText.fromJson(i));
+        }
+        for (Map i in map['toppers']) {
+          dataToppers.add(DataToppers.fromJson(i));
+        }
+      });
+
     } else {
+      await pr.hide();
+
       // If the server did not return a 200 OK response,
       // then throw an exception.
       print('getHome->error');

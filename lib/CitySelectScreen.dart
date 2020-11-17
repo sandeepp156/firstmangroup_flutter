@@ -191,33 +191,37 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
       ),
     );
   }
-}
+  Future<void> getCitiesData() async {
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/cities.php");
 
-Future<void> getCitiesData() async {
-  final response = await http.get("https://" +
-      GlobalVariable.BASE_URL +
-      "/api/cities.php");
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      // Map<String, dynamic> map = jsonDecode(json);
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    // return Album.fromJson(jsonDecode(response.body));
-    final data = jsonDecode(response.body);
-    int statusCode = response.statusCode;
-    String json = response.body;
-    // Map<String, dynamic> map = jsonDecode(json);
-    // for(Map i in )
-    for (Map i in jsonDecode(json)) {
-      dataCities.add(DataCities.fromJson(i));
+      setState(() {
+        for (Map i in jsonDecode(json)) {
+          dataCities.add(DataCities.fromJson(i));
+        }
+      });
+
+      print('getCities->' + data.toString());
+
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getHome->error');
+
+      throw Exception('Failed to load album');
     }
-    print('getCities->' + data.toString());
-
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    print('getHome->error');
-
-    throw Exception('Failed to load album');
   }
 }
+
+
 

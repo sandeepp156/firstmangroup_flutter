@@ -1272,9 +1272,12 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       String json = response.body;
       // Map<String, dynamic> map = jsonDecode(json);
       // for(Map i in )
-      for (Map i in jsonDecode(json)) {
-        dataTrackLeads.add(DataTrackLeads.fromJson(i));
-      }
+      setState(() {
+        for (Map i in jsonDecode(json)) {
+          dataTrackLeads.add(DataTrackLeads.fromJson(i));
+        }
+      });
+
       print('getTrackLeadsData->' + data.toString());
     } else {
       await pr.hide();

@@ -368,6 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 InkWell(
                                   onTap: () {
                                     // MyCreditsScreen
+                                    showId = false;
                                     Navigator.push(
                                       context,
                                       new MaterialPageRoute(
@@ -1238,108 +1239,105 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget HomePage() {
     return ListView(
       children: [
-        GestureDetector(
-            onTap: () {
-              // BannersScreen
+        SizedBox(
+          height: 225,
+          child: Carousel(
+            onImageTap: (i) {
+              print('' + i.toString());
+              sendToScreen(i);
               Navigator.push(
                 context,
-                new MaterialPageRoute(builder: (context) => BannersScreen()),
+                new MaterialPageRoute(
+                    builder: (context) => BannersScreen(id: dataBanners[i].id)),
               );
             },
-            child: SizedBox(
-              height: 225,
-              child: Carousel(
-                onImageTap: (i) {
-                  print('' + i.toString());
-                  sendToScreen(i);
-                },
-                images: dataBanners.length == 0
-                    ? [
-                        // Image.asset('drawable/bnner1.png'),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 175, right: 175, top: 100, bottom: 100),
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          ),
-                        ),
-                      ]
-                    : dataBanners.map((imgURL) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Image.network(
-                              imgURL.image,
-                              fit: BoxFit.fill,
-                            );
-                          },
+            images: dataBanners.length == 0
+                ? [
+                    // Image.asset('drawable/bnner1.png'),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 175, right: 175, top: 100, bottom: 100),
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  ]
+                : dataBanners.map((imgURL) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Image.network(
+                          imgURL.image,
+                          fit: BoxFit.fill,
                         );
-                      }).toList(),
+                      },
+                    );
+                  }).toList(),
 
-                // dataBanners.map((e) {
-                //   return Builder(
-                //     builder: (BuildContext context) {
-                //       return Image.network(
-                //         e.image,
-                //         fit: BoxFit.cover,
-                //       );
-                //       // Container(
-                //       //        color: Colors.lightGreen
-                //       //      );
-                //     },
-                //   );
-                // }).toList(),
+            // dataBanners.map((e) {
+            //   return Builder(
+            //     builder: (BuildContext context) {
+            //       return Image.network(
+            //         e.image,
+            //         fit: BoxFit.cover,
+            //       );
+            //       // Container(
+            //       //        color: Colors.lightGreen
+            //       //      );
+            //     },
+            //   );
+            // }).toList(),
 
-                // images: dataBanners.length == 0
-                //     ?NetworkImage('http://via.placeholder.com/350x150')
-                //     : dataBanners
-                //         .map((e) => NetworkImage(
-                //               e.image,
-                //               // fit: BoxFit.cover,
-                //             ))
-                //         .toList(),
-                // _imageUrls,
-                // [
-                //   NetworkImage('' + dataBanners[0].image),
-                //   NetworkImage('' + dataBanners[1].image),
-                //   // NetworkImage('http://via.placeholder.com/350x150'),
-                //   // ExactAssetImage("assets/images/LaunchImage.jpg")
-                // ],
-                // onImageTap: (pos) {
-                //   // Navigator.push(
-                //   //   context,
-                //   //   new MaterialPageRoute(
-                //   //       builder: (context) => BannersScreen()),
-                //   // );
-                // },
+            // images: dataBanners.length == 0
+            //     ?NetworkImage('http://via.placeholder.com/350x150')
+            //     : dataBanners
+            //         .map((e) => NetworkImage(
+            //               e.image,
+            //               // fit: BoxFit.cover,
+            //             ))
+            //         .toList(),
+            // _imageUrls,
+            // [
+            //   NetworkImage('' + dataBanners[0].image),
+            //   NetworkImage('' + dataBanners[1].image),
+            //   // NetworkImage('http://via.placeholder.com/350x150'),
+            //   // ExactAssetImage("assets/images/LaunchImage.jpg")
+            // ],
+            // onImageTap: (pos) {
+            //   // Navigator.push(
+            //   //   context,
+            //   //   new MaterialPageRoute(
+            //   //       builder: (context) => BannersScreen()),
+            //   // );
+            // },
 
-                showIndicator: true,
-                borderRadius: false,
-                dotSize: 3.0,
-                dotSpacing: 5.0,
-                dotIncreasedColor: GlobalVariable.white,
-                dotColor: GlobalVariable.grey_main,
-                // indicatorBgPadding: 5.0,
-                dotBgColor: Colors.transparent,
+            showIndicator: true,
+            borderRadius: false,
+            dotSize: 3.0,
+            dotSpacing: 5.0,
+            dotIncreasedColor: GlobalVariable.white,
+            dotColor: GlobalVariable.grey_main,
+            // indicatorBgPadding: 5.0,
+            dotBgColor: Colors.transparent,
 
-                // moveIndicatorFromBottom: 180.0,
-                noRadiusForIndicator: true,
-                // overlayShadow: true,
-                // overlayShadowColors: Colors.white,
-                // overlayShadowSize: 0.7,
-              ),
+            // moveIndicatorFromBottom: 180.0,
+            noRadiusForIndicator: true,
+            // overlayShadow: true,
+            // overlayShadowColors: Colors.white,
+            // overlayShadowSize: 0.7,
+          ),
 
-              // Swiper(
-              //   itemCount: 2,
-              //   autoplay: true,
-              //   itemBuilder: (context, pos) {
-              //     return new Image.network(
-              //       "http://via.placeholder.com/350x150",
-              //       fit: BoxFit.fill,
-              //     );
-              //   },
-              //   pagination: SwiperPagination.dots,
-              // ),
-            )),
+          // Swiper(
+          //   itemCount: 2,
+          //   autoplay: true,
+          //   itemBuilder: (context, pos) {
+          //     return new Image.network(
+          //       "http://via.placeholder.com/350x150",
+          //       fit: BoxFit.fill,
+          //     );
+          //   },
+          //   pagination: SwiperPagination.dots,
+          // ),
+        ),
         Container(
           margin: EdgeInsets.only(bottom: 10),
           height: 1,
@@ -1956,35 +1954,35 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: GlobalVariable.blue_main),
                           child: Center(
                             child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 3, top: 2, bottom: 2, right: 3),
-                                child:
-                                // AnimatedFlipCounter(
-                                //   duration: Duration(seconds: 2),
-                                //   value: int.parse(countTextt[pos]),
-                                //   /* pass in a number like 2014 */
-                                //   color: GlobalVariable.white,
-                                //   size: 18,
-                                // )
-                                // Countup(
-                                //   begin: 0,
-                                //   end: pos.ceilToDouble(),
-                                //   duration: Duration(seconds: 2),
-                                //   // separator: ' ',
-                                //   style: TextStyle(
-                                //       fontSize: 18,
-                                //       fontFamily: GlobalVariable.GothamMedium,
-                                //       color: GlobalVariable.white,
-                                //       backgroundColor: GlobalVariable.blue_main),
-                                // ),
-                                Text(
-                                  ''+countTextt[pos],
-                                  style: TextStyle(
-                                      color: GlobalVariable.white,
-                                      fontSize: 18,
-                                      fontFamily: GlobalVariable.Gotham),
-                                ),
-                                ),
+                              padding: EdgeInsets.only(
+                                  left: 3, top: 2, bottom: 2, right: 3),
+                              child:
+                                  // AnimatedFlipCounter(
+                                  //   duration: Duration(seconds: 2),
+                                  //   value: int.parse(countTextt[pos]),
+                                  //   /* pass in a number like 2014 */
+                                  //   color: GlobalVariable.white,
+                                  //   size: 18,
+                                  // )
+                                  // Countup(
+                                  //   begin: 0,
+                                  //   end: pos.ceilToDouble(),
+                                  //   duration: Duration(seconds: 2),
+                                  //   // separator: ' ',
+                                  //   style: TextStyle(
+                                  //       fontSize: 18,
+                                  //       fontFamily: GlobalVariable.GothamMedium,
+                                  //       color: GlobalVariable.white,
+                                  //       backgroundColor: GlobalVariable.blue_main),
+                                  // ),
+                                  Text(
+                                '' + countTextt[pos],
+                                style: TextStyle(
+                                    color: GlobalVariable.white,
+                                    fontSize: 18,
+                                    fontFamily: GlobalVariable.Gotham),
+                              ),
+                            ),
                           ),
                         );
                       }),
@@ -2015,7 +2013,6 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 125,
       child: Stack(
         children: [
-
           Image.asset(
             'drawable/winner_back.png',
             fit: BoxFit.fill,
@@ -2258,7 +2255,6 @@ class _HomeScreenState extends State<HomeScreen> {
       print('getHome->' + data.toString());
       //countInt
       setState(() {
-
         print('countTextt' + countTextt.length.toString());
         for (Map i in map['banners']) {
           dataBanners.add(DataBanners.fromJson(i));
@@ -2318,10 +2314,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void sendToScreen(int pos) {
-    // Navigator.push(
-    //   context,
-    //   new MaterialPageRoute(
-    //       builder: (context) => BannersScreen(id: dataBanners[i].id)),
-    // );
+    print(pos);
+    Navigator.push(
+      context,
+      new MaterialPageRoute(
+          builder: (context) => BannersScreen(id: dataBanners[pos].id)),
+    );
   }
 }

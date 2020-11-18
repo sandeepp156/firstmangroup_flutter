@@ -22,4 +22,5 @@ import 'package:flutter/material.dart';
     static var GothamMedium = 'GothamMedium';
     static var Gotham = 'Gotham';
     static var GothamLight = 'GothamLight';
+
   }

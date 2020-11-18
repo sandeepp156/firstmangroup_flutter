@@ -358,6 +358,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                                     onTap: () {
                                       veg = 1;
                                       veg_ = true;
+                                      sendMealType(context,'0');
                                     },
                                     child: Container(
                                       padding: EdgeInsets.only(top: 7, bottom: 7),
@@ -389,6 +390,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
                                     onTap: () {
                                       veg = 0;
                                       veg_ = false;
+                                      sendMealType(context,'1');
+
                                     },
                                     child: Container(
                                       padding: EdgeInsets.only(top: 7, bottom: 7),
@@ -435,19 +438,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
   Future<void> getAttendsData(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // ProgressDialog pr = ProgressDialog(context);
-    // pr = ProgressDialog(context,
-    //     type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
-    // pr.style(
-    //   message: 'Please wait',
-    //   progressWidget: Platform.isIOS
-    //       ? CupertinoActivityIndicator()
-    //       : Padding(
-    //           padding: const EdgeInsets.all(10.0),
-    //           child: CircularProgressIndicator(),
-    //         ),
-    // );
-    // await pr.show();
+
 
     final response = await http
         .get("https://" + GlobalVariable.BASE_URL + "/api/event-attends.php?event_id="+""+widget.dataEvents.id);
@@ -481,4 +472,43 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
       throw Exception('Failed to load album');
     }
   }
+  Future<void> sendMealType(BuildContext context,String type) async {
+    //https://firstmangroup.in/api/members_active.php?member=4&status=1
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+
+
+    final response = await http
+        .get("https://" + GlobalVariable.BASE_URL + "/api/members_active.php?member="+GlobalVariable.member_id+"&status="+type);
+
+    if (response.statusCode == 200) {
+      // await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+
+
+      print('sendMealType->' + data.toString());
+      Map<String, dynamic> map = jsonDecode(json);
+      // setState(() {
+      //   attends = map['willbe'].toString()+" Registrations";
+      // });
+      print(attends);
+
+
+    } else {
+      // await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('sendMealType->error');
+
+      throw Exception('Failed to load album');
+    }
+  }
+
 }

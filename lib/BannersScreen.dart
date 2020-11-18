@@ -7,12 +7,16 @@ void main() {
 }
 
 class BannersScreen extends StatefulWidget {
+  final String id;
+  BannersScreen({this.id});
   @override
   _BannersScreenState createState() => _BannersScreenState();
 }
 
 class _BannersScreenState extends State<BannersScreen>
     with SingleTickerProviderStateMixin {
+  final String id;
+  _BannersScreenState({this.id});
   int tab = 0;
   int _amenities = 0;
   List<String> propertyOptionList = [

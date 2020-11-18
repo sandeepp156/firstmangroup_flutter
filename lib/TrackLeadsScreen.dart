@@ -24,6 +24,8 @@ class TrackLeadsScreen extends StatefulWidget {
 final List<DataTrackLeads> dataTrackLeads = new List<DataTrackLeads>();
 
 class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
+  int isSelected  = 0;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -202,40 +204,48 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
               color: GlobalVariable.white,
               height: 40,
               child: ListView.builder(
-                  itemCount: 7,
+                  itemCount: dataTrackLeads.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, pos) {
-                    return Container(
-                      margin: EdgeInsets.only(right: 10),
-                      width: 70,
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Container(
-                              padding: EdgeInsets.only(top: 10, bottom: 10),
-                              color: GlobalVariable.white,
-                              child: Text(
-                                'Nov 2020',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: GlobalVariable.GothamMedium,
-                                    color: GlobalVariable.blue_main,
-                                    fontSize: 12),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Visibility(
-                              visible: false,
+                    return InkWell(
+                      onTap: (){
+                        setState(() {
+                          isSelected = pos;
+
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 10),
+                        width: 70,
+                        child: Stack(
+                          children: [
+                            Center(
                               child: Container(
-                                height: 1,
-                                width: double.infinity,
-                                color: GlobalVariable.yellow_main,
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                color: GlobalVariable.white,
+                                child: Text(
+                                  ''+dataTrackLeads[pos].month,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: GlobalVariable.GothamMedium,
+                                      color: GlobalVariable.blue_main,
+                                      fontSize: 12),
+                                ),
                               ),
                             ),
-                          )
-                        ],
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Visibility(
+                                visible: isSelected != null && isSelected == pos?true:false,
+                                child: Container(
+                                  height: 1,
+                                  width: double.infinity,
+                                  color: GlobalVariable.yellow_main,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }),
@@ -1279,6 +1289,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
       });
 
       print('getTrackLeadsData->' + data.toString());
+      print('length->' + dataTrackLeads.length.toString());
     } else {
       await pr.hide();
 

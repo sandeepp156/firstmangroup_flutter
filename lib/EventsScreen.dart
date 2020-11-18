@@ -99,11 +99,16 @@ class _EventsScreenState extends State<EventsScreen> {
     return Card(
       child: GestureDetector(
         onTap: () {
+          // Navigator.push(
+          //     context,
+          //     new MaterialPageRoute(
+          //       builder: (context) => EventDetailsScreen(dataEvents:dataEvents[pos]),
+          //     ));
           Navigator.push(
               context,
-              new MaterialPageRoute(
-                builder: (context) => EventDetailsScreen(dataEvents:dataEvents[pos]),
-              ));
+              new PageRouteBuilder(
+                  transitionDuration: Duration(seconds: 1),
+                  pageBuilder: (e,f,g)=>EventDetailsScreen(dataEvents:dataEvents[pos])));
         },
         child: Container(
           margin: EdgeInsets.only(bottom: 5, left: 5, right: 5),

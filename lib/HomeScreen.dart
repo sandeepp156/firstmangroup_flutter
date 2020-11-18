@@ -21,6 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import 'AddListingScreen.dart';
+import 'AnimatedFlipCounter.dart';
 import 'BannersScreen.dart';
 import 'DataBanners.dart';
 import 'DataBannersText.dart';
@@ -29,6 +30,7 @@ import 'DataTopper.dart';
 import 'EventDetailsScreen.dart';
 import 'EventsScreen.dart';
 import 'MyAssistantScreen.dart';
+import 'MyCreditsScreen.dart';
 import 'MyFmNw.dart';
 import 'RealEstateScreen.dart';
 import 'initialpage.dart';
@@ -54,6 +56,9 @@ bool showMenu = false;
 var bannerTitle = 'test';
 var bannerDes = 'test';
 var _scale = 0.0;
+int countInt = 0;
+String countText = '0';
+List<String> countTextt = ['0', '0'];
 List<Widget> pages = [
   Container(
     color: Colors.black,
@@ -360,29 +365,40 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, top: 3, left: 5),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Image.asset(
-                                          'drawable/chips_bag.png',
-                                          height: 20,
-                                          width: 20,
+                                InkWell(
+                                  onTap: () {
+                                    // MyCreditsScreen
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              MyCreditsScreen()),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, top: 3, left: 5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Image.asset(
+                                            'drawable/chips_bag.png',
+                                            height: 20,
+                                            width: 20,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'My Credits',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: GlobalVariable.blue_main,
-                                            fontFamily:
-                                                GlobalVariable.GothamMedium),
-                                      )
-                                    ],
+                                        Text(
+                                          'My Credits',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: GlobalVariable.blue_main,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -1233,6 +1249,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SizedBox(
               height: 225,
               child: Carousel(
+                onImageTap: (i) {
+                  print('' + i.toString());
+                  sendToScreen(i);
+                },
                 images: dataBanners.length == 0
                     ? [
                         // Image.asset('drawable/bnner1.png'),
@@ -1254,9 +1274,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         );
                       }).toList(),
-                onImageTap: (i) {
-                  print('' + i.toString());
-                }
 
                 // dataBanners.map((e) {
                 //   return Builder(
@@ -1294,7 +1311,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 //   //       builder: (context) => BannersScreen()),
                 //   // );
                 // },
-                ,
+
                 showIndicator: true,
                 borderRadius: false,
                 dotSize: 3.0,
@@ -1923,17 +1940,66 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: Center(
-                    child: Countup(
-                  begin: 0,
-                  end: 7500,
-                  duration: Duration(seconds: 5),
-                  // separator: ' ',
-                  style: TextStyle(
-                      fontSize: 36,
-                      fontFamily: GlobalVariable.GothamMedium,
-                      color: GlobalVariable.white,
-                      backgroundColor: GlobalVariable.blue_main),
+                    child: Container(
+                  height: 30,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: countTextt.length,
+                      itemBuilder: (context, pos) {
+                        return Container(
+                          margin: EdgeInsets.only(left: 3),
+                          padding: EdgeInsets.only(
+                              left: 5, top: 2, bottom: 2, right: 5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: GlobalVariable.blue_main),
+                          child: Center(
+                            child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 3, top: 2, bottom: 2, right: 3),
+                                child:
+                                // AnimatedFlipCounter(
+                                //   duration: Duration(seconds: 2),
+                                //   value: int.parse(countTextt[pos]),
+                                //   /* pass in a number like 2014 */
+                                //   color: GlobalVariable.white,
+                                //   size: 18,
+                                // )
+                                // Countup(
+                                //   begin: 0,
+                                //   end: pos.ceilToDouble(),
+                                //   duration: Duration(seconds: 2),
+                                //   // separator: ' ',
+                                //   style: TextStyle(
+                                //       fontSize: 18,
+                                //       fontFamily: GlobalVariable.GothamMedium,
+                                //       color: GlobalVariable.white,
+                                //       backgroundColor: GlobalVariable.blue_main),
+                                // ),
+                                Text(
+                                  ''+countTextt[pos],
+                                  style: TextStyle(
+                                      color: GlobalVariable.white,
+                                      fontSize: 18,
+                                      fontFamily: GlobalVariable.Gotham),
+                                ),
+                                ),
+                          ),
+                        );
+                      }),
                 )
+                    // Countup(
+                    //   begin: 0,
+                    //   end: 7500,
+                    //   duration: Duration(seconds: 5),
+                    //   // separator: ' ',
+                    //   style: TextStyle(
+                    //       fontSize: 30,
+                    //       fontFamily: GlobalVariable.GothamMedium,
+                    //       color: GlobalVariable.white,
+                    //       backgroundColor: GlobalVariable.blue_main),
+                    // ),
                     // Text('00001234')
                     ),
               )
@@ -1949,6 +2015,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 125,
       child: Stack(
         children: [
+
           Image.asset(
             'drawable/winner_back.png',
             fit: BoxFit.fill,
@@ -2189,7 +2256,10 @@ class _HomeScreenState extends State<HomeScreen> {
       String json = response.body;
       Map<String, dynamic> map = jsonDecode(json);
       print('getHome->' + data.toString());
+      //countInt
       setState(() {
+
+        print('countTextt' + countTextt.length.toString());
         for (Map i in map['banners']) {
           dataBanners.add(DataBanners.fromJson(i));
           // _imageUrls.add(map[dataBanners][i.length]["image"]);
@@ -2200,8 +2270,15 @@ class _HomeScreenState extends State<HomeScreen> {
         for (Map i in map['toppers']) {
           dataToppers.add(DataToppers.fromJson(i));
         }
-      });
+        countText = map['installations'].toString();
+        countInt = countText.length;
+        var j = countText.split("");
+        print(j);
 
+        // for (int i = 0; i <= j.length; i++) {
+        //   countTextt.add(j[i]);
+        // }
+      });
     } else {
       await pr.hide();
 
@@ -2238,5 +2315,13 @@ class _HomeScreenState extends State<HomeScreen> {
       new MaterialPageRoute(builder: (context) => MyApp()),
     );
     // Navigator.pop(context);
+  }
+
+  void sendToScreen(int pos) {
+    // Navigator.push(
+    //   context,
+    //   new MaterialPageRoute(
+    //       builder: (context) => BannersScreen(id: dataBanners[i].id)),
+    // );
   }
 }

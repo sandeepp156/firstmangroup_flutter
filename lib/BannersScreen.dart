@@ -1,5 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:firstmangroup_flutter/DataNewProperty.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:http/http.dart' as http;
 import 'customcolor.dart';
 
 void main() {
@@ -7,16 +13,19 @@ void main() {
 }
 
 class BannersScreen extends StatefulWidget {
-  final String id;
-  BannersScreen({this.id});
+  // final String id;
+  // BannersScreen({this.id});
   @override
   _BannersScreenState createState() => _BannersScreenState();
 }
 
+final List<DataNewProperty> dataNewProp = new List<DataNewProperty>();
+
 class _BannersScreenState extends State<BannersScreen>
     with SingleTickerProviderStateMixin {
-  final String id;
-  _BannersScreenState({this.id});
+  //https://firstmangroup.in/api/properties_new.php?property_id=102&member=4
+  // final String id;
+  // _BannersScreenState({this.id});
   int tab = 0;
   int _amenities = 0;
   List<String> propertyOptionList = [
@@ -299,7 +308,7 @@ class _BannersScreenState extends State<BannersScreen>
                                       ? GlobalVariable.blue_main
                                       : GlobalVariable.white,
                                   child: Text(
-                                    'Property Options',
+                                    'Near By',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: tab == 2
@@ -321,9 +330,9 @@ class _BannersScreenState extends State<BannersScreen>
                       ],
                     ),
                   ),
-                  Container(
-                    child: amenities(),
-                  ),
+                  // Container(
+                  //   child: amenities(),
+                  // ),
 
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
@@ -412,7 +421,9 @@ class _BannersScreenState extends State<BannersScreen>
                     height: 50,
                   )
 
-                  // Flexible(
+
+
+                 // // Flexible(
                   //   // height: 150,
                   //   child: PageView(
                   //     children: [
@@ -1016,5 +1027,53 @@ class _BannersScreenState extends State<BannersScreen>
         ),
       ],
     );
+  }
+
+  Future<void> getNewPropData() async {
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
+    await pr.show();
+
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/home.php?city=1&announce_id=0&offers_id=0");
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      Map<String, dynamic> map = jsonDecode(json);
+      print('getHome->' + data.toString());
+      //countInt
+      setState(() {
+        for (Map i in map['banners']) {
+          dataNewProp.add(DataNewProperty.fromJson(i));
+          // _imageUrls.add(map[dataBanners][i.length]["image"]);
+        }
+      });
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getHome->error');
+
+      throw Exception('Failed to load album');
+    }
   }
 }

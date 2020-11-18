@@ -1242,13 +1242,24 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           height: 225,
           child: Carousel(
+
             onImageTap: (i) {
-              print('' + i.toString());
+              // print('' + i.toString());
               sendToScreen(i);
+              // Navigator.push(
+              //   context,
+              //   new MaterialPageRoute(
+              //       builder: (context) => RealEstateScreen()),
+              // );
+              // Navigator.push(
+              //   context,
+              //   new MaterialPageRoute(
+              //       builder: (context) => BannersScreen(id: dataBanners[i].id)),
+              // );
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => BannersScreen(id: dataBanners[i].id)),
+                    builder: (context) => BannersScreen()),
               );
             },
             images: dataBanners.length == 0
@@ -1406,6 +1417,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             new MaterialPageRoute(
                                 builder: (context) => RealEstateScreen()),
                           );
+                          // Navigator.push(
+                          //   context,
+                          //   new MaterialPageRoute(
+                          //       builder: (context) => BannersScreen()),
+                          // );
                         },
                         child: Container(
                           decoration: BoxDecoration(boxShadow: [
@@ -2315,10 +2331,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void sendToScreen(int pos) {
     print(pos);
-    Navigator.push(
-      context,
-      new MaterialPageRoute(
-          builder: (context) => BannersScreen(id: dataBanners[pos].id)),
-    );
+    // Navigator.push(
+    //   context,
+    //   new MaterialPageRoute(
+    //       builder: (context) => BannersScreen(id: dataBanners[pos].id)),
+    // );
   }
 }

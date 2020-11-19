@@ -1245,7 +1245,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             onImageTap: (i) {
               // print('' + i.toString());
-              sendToScreen(i);
+              // sendToScreen(i);
               // Navigator.push(
               //   context,
               //   new MaterialPageRoute(
@@ -1259,7 +1259,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => BannersScreen()),
+                    builder: (context) => BannersScreen(id: dataBanners[i].id)),
               );
             },
             images: dataBanners.length == 0
@@ -1423,6 +1423,61 @@ class _HomeScreenState extends State<HomeScreen> {
                           //       builder: (context) => BannersScreen()),
                           // );
                         },
+                        child: DelayedDisplay(
+                          delay: Duration(milliseconds: 50),
+                          slidingBeginOffset: Offset(0.40, -0.40),
+                          child: Container(
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5.0,
+                              ),
+                            ]),
+                            margin: EdgeInsets.only(left: 10),
+                            height: 90,
+                            // width: 125,
+                            // color: Colors.green,
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    child: Image.asset(
+                                      'drawable/realestate_back.png',
+                                      height: 90,
+                                      fit: BoxFit.fill,
+                                    )),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 17),
+                                  child: Center(
+                                      child: Image.asset(
+                                    'drawable/searchhouse.png',
+                                    fit: BoxFit.fill,
+                                    height: 20,
+                                    // width: 25,
+                                    color: GlobalVariable.white,
+                                  )),
+                                ),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 30),
+                                    child: Text(
+                                      'Real Estate',
+                                      style: TextStyle(
+                                          fontFamily: GlobalVariable.Gotham,
+                                          color: GlobalVariable.white),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: DelayedDisplay(
+                        delay: Duration(milliseconds: 50),
+                        slidingBeginOffset: Offset(0.60, -0.60),
                         child: Container(
                           decoration: BoxDecoration(boxShadow: [
                             BoxShadow(
@@ -1439,17 +1494,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(5.0),
                                   child: Image.asset(
-                                    'drawable/realestate_back.png',
+                                    'drawable/loans.png',
                                     height: 90,
                                     fit: BoxFit.fill,
                                   )),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 17),
+                                padding: const EdgeInsets.only(bottom: 20),
                                 child: Center(
                                     child: Image.asset(
-                                  'drawable/searchhouse.png',
+                                  'drawable/loan_icon_act.png',
                                   fit: BoxFit.fill,
-                                  height: 20,
+                                  height: 35,
                                   // width: 25,
                                   color: GlobalVariable.white,
                                 )),
@@ -1458,7 +1513,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 30),
                                   child: Text(
-                                    'Real Estate',
+                                    'Loans',
                                     style: TextStyle(
                                         fontFamily: GlobalVariable.Gotham,
                                         color: GlobalVariable.white),
@@ -1471,150 +1526,59 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                          ),
-                        ]),
-                        margin: EdgeInsets.only(left: 10),
-                        height: 90,
-                        // width: 125,
-                        // color: Colors.green,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(5.0),
-                                child: Image.asset(
-                                  'drawable/loans.png',
-                                  height: 90,
-                                  fit: BoxFit.fill,
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: Center(
-                                  child: Image.asset(
-                                'drawable/loan_icon_act.png',
-                                fit: BoxFit.fill,
-                                height: 35,
-                                // width: 25,
-                                color: GlobalVariable.white,
-                              )),
+                      child: DelayedDisplay(
+                        delay: Duration(milliseconds: 50),
+                        slidingBeginOffset: Offset(0.90, -0.90),
+                        child: Container(
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5.0,
                             ),
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 30),
-                                child: Text(
-                                  'Loans',
-                                  style: TextStyle(
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.white),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                          ),
-                        ]),
-                        margin: EdgeInsets.only(left: 10),
-                        height: 90,
-                        // width: 125,
-                        // color: Colors.green,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(5.0),
-                                child: Image.asset(
-                                  'drawable/insurance_back.png',
-                                  height: 90,
-                                  fit: BoxFit.fill,
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: Center(
+                          ]),
+                          margin: EdgeInsets.only(left: 10),
+                          height: 90,
+                          // width: 125,
+                          // color: Colors.green,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
                                   child: Image.asset(
-                                'drawable/insure.png',
-                                fit: BoxFit.fill,
-                                height: 25,
-                                // width: 25,
-                                color: GlobalVariable.white,
-                              )),
-                            ),
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 30),
-                                child: Text(
-                                  'Insurance',
-                                  style: TextStyle(
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.white),
-                                ),
+                                    'drawable/insurance_back.png',
+                                    height: 90,
+                                    fit: BoxFit.fill,
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: Center(
+                                    child: Image.asset(
+                                  'drawable/insure.png',
+                                  fit: BoxFit.fill,
+                                  height: 25,
+                                  // width: 25,
+                                  color: GlobalVariable.white,
+                                )),
                               ),
-                            )
-                          ],
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 30),
+                                  child: Text(
+                                    'Insurance',
+                                    style: TextStyle(
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.white),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               )
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   scrollDirection: Axis.horizontal,
-              //   itemCount: 3,
-              //   itemBuilder: (BuildContext context, int pos) {
-              //     return Container(
-              //       decoration: BoxDecoration(boxShadow: [
-              //         BoxShadow(
-              //           color: Colors.grey,
-              //           blurRadius: 5.0,
-              //         ),
-              //       ]),
-              //       margin: EdgeInsets.only(left: 10),
-              //       height: 85,
-              //       width: 125,
-              //       // color: Colors.green,
-              //       child: Stack(
-              //         children: [
-              //           ClipRRect(
-              //               borderRadius: BorderRadius.circular(5.0),
-              //               child: Image.asset(
-              //                 'drawable/realestate_back.png',
-              //                 height: 100,
-              //                 fit: BoxFit.fill,
-              //               )),
-              //           Column(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             crossAxisAlignment: CrossAxisAlignment.center,
-              //             children: [
-              //               Center(
-              //                   child: Image.asset(
-              //                 'drawable/searchhouse.png',
-              //                 height: 20,
-              //                 color: GlobalVariable.white,
-              //               )),
-              //               Text(
-              //                 'Real Estate',
-              //                 style: TextStyle(
-              //                     fontFamily: GlobalVariable.Gotham,
-              //                     color: GlobalVariable.white),
-              //               )
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //     );
-              //   },
-              // ),
               ),
         ],
       ),
@@ -1654,24 +1618,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => MyFmNwScreen()),
                       );
                     },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'drawable/fmnet.png',
-                          height: 45,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 3),
-                          child: Text(
-                            'My FM\'s Network',
-                            style: TextStyle(
-                                color: GlobalVariable.blue_main,
-                                fontSize: 10,
-                                fontFamily: GlobalVariable.Gotham),
+                    child: DelayedDisplay(
+                      delay: Duration(milliseconds: 250),
+                      slidingBeginOffset: Offset(0.35, -0.35),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'drawable/fmnet.png',
+                            height: 45,
                           ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 3),
+                            child: Text(
+                              'My FM\'s Network',
+                              style: TextStyle(
+                                  color: GlobalVariable.blue_main,
+                                  fontSize: 10,
+                                  fontFamily: GlobalVariable.Gotham),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -1684,24 +1652,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => TrackLeadsScreen()),
                       );
                     },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'drawable/tracklead.png',
-                          height: 45,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 3),
-                          child: Text(
-                            'Track Lead',
-                            style: TextStyle(
-                                color: GlobalVariable.blue_main,
-                                fontSize: 10,
-                                fontFamily: GlobalVariable.Gotham),
+                    child: DelayedDisplay(
+                      delay: Duration(milliseconds: 250),
+                      slidingBeginOffset: Offset(0.60, -0.60),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'drawable/tracklead.png',
+                            height: 45,
                           ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 3),
+                            child: Text(
+                              'Track Lead',
+                              style: TextStyle(
+                                  color: GlobalVariable.blue_main,
+                                  fontSize: 10,
+                                  fontFamily: GlobalVariable.Gotham),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -1714,24 +1686,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => MyAssistantScreen()),
                       );
                     },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'drawable/contactrm.png',
-                          height: 45,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 3),
-                          child: Text(
-                            'My Assistant (RM)',
-                            style: TextStyle(
-                                color: GlobalVariable.blue_main,
-                                fontSize: 10,
-                                fontFamily: GlobalVariable.Gotham),
+                    child: DelayedDisplay(
+                      delay: Duration(milliseconds: 250),
+                      slidingBeginOffset: Offset(0.90, -0.90),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'drawable/contactrm.png',
+                            height: 45,
                           ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 3),
+                            child: Text(
+                              'My Assistant (RM)',
+                              style: TextStyle(
+                                  color: GlobalVariable.blue_main,
+                                  fontSize: 10,
+                                  fontFamily: GlobalVariable.Gotham),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -1744,24 +1720,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => InviteFMScreen()),
                       );
                     },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'drawable/invfm.png',
-                          height: 45,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 3),
-                          child: Text(
-                            'Invite FM',
-                            style: TextStyle(
-                                color: GlobalVariable.blue_main,
-                                fontSize: 10,
-                                fontFamily: GlobalVariable.Gotham),
+                    child: DelayedDisplay(
+                      delay: Duration(milliseconds: 250),
+                      slidingBeginOffset: Offset(0.90, -0.90),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'drawable/invfm.png',
+                            height: 45,
                           ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 3),
+                            child: Text(
+                              'Invite FM',
+                              style: TextStyle(
+                                  color: GlobalVariable.blue_main,
+                                  fontSize: 10,
+                                  fontFamily: GlobalVariable.Gotham),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

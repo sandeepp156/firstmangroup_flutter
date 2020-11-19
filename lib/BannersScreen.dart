@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:firstmangroup_flutter/DataNewProperty.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,10 @@ void main() {
 }
 
 class BannersScreen extends StatefulWidget {
-  // final String id;
-  // BannersScreen({this.id});
+  final String id;
+
+  BannersScreen({this.id});
+
   @override
   _BannersScreenState createState() => _BannersScreenState();
 }
@@ -24,8 +27,10 @@ final List<DataNewProperty> dataNewProp = new List<DataNewProperty>();
 class _BannersScreenState extends State<BannersScreen>
     with SingleTickerProviderStateMixin {
   //https://firstmangroup.in/api/properties_new.php?property_id=102&member=4
-  // final String id;
-  // _BannersScreenState({this.id});
+  final String id;
+
+  _BannersScreenState({this.id});
+
   int tab = 0;
   int _amenities = 0;
   List<String> propertyOptionList = [
@@ -52,6 +57,7 @@ class _BannersScreenState extends State<BannersScreen>
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 3);
+    getNewPropData();
   }
 
   @override
@@ -67,383 +73,522 @@ class _BannersScreenState extends State<BannersScreen>
         child: Container(
           child: Stack(
             children: [
-              ListView(
-                children: [
-                  SizedBox(
-                    height: 175,
-                    width: double.infinity,
-                    child: Stack(
-                      children: [
-                        Image.asset(
-                          'drawable/bnner1.png',
-                          fit: BoxFit.fill,
-                          height: 175,
-                          width: double.infinity,
+              NestedScrollView(
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverAppBar(
+                      backgroundColor: Colors.transparent,
+                      expandedHeight: 180,
+                      pinned: false,
+                      flexibleSpace:
+                      SizedBox(
+                        height: 175,
+                        width: double.infinity,
+                        child: Stack(
+                          children: [
+                            Carousel(
+                              images: [
+                                Image.network(
+                                  dataNewProp[0].image1,
+                                  fit: BoxFit.fill,
+                                ),
+                                Image.network(
+                                  dataNewProp[0].image2,
+                                  fit: BoxFit.fill,
+                                ),
+                                Image.network(
+                                  dataNewProp[0].image3,
+                                  fit: BoxFit.fill,
+                                ),
+                                Image.network(
+                                  dataNewProp[0].image4,
+                                  fit: BoxFit.fill,
+                                ),
+                              ],
+                              showIndicator: true,
+                              borderRadius: false,
+                              dotSize: 3.0,
+                              dotSpacing: 5.0,
+                              autoplay: false,
+                              dotIncreasedColor: GlobalVariable.white,
+                              dotColor: GlobalVariable.grey_main,
+                              // indicatorBgPadding: 5.0,
+                              dotBgColor: Colors.transparent,
+
+                              // moveIndicatorFromBottom: 180.0,
+                              noRadiusForIndicator: true,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10,top: 10),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RotatedBox(
+                                      quarterTurns: 90,
+                                      child: Image.asset(
+                                        'assets/right.png',
+                                        color: GlobalVariable.white,
+                                        scale: 3.5,
+                                      ),
+                                    ),
+                                    Container(
+                                        color: GlobalVariable.white,
+                                        padding: EdgeInsets.all(5),
+                                        child: RichText(
+                                          text: TextSpan(children: <TextSpan>[
+                                            TextSpan(
+                                                text: 'Payouts : ',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                    GlobalVariable.GothamMedium,
+                                                    fontSize: 12,
+                                                    color:
+                                                    GlobalVariable.blue_main)),
+                                            TextSpan(
+                                                text: 'Request on Call',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                    GlobalVariable.GothamMedium,
+                                                    fontSize: 12,
+                                                    color:
+                                                    GlobalVariable.blue_main))
+                                          ]),
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      ),
+                      // Carousel(
+                      //   images: [
+                      //     Image.network(
+                      //       dataNewProp[0].image1,
+                      //       fit: BoxFit.fill,
+                      //     ),
+                      //     Image.network(
+                      //       dataNewProp[0].image2,
+                      //       fit: BoxFit.fill,
+                      //     ),
+                      //     Image.network(
+                      //       dataNewProp[0].image3,
+                      //       fit: BoxFit.fill,
+                      //     ),
+                      //     Image.network(
+                      //       dataNewProp[0].image4,
+                      //       fit: BoxFit.fill,
+                      //     ),
+                      //   ],
+                      //   showIndicator: true,
+                      //   borderRadius: false,
+                      //   dotSize: 3.0,
+                      //   dotSpacing: 5.0,
+                      //   autoplay: false,
+                      //   dotIncreasedColor: GlobalVariable.white,
+                      //   dotColor: GlobalVariable.grey_main,
+                      //   // indicatorBgPadding: 5.0,
+                      //   dotBgColor: Colors.transparent,
+                      //
+                      //   // moveIndicatorFromBottom: 180.0,
+                      //   noRadiusForIndicator: true,
+                      // ),
+                    )
+                  ];
+                },
+                body: ListView(
+                  children: [
+                    Visibility(
+                      visible: false,
+                      child: SizedBox(
+                        height: 175,
+                        width: double.infinity,
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'drawable/bnner1.png',
+                              fit: BoxFit.fill,
+                              height: 175,
+                              width: double.infinity,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RotatedBox(
+                                      quarterTurns: 90,
+                                      child: Image.asset(
+                                        'assets/right.png',
+                                        color: GlobalVariable.white,
+                                        scale: 3.5,
+                                      ),
+                                    ),
+                                    Container(
+                                        color: GlobalVariable.white,
+                                        padding: EdgeInsets.all(5),
+                                        child: RichText(
+                                          text: TextSpan(children: <TextSpan>[
+                                            TextSpan(
+                                                text: 'Payouts : ',
+                                                style: TextStyle(
+                                                    fontFamily: GlobalVariable
+                                                        .GothamMedium,
+                                                    fontSize: 12,
+                                                    color: GlobalVariable
+                                                        .blue_main)),
+                                            TextSpan(
+                                                text: 'Request on Call',
+                                                style: TextStyle(
+                                                    fontFamily: GlobalVariable
+                                                        .GothamMedium,
+                                                    fontSize: 12,
+                                                    color: GlobalVariable
+                                                        .blue_main))
+                                          ]),
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        dataNewProp.length == 0 ? '' : dataNewProp[0].title,
+                        style: TextStyle(
+                            color: GlobalVariable.blue_main,
+                            fontFamily: GlobalVariable.GothamMedium,
+                            fontSize: 14),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, bottom: 5),
+                      child: Text(
+                        dataNewProp.length == 0
+                            ? ''
+                            : dataNewProp[0].construction_company,
+                        style: TextStyle(
+                            color: GlobalVariable.yellow_main,
+                            fontFamily: GlobalVariable.GothamMedium,
+                            fontSize: 12),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Row(
                               children: [
-                                RotatedBox(
-                                  quarterTurns: 90,
-                                  child: Image.asset(
-                                    'assets/right.png',
-                                    color: GlobalVariable.white,
-                                    scale: 3.5,
+                                Image.asset(
+                                  'drawable/map_location.png',
+                                  width: 15,
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Vijayawada',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.blue_main),
                                   ),
                                 ),
-                                Container(
-                                    color: GlobalVariable.white,
-                                    padding: EdgeInsets.all(5),
-                                    child: RichText(
-                                      text: TextSpan(children: <TextSpan>[
-                                        TextSpan(
-                                            text: 'Payouts : ',
-                                            style: TextStyle(
-                                                fontFamily:
-                                                    GlobalVariable.GothamMedium,
-                                                fontSize: 12,
-                                                color:
-                                                    GlobalVariable.blue_main)),
-                                        TextSpan(
-                                            text: 'Request on Call',
-                                            style: TextStyle(
-                                                fontFamily:
-                                                    GlobalVariable.GothamMedium,
-                                                fontSize: 12,
-                                                color:
-                                                    GlobalVariable.blue_main))
-                                      ]),
-                                    ))
                               ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'Chandan Valley',
-                      style: TextStyle(
-                          color: GlobalVariable.blue_main,
-                          fontFamily: GlobalVariable.GothamMedium,
-                          fontSize: 14),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, bottom: 5),
-                    child: Text(
-                      'Sarvana\'s',
-                      style: TextStyle(
-                          color: GlobalVariable.yellow_main,
-                          fontFamily: GlobalVariable.GothamMedium,
-                          fontSize: 12),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'drawable/map_location.png',
-                                width: 15,
-                                height: 15,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  'Vijayawada',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.blue_main),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'drawable/map_location.png',
+                                  width: 15,
+                                  height: 15,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'drawable/map_location.png',
-                                width: 15,
-                                height: 15,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  'Vijayawada',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.blue_main),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, bottom: 10),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'drawable/map_location.png',
-                          width: 15,
-                          height: 15,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            'Vijayawada',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: GlobalVariable.Gotham,
-                                color: GlobalVariable.blue_main),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                    child: Column(
-                      children: [
-                        Container(
-                          color: GlobalVariable.grey_main_,
-                          height: 2,
-                        ),
-                        Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    tab = 0;
-                                  });
-                                },
-                                child: AnimatedContainer(
-                                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                                  color: tab == 0
-                                      ? GlobalVariable.blue_main
-                                      : GlobalVariable.white,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.easeOutSine,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
                                   child: Text(
-                                    'Property Options',
-                                    textAlign: TextAlign.center,
+                                    'Vijayawada',
                                     style: TextStyle(
-                                        fontFamily: GlobalVariable.GothamMedium,
-                                        color: tab == 0
-                                            ? GlobalVariable.white
-                                            : GlobalVariable.blue_main,
-                                        fontSize: 13),
+                                        fontSize: 12,
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.blue_main),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                            Container(
-                              color: GlobalVariable.grey_main_,
-                              width: 2,
-                              height: 35,
-                            ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    tab = 1;
-                                  });
-                                },
-                                child: AnimatedContainer(
-                                  curve: Curves.easeOutSine,
-                                  duration: Duration(milliseconds: 500),
-                                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                                  color: tab == 1
-                                      ? GlobalVariable.blue_main
-                                      : GlobalVariable.white,
-                                  child: Text(
-                                    'Amenities',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: tab == 1
-                                            ? GlobalVariable.white
-                                            : GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium,
-                                        fontSize: 13),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              color: GlobalVariable.grey_main_,
-                              width: 2,
-                              height: 35,
-                            ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    tab = 2;
-                                  });
-                                },
-                                child: AnimatedContainer(
-                                  curve: Curves.easeOutSine,
-                                  duration: Duration(milliseconds: 500),
-                                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                                  color: tab == 2
-                                      ? GlobalVariable.blue_main
-                                      : GlobalVariable.white,
-                                  child: Text(
-                                    'Near By',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: tab == 2
-                                            ? GlobalVariable.white
-                                            : GlobalVariable.blue_main,
-                                        fontFamily: GlobalVariable.GothamMedium,
-                                        fontSize: 13),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // Container(color: GlobalVariable.grey_main_,height: 2,),
-                          ],
-                        ),
-                        Container(
-                          color: GlobalVariable.grey_main_,
-                          height: 2,
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Container(
-                  //   child: amenities(),
-                  // ),
-
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    color: Colors.black,
-                    height: 200,
-                  ),
-                  Text(
-                    'Price Trends',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: GlobalVariable.blue_main,
-                        fontFamily: GlobalVariable.Gotham,
-                        fontSize: 17),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-
-                    // color: Colors.black,
-                    height: 225,
-                    child: Center(
-                      child: Text(
-                        'Graph',
-                        style: TextStyle(color: Colors.black),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  Container(
-                    height: 2,
-                    margin: EdgeInsets.only(bottom: 10),
-                    color: GlobalVariable.grey_main_,
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, bottom: 10),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'drawable/map_location.png',
+                            width: 15,
+                            height: 15,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              'Vijayawada',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: GlobalVariable.Gotham,
+                                  color: GlobalVariable.blue_main),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      child: Column(
+                        children: [
+                          Container(
+                            color: GlobalVariable.grey_main_,
+                            height: 2,
+                          ),
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      tab = 0;
+                                    });
+                                  },
+                                  child: AnimatedContainer(
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    color: tab == 0
+                                        ? GlobalVariable.blue_main
+                                        : GlobalVariable.white,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeOutSine,
+                                    child: Text(
+                                      'Property Options',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium,
+                                          color: tab == 0
+                                              ? GlobalVariable.white
+                                              : GlobalVariable.blue_main,
+                                          fontSize: 13),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                color: GlobalVariable.grey_main_,
+                                width: 2,
+                                height: 35,
+                              ),
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      tab = 1;
+                                    });
+                                  },
+                                  child: AnimatedContainer(
+                                    curve: Curves.easeOutSine,
+                                    duration: Duration(milliseconds: 500),
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    color: tab == 1
+                                        ? GlobalVariable.blue_main
+                                        : GlobalVariable.white,
+                                    child: Text(
+                                      'Amenities',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: tab == 1
+                                              ? GlobalVariable.white
+                                              : GlobalVariable.blue_main,
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium,
+                                          fontSize: 13),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                color: GlobalVariable.grey_main_,
+                                width: 2,
+                                height: 35,
+                              ),
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      tab = 2;
+                                    });
+                                  },
+                                  child: AnimatedContainer(
+                                    curve: Curves.easeOutSine,
+                                    duration: Duration(milliseconds: 500),
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    color: tab == 2
+                                        ? GlobalVariable.blue_main
+                                        : GlobalVariable.white,
+                                    child: Text(
+                                      'Near By',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: tab == 2
+                                              ? GlobalVariable.white
+                                              : GlobalVariable.blue_main,
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium,
+                                          fontSize: 13),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Container(color: GlobalVariable.grey_main_,height: 2,),
+                            ],
+                          ),
+                          Container(
+                            color: GlobalVariable.grey_main_,
+                            height: 2,
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Container(
+                    //   child: amenities(),
+                    // ),
+
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      color: Colors.black,
+                      height: 200,
+                    ),
+                    Text(
+                      'Price Trends',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: GlobalVariable.blue_main,
+                          fontFamily: GlobalVariable.Gotham,
+                          fontSize: 17),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+
+                      // color: Colors.black,
+                      height: 225,
+                      child: Center(
                         child: Text(
-                          'About',
+                          'Graph',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 2,
+                      margin: EdgeInsets.only(bottom: 10),
+                      color: GlobalVariable.grey_main_,
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 10),
+                          child: Text(
+                            'About',
+                            style: TextStyle(
+                                color: GlobalVariable.blue_main,
+                                fontSize: 16,
+                                fontFamily: GlobalVariable.GothamMedium),
+                          ),
+                        ),
+                        Text(
+                          'Chandan Valley',
                           style: TextStyle(
-                              color: GlobalVariable.blue_main,
+                              color: GlobalVariable.yellow_main,
                               fontSize: 16,
                               fontFamily: GlobalVariable.GothamMedium),
                         ),
-                      ),
-                      Text(
-                        'Chandan Valley',
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, top: 7),
+                      child: Text(
+                        'Description...',
                         style: TextStyle(
-                            color: GlobalVariable.yellow_main,
-                            fontSize: 16,
-                            fontFamily: GlobalVariable.GothamMedium),
+                            color: GlobalVariable.blue_main,
+                            fontSize: 14,
+                            fontFamily: GlobalVariable.Gotham),
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 7),
-                    child: Text(
-                      'Description...',
-                      style: TextStyle(
-                          color: GlobalVariable.blue_main,
-                          fontSize: 14,
-                          fontFamily: GlobalVariable.Gotham),
                     ),
-                  ),
-                  Container(
-                    height: 2,
-                    margin: EdgeInsets.only(bottom: 10, top: 10),
-                    color: GlobalVariable.grey_main_,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 225,
-                    child: Text(
-                      'ListView',
-                      style: TextStyle(color: Colors.black),
+                    Container(
+                      height: 2,
+                      margin: EdgeInsets.only(bottom: 10, top: 10),
+                      color: GlobalVariable.grey_main_,
                     ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    color: GlobalVariable.grey_main,
-                    height: 300,
-                    child: Text(
-                      'MapView',
-                      style: TextStyle(color: Colors.black),
+                    Container(
+                      alignment: Alignment.center,
+                      height: 225,
+                      child: Text(
+                        'ListView',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 50,
-                  )
+                    Container(
+                      alignment: Alignment.center,
+                      color: GlobalVariable.grey_main,
+                      height: 300,
+                      child: Text(
+                        'MapView',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                    )
 
-
-
-                 // // Flexible(
-                  //   // height: 150,
-                  //   child: PageView(
-                  //     children: [
-                  //       Container(
-                  //         height: 100,
-                  //         color: GlobalVariable.blue_main,
-                  //       ),
-                  //       Container(
-                  //         height: 150,
-                  //         color: GlobalVariable.yellow_main,
-                  //       ),
-                  //       Container(
-                  //         height: 75,
-                  //         color: GlobalVariable.light_blue,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
+                    // // Flexible(
+                    //   // height: 150,
+                    //   child: PageView(
+                    //     children: [
+                    //       Container(
+                    //         height: 100,
+                    //         color: GlobalVariable.blue_main,
+                    //       ),
+                    //       Container(
+                    //         height: 150,
+                    //         color: GlobalVariable.yellow_main,
+                    //       ),
+                    //       Container(
+                    //         height: 75,
+                    //         color: GlobalVariable.light_blue,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
+
               Align(alignment: Alignment.bottomCenter, child: bottomMenu()),
 
               // side menu
@@ -827,7 +972,8 @@ class _BannersScreenState extends State<BannersScreen>
                   });
                 },
                 child: AnimatedContainer(
-                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  padding:
+                      EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
                   // color: tab == 0
                   //     ? GlobalVariable.blue_main
 
@@ -860,7 +1006,8 @@ class _BannersScreenState extends State<BannersScreen>
                   });
                 },
                 child: AnimatedContainer(
-                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  padding:
+                      EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
                   // color: tab == 0
                   //     ? GlobalVariable.blue_main
 
@@ -893,7 +1040,8 @@ class _BannersScreenState extends State<BannersScreen>
                   });
                 },
                 child: AnimatedContainer(
-                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  padding:
+                      EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
                   // color: tab == 0
                   //     ? GlobalVariable.blue_main
 
@@ -926,7 +1074,8 @@ class _BannersScreenState extends State<BannersScreen>
                   });
                 },
                 child: AnimatedContainer(
-                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  padding:
+                      EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
                   // color: tab == 0
                   //     ? GlobalVariable.blue_main
 
@@ -957,17 +1106,21 @@ class _BannersScreenState extends State<BannersScreen>
             ],
           ),
           ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-              itemBuilder: (context,pos){
-            return Container(
-              child: Row(
-                children: [
-                  Image.asset('drawable/meals.png',height: 20,width: 20,)
-                ],
-              ),
-            );
-          })
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, pos) {
+                return Container(
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'drawable/meals.png',
+                        height: 20,
+                        width: 20,
+                      )
+                    ],
+                  ),
+                );
+              })
         ],
       ),
     );
@@ -1030,6 +1183,8 @@ class _BannersScreenState extends State<BannersScreen>
   }
 
   Future<void> getNewPropData() async {
+    print('id=' + widget.id);
+
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
@@ -1038,15 +1193,18 @@ class _BannersScreenState extends State<BannersScreen>
       progressWidget: Platform.isIOS
           ? CupertinoActivityIndicator()
           : Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: CircularProgressIndicator(),
-      ),
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
     );
     await pr.show();
 
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
-        "/api/home.php?city=1&announce_id=0&offers_id=0");
+        "/api/properties.php?property_id=" +
+        widget.id +
+        "&member_id=" +
+        GlobalVariable.member_id);
 
     if (response.statusCode == 200) {
       await pr.hide();
@@ -1057,11 +1215,11 @@ class _BannersScreenState extends State<BannersScreen>
       final data = jsonDecode(response.body);
       int statusCode = response.statusCode;
       String json = response.body;
-      Map<String, dynamic> map = jsonDecode(json);
-      print('getHome->' + data.toString());
+      // Map<String, dynamic> map = jsonDecode(json);
+      print('getNewPropData->' + data.toString() + 'id=' + widget.id);
       //countInt
       setState(() {
-        for (Map i in map['banners']) {
+        for (Map i in jsonDecode(json)) {
           dataNewProp.add(DataNewProperty.fromJson(i));
           // _imageUrls.add(map[dataBanners][i.length]["image"]);
         }
@@ -1071,7 +1229,7 @@ class _BannersScreenState extends State<BannersScreen>
 
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      print('getHome->error');
+      print('getNewPropData->error');
 
       throw Exception('Failed to load album');
     }

@@ -112,10 +112,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     saveDetails();
     // getHome();
     getHomeData_();
+    super.initState();
+
   }
 
   @override
@@ -1242,26 +1243,6 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           height: 225,
           child: Carousel(
-
-            onImageTap: (i) {
-              // print('' + i.toString());
-              // sendToScreen(i);
-              // Navigator.push(
-              //   context,
-              //   new MaterialPageRoute(
-              //       builder: (context) => RealEstateScreen()),
-              // );
-              // Navigator.push(
-              //   context,
-              //   new MaterialPageRoute(
-              //       builder: (context) => BannersScreen(id: dataBanners[i].id)),
-              // );
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => BannersScreen(id: dataBanners[i].id)),
-              );
-            },
             images: dataBanners.length == 0
                 ? [
                     // Image.asset('drawable/bnner1.png'),
@@ -1283,7 +1264,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     );
                   }).toList(),
+            onImageTap: (i) {
+              print('' + i.toString());
 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => BannersScreen(id: dataBanners[i].id)),
+              );
+            },
             // dataBanners.map((e) {
             //   return Builder(
             //     builder: (BuildContext context) {
@@ -1578,8 +1567,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-              )
-              ),
+              )),
         ],
       ),
     );
@@ -2251,7 +2239,7 @@ class _HomeScreenState extends State<HomeScreen> {
       print('getHome->' + data.toString());
       //countInt
       setState(() {
-        print('countTextt' + countTextt.length.toString());
+        // print('countTextt' + countTextt.length.toString());
         for (Map i in map['banners']) {
           dataBanners.add(DataBanners.fromJson(i));
           // _imageUrls.add(map[dataBanners][i.length]["image"]);

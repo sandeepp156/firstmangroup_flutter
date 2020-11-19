@@ -219,6 +219,12 @@ flutter:
     - drawable/offers_new.png
     - drawable/propery_type_facing.png
     - drawable/price_white.png
+    - drawable/price.png
+    - drawable/floors.png
+    - drawable/floorsbuilding.png
+    - drawable/mid_stage.png
+    - drawable/possession.png
+    - drawable/unitsleft.png
     - drawable/plan.png
     - drawable/insurance_back.png
     - drawable/parking.png

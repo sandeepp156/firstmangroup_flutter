@@ -22,7 +22,7 @@ final List<DataDebits> dataDebits = new List<DataDebits>();
 String expCredits = '';
 String totalCredits = '';
 var translistCount = 5;
-bool popupList=false,transLog=true;
+bool popupList = false, transLog = true;
 
 class _MyCreditsScreenState extends State<MyCreditsScreen> {
   @override
@@ -158,12 +158,11 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                           Column(
                             children: [
                               InkWell(
-                                onTap: (){
+                                onTap: () {
                                   setState(() {
                                     popupList = true;
                                     transLog = true;
                                   });
-
                                 },
                                 child: Container(
                                   padding: EdgeInsets.only(
@@ -176,7 +175,8 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                         'Transaction Log',
                                         style: TextStyle(
                                             color: GlobalVariable.white,
-                                            fontFamily: GlobalVariable.GothamMedium,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium,
                                             fontSize: 20),
                                       ),
                                       Spacer(),
@@ -212,63 +212,75 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                                       child: Column(
                                                         children: [
                                                           Padding(
-                                                            padding: EdgeInsets.only(
-                                                                top: 10,
-                                                                bottom: 10,
-                                                                left: 10,
-                                                                right: 10),
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10,
+                                                                    bottom: 10,
+                                                                    left: 10,
+                                                                    right: 10),
                                                             child: Row(
                                                               children: [
                                                                 Stack(
                                                                   children: [
                                                                     Image.asset(
                                                                       'drawable/cal_imgg.png',
-                                                                      height: 40,
+                                                                      height:
+                                                                          40,
                                                                       width: 40,
                                                                     ),
                                                                     Padding(
-                                                                      padding: const EdgeInsets.only(top: 4,left: 5),
-                                                                      child: Text(
-                                                                        ''+dataCredits[pos].date,
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              4,
+                                                                          left:
+                                                                              5),
+                                                                      child:
+                                                                          Text(
+                                                                        '' +
+                                                                            dataCredits[pos].date,
                                                                         style: TextStyle(
-                                                                            color: GlobalVariable
-                                                                                .white,
-                                                                            fontFamily:
-                                                                            GlobalVariable
-                                                                                .GothamMedium,
-                                                                            fontSize:
-                                                                            8),
+                                                                            color:
+                                                                                GlobalVariable.white,
+                                                                            fontFamily: GlobalVariable.GothamMedium,
+                                                                            fontSize: 8),
                                                                       ),
                                                                     ),
                                                                     Padding(
-                                                                      padding: const EdgeInsets.only(top: 18,left: 11),
-                                                                      child: Text(
-                                                                        ''+dataCredits[pos].day,
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              18,
+                                                                          left:
+                                                                              11),
+                                                                      child:
+                                                                          Text(
+                                                                        '' +
+                                                                            dataCredits[pos].day,
                                                                         style: TextStyle(
-                                                                            color: GlobalVariable
-                                                                                .yellow_main,
-                                                                            fontFamily:
-                                                                            GlobalVariable
-                                                                                .GothamMedium,
-                                                                            fontSize:
-                                                                            16),
+                                                                            color:
+                                                                                GlobalVariable.yellow_main,
+                                                                            fontFamily: GlobalVariable.GothamMedium,
+                                                                            fontSize: 16),
                                                                       ),
                                                                     ),
                                                                   ],
                                                                 ),
                                                                 Container(
-                                                                  margin:
-                                                                      EdgeInsets.only(
-                                                                          left: 10,
-                                                                          right: 7),
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10,
+                                                                          right:
+                                                                              7),
                                                                   width: 1,
-                                                                  color:
-                                                                      GlobalVariable
-                                                                          .blue_main,
+                                                                  color: GlobalVariable
+                                                                      .blue_main,
                                                                   height: 39,
                                                                 ),
                                                                 Expanded(
-                                                                    child: Container(
+                                                                    child:
+                                                                        Container(
                                                                   child: Column(
                                                                     crossAxisAlignment:
                                                                         CrossAxisAlignment
@@ -278,41 +290,28 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                                                       Text(
                                                                         'Credits Added',
                                                                         style: TextStyle(
-                                                                            color: GlobalVariable
-                                                                                .blue_main,
-                                                                            fontFamily:
-                                                                                GlobalVariable
-                                                                                    .GothamMedium,
-                                                                            fontSize:
-                                                                                14),
+                                                                            color:
+                                                                                GlobalVariable.blue_main,
+                                                                            fontFamily: GlobalVariable.GothamMedium,
+                                                                            fontSize: 14),
                                                                       ),
                                                                       Text(
                                                                         'Expire By : ' +
-                                                                            dataCredits[
-                                                                                    pos]
-                                                                                .expiry_date,
+                                                                            dataCredits[pos].expiry_date,
                                                                         style: TextStyle(
-                                                                            color: GlobalVariable
-                                                                                .blue_main,
-                                                                            fontFamily:
-                                                                                GlobalVariable
-                                                                                    .Gotham,
-                                                                            fontSize:
-                                                                                9),
+                                                                            color:
+                                                                                GlobalVariable.blue_main,
+                                                                            fontFamily: GlobalVariable.Gotham,
+                                                                            fontSize: 9),
                                                                       ),
                                                                       Text(
                                                                         '' +
-                                                                            dataCredits[
-                                                                                    pos]
-                                                                                .remarks,
+                                                                            dataCredits[pos].remarks,
                                                                         style: TextStyle(
-                                                                            color: GlobalVariable
-                                                                                .yellow_main_thick,
-                                                                            fontFamily:
-                                                                                GlobalVariable
-                                                                                    .Gotham,
-                                                                            fontSize:
-                                                                                11),
+                                                                            color:
+                                                                                GlobalVariable.yellow_main_thick,
+                                                                            fontFamily: GlobalVariable.Gotham,
+                                                                            fontSize: 11),
                                                                       ),
                                                                     ],
                                                                   ),
@@ -323,31 +322,21 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                                                             TextSpan>[
                                                                       TextSpan(
                                                                         text: '+' +
-                                                                            dataCredits[
-                                                                                    pos]
-                                                                                .points,
+                                                                            dataCredits[pos].points,
                                                                         style: TextStyle(
-                                                                            color: GlobalVariable
-                                                                                .primary,
-                                                                            fontFamily:
-                                                                                GlobalVariable
-                                                                                    .Gotham,
-                                                                            fontSize:
-                                                                                16),
+                                                                            color:
+                                                                                GlobalVariable.primary,
+                                                                            fontFamily: GlobalVariable.Gotham,
+                                                                            fontSize: 16),
                                                                       ),
                                                                       TextSpan(
                                                                         text: '\nBal : ' +
-                                                                            dataCredits[
-                                                                                    pos]
-                                                                                .balance,
+                                                                            dataCredits[pos].balance,
                                                                         style: TextStyle(
-                                                                            color: GlobalVariable
-                                                                                .grey_main_,
-                                                                            fontFamily:
-                                                                                GlobalVariable
-                                                                                    .GothamMedium,
-                                                                            fontSize:
-                                                                                9),
+                                                                            color:
+                                                                                GlobalVariable.grey_main_,
+                                                                            fontFamily: GlobalVariable.GothamMedium,
+                                                                            fontSize: 9),
                                                                       ),
                                                                     ])),
                                                               ],
@@ -355,19 +344,20 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                                           ),
                                                           Container(
                                                             height: 1,
-                                                            color: GlobalVariable
-                                                                .grey_main,
+                                                            color:
+                                                                GlobalVariable
+                                                                    .grey_main,
                                                           )
                                                         ],
                                                       ),
                                                     );
                                                   }),
                                               Padding(
-                                                padding: const EdgeInsets.only(top: 10),
+                                                padding: const EdgeInsets.only(
+                                                    top: 10),
                                                 child: InkWell(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     setState(() {
-
                                                       // translistCount = translistCount==5?dataCredits.length:5;
                                                     });
                                                   },
@@ -375,10 +365,12 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                                     'View more',
                                                     // 'View more',
                                                     style: TextStyle(
-                                                      color: GlobalVariable.blue_main,
-                                                      fontFamily: GlobalVariable.Gotham,
-                                                      decoration:
-                                                          TextDecoration.underline,
+                                                      color: GlobalVariable
+                                                          .blue_main,
+                                                      fontFamily:
+                                                          GlobalVariable.Gotham,
+                                                      decoration: TextDecoration
+                                                          .underline,
                                                     ),
                                                   ),
                                                 ),
@@ -393,12 +385,11 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                           Column(
                             children: [
                               InkWell(
-                                onTap: (){
+                                onTap: () {
                                   setState(() {
                                     popupList = true;
                                     transLog = false;
                                   });
-
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(top: 3),
@@ -412,7 +403,8 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                         'Debit History',
                                         style: TextStyle(
                                             color: GlobalVariable.white,
-                                            fontFamily: GlobalVariable.GothamMedium,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium,
                                             fontSize: 20),
                                       ),
                                       Spacer(),
@@ -433,194 +425,193 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                   child: dataDebits.length == 0
                                       ? Text('Please wait..')
                                       : Container(
-                                    padding: EdgeInsets.only(bottom: 20),
-                                    color: GlobalVariable.white,
-                                    child: Column(
-                                      children: [
-                                        ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: translistCount,
-                                            itemBuilder: (context, pos) {
-                                              return Container(
-                                                margin: EdgeInsets.only(
-                                                  bottom: 1,
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10,
-                                                          bottom: 10,
-                                                          left: 10,
-                                                          right: 10),
-                                                      child: Row(
+                                          padding: EdgeInsets.only(bottom: 20),
+                                          color: GlobalVariable.white,
+                                          child: Column(
+                                            children: [
+                                              ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: translistCount,
+                                                  itemBuilder: (context, pos) {
+                                                    return Container(
+                                                      margin: EdgeInsets.only(
+                                                        bottom: 1,
+                                                      ),
+                                                      child: Column(
                                                         children: [
-                                                          Stack(
-                                                            children: [
-                                                              Image.asset(
-                                                                'drawable/cal_imgg.png',
-                                                                height: 40,
-                                                                width: 40,
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top: 4,left: 5),
-                                                                child: Text(
-                                                                  ''+dataCredits[pos].date,
-                                                                  style: TextStyle(
-                                                                      color: GlobalVariable
-                                                                          .white,
-                                                                      fontFamily:
-                                                                      GlobalVariable
-                                                                          .GothamMedium,
-                                                                      fontSize:
-                                                                      8),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top: 18,left: 11),
-                                                                child: Text(
-                                                                  ''+dataCredits[pos].day,
-                                                                  style: TextStyle(
-                                                                      color: GlobalVariable
-                                                                          .yellow_main,
-                                                                      fontFamily:
-                                                                      GlobalVariable
-                                                                          .GothamMedium,
-                                                                      fontSize:
-                                                                      16),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Container(
-                                                            margin:
-                                                            EdgeInsets.only(
-                                                                left: 10,
-                                                                right: 7),
-                                                            width: 1,
-                                                            color:
-                                                            GlobalVariable
-                                                                .blue_main,
-                                                            height: 39,
-                                                          ),
-                                                          Expanded(
-                                                              child: Container(
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                                  // mainAxisAlignment: MainAxisAlignment.start,
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10,
+                                                                    bottom: 10,
+                                                                    left: 10,
+                                                                    right: 10),
+                                                            child: Row(
+                                                              children: [
+                                                                Stack(
                                                                   children: [
-                                                                    Text(
-                                                                      'Credits Added',
-                                                                      style: TextStyle(
-                                                                          color: GlobalVariable
-                                                                              .blue_main,
-                                                                          fontFamily:
-                                                                          GlobalVariable
-                                                                              .GothamMedium,
-                                                                          fontSize:
-                                                                          14),
+                                                                    Image.asset(
+                                                                      'drawable/cal_imgg.png',
+                                                                      height:
+                                                                          40,
+                                                                      width: 40,
                                                                     ),
-                                                                    Text(
-                                                                      'Expire By : ' +
-                                                                          dataCredits[
-                                                                          pos]
-                                                                              .expiry_date,
-                                                                      style: TextStyle(
-                                                                          color: GlobalVariable
-                                                                              .blue_main,
-                                                                          fontFamily:
-                                                                          GlobalVariable
-                                                                              .Gotham,
-                                                                          fontSize:
-                                                                          9),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              4,
+                                                                          left:
+                                                                              5),
+                                                                      child:
+                                                                          Text(
+                                                                        '' +
+                                                                            dataCredits[pos].date,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                GlobalVariable.white,
+                                                                            fontFamily: GlobalVariable.GothamMedium,
+                                                                            fontSize: 8),
+                                                                      ),
                                                                     ),
-                                                                    Text(
-                                                                      '' +
-                                                                          dataCredits[
-                                                                          pos]
-                                                                              .remarks,
-                                                                      style: TextStyle(
-                                                                          color: GlobalVariable
-                                                                              .yellow_main_thick,
-                                                                          fontFamily:
-                                                                          GlobalVariable
-                                                                              .Gotham,
-                                                                          fontSize:
-                                                                          11),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              18,
+                                                                          left:
+                                                                              11),
+                                                                      child:
+                                                                          Text(
+                                                                        '' +
+                                                                            dataCredits[pos].day,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                GlobalVariable.yellow_main,
+                                                                            fontFamily: GlobalVariable.GothamMedium,
+                                                                            fontSize: 16),
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 ),
-                                                              )),
-                                                          RichText(
-                                                              text: TextSpan(
-                                                                  children: <
-                                                                      TextSpan>[
-                                                                    TextSpan(
-                                                                      text: '+' +
-                                                                          dataCredits[
-                                                                          pos]
-                                                                              .points,
-                                                                      style: TextStyle(
-                                                                          color: GlobalVariable
-                                                                              .primary,
-                                                                          fontFamily:
-                                                                          GlobalVariable
-                                                                              .Gotham,
-                                                                          fontSize:
-                                                                          16),
-                                                                    ),
-                                                                    TextSpan(
-                                                                      text: '\nBal : ' +
-                                                                          dataCredits[
-                                                                          pos]
-                                                                              .balance,
-                                                                      style: TextStyle(
-                                                                          color: GlobalVariable
-                                                                              .grey_main_,
-                                                                          fontFamily:
-                                                                          GlobalVariable
-                                                                              .GothamMedium,
-                                                                          fontSize:
-                                                                          9),
-                                                                    ),
-                                                                  ])),
+                                                                Container(
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10,
+                                                                          right:
+                                                                              7),
+                                                                  width: 1,
+                                                                  color: GlobalVariable
+                                                                      .blue_main,
+                                                                  height: 39,
+                                                                ),
+                                                                Expanded(
+                                                                    child:
+                                                                        Container(
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        'Credits Added',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                GlobalVariable.blue_main,
+                                                                            fontFamily: GlobalVariable.GothamMedium,
+                                                                            fontSize: 14),
+                                                                      ),
+                                                                      Text(
+                                                                        'Expire By : ' +
+                                                                            dataCredits[pos].expiry_date,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                GlobalVariable.blue_main,
+                                                                            fontFamily: GlobalVariable.Gotham,
+                                                                            fontSize: 9),
+                                                                      ),
+                                                                      Text(
+                                                                        '' +
+                                                                            dataCredits[pos].remarks,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                GlobalVariable.yellow_main_thick,
+                                                                            fontFamily: GlobalVariable.Gotham,
+                                                                            fontSize: 11),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )),
+                                                                RichText(
+                                                                    text: TextSpan(
+                                                                        children: <
+                                                                            TextSpan>[
+                                                                      TextSpan(
+                                                                        text: '+' +
+                                                                            dataCredits[pos].points,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                GlobalVariable.primary,
+                                                                            fontFamily: GlobalVariable.Gotham,
+                                                                            fontSize: 16),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text: '\nBal : ' +
+                                                                            dataCredits[pos].balance,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                GlobalVariable.grey_main_,
+                                                                            fontFamily: GlobalVariable.GothamMedium,
+                                                                            fontSize: 9),
+                                                                      ),
+                                                                    ])),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            height: 1,
+                                                            color:
+                                                                GlobalVariable
+                                                                    .grey_main,
+                                                          )
                                                         ],
                                                       ),
-                                                    ),
-                                                    Container(
-                                                      height: 1,
+                                                    );
+                                                  }),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      translistCount =
+                                                          translistCount == 5
+                                                              ? dataCredits
+                                                                  .length
+                                                              : 5;
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    translistCount == 5
+                                                        ? 'View more'
+                                                        : 'Show less',
+                                                    // 'View more',
+                                                    style: TextStyle(
                                                       color: GlobalVariable
-                                                          .grey_main,
-                                                    )
-                                                  ],
+                                                          .blue_main,
+                                                      fontFamily:
+                                                          GlobalVariable.Gotham,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                    ),
+                                                  ),
                                                 ),
-                                              );
-                                            }),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 10),
-                                          child: InkWell(
-                                            onTap: (){
-                                              setState(() {
-                                                translistCount = translistCount==5?dataCredits.length:5;
-                                              });
-                                            },
-                                            child: Text(
-                                              translistCount==5?'View more':'Show less',
-                                              // 'View more',
-                                              style: TextStyle(
-                                                color: GlobalVariable.blue_main,
-                                                fontFamily: GlobalVariable.Gotham,
-                                                decoration:
-                                                TextDecoration.underline,
-                                              ),
-                                            ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                        ),
                                 ),
                               ),
                             ],
@@ -639,7 +630,8 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                       'Terms and Conditions',
                                       style: TextStyle(
                                           color: GlobalVariable.white,
-                                          fontFamily: GlobalVariable.GothamMedium,
+                                          fontFamily:
+                                              GlobalVariable.GothamMedium,
                                           fontSize: 20),
                                     ),
                                     Spacer(),
@@ -663,15 +655,14 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
             Visibility(
               visible: popupList,
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   setState(() {
                     popupList = false;
-
                   });
                 },
                 child: Container(
                   color: GlobalVariable.white,
-                  child:     Column(
+                  child: Column(
                     children: [
                       Container(
                         padding: EdgeInsets.only(
@@ -681,7 +672,7 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                         child: Row(
                           children: [
                             Text(
-                              transLog?'Transaction Log':'Debit History',
+                              transLog ? 'Transaction Log' : 'Debit History',
                               style: TextStyle(
                                   color: GlobalVariable.white,
                                   fontFamily: GlobalVariable.GothamMedium,
@@ -689,7 +680,7 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                             ),
                             Spacer(),
                             RotatedBox(
-                              quarterTurns:90,
+                              quarterTurns: 90,
                               child: Image.asset(
                                 'drawable/down_arr.png',
                                 height: 15,
@@ -702,7 +693,9 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                       Expanded(
                         child: ListView.builder(
                             // shrinkWrap: true,
-                            itemCount:  transLog?dataCredits.length:dataDebits.length,
+                            itemCount: transLog
+                                ? dataCredits.length
+                                : dataDebits.length,
                             itemBuilder: (context, pos) {
                               return Container(
                                 margin: EdgeInsets.only(
@@ -726,133 +719,132 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                                                 width: 40,
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.only(top: 4,left: 5),
+                                                padding: const EdgeInsets.only(
+                                                    top: 4, left: 5),
                                                 child: Text(
-                                                  transLog?dataCredits[pos].date:dataCredits[pos].date,
+                                                  transLog
+                                                      ? dataCredits[pos].date
+                                                      : dataCredits[pos].date,
                                                   // ''+dataCredits[pos].date,
                                                   style: TextStyle(
-                                                      color: GlobalVariable
-                                                          .white,
-                                                      fontFamily:
-                                                      GlobalVariable
+                                                      color:
+                                                          GlobalVariable.white,
+                                                      fontFamily: GlobalVariable
                                                           .GothamMedium,
-                                                      fontSize:
-                                                      8),
+                                                      fontSize: 8),
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.only(top: 18,left: 11),
+                                                padding: const EdgeInsets.only(
+                                                    top: 18, left: 11),
                                                 child: Text(
-                                                  transLog?dataCredits[pos].day:dataCredits[pos].day,
+                                                  transLog
+                                                      ? dataCredits[pos].day
+                                                      : dataCredits[pos].day,
                                                   // ''+dataCredits[pos].day,
                                                   style: TextStyle(
                                                       color: GlobalVariable
                                                           .yellow_main,
-                                                      fontFamily:
-                                                      GlobalVariable
+                                                      fontFamily: GlobalVariable
                                                           .GothamMedium,
-                                                      fontSize:
-                                                      16),
+                                                      fontSize: 16),
                                                 ),
                                               ),
                                             ],
                                           ),
                                           Container(
-                                            margin:
-                                            EdgeInsets.only(
-                                                left: 10,
-                                                right: 7),
+                                            margin: EdgeInsets.only(
+                                                left: 10, right: 7),
                                             width: 1,
-                                            color:
-                                            GlobalVariable
-                                                .blue_main,
+                                            color: GlobalVariable.blue_main,
                                             height: 39,
                                           ),
                                           Expanded(
                                               child: Container(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  // mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Credits Added',
-                                                      style: TextStyle(
-                                                          color: GlobalVariable
-                                                              .blue_main,
-                                                          fontFamily:
-                                                          GlobalVariable
-                                                              .GothamMedium,
-                                                          fontSize:
-                                                          14),
-                                                    ),
-                                                    Text(
-                                                     transLog?'Expire By : '+dataCredits[pos].expiry_date:'Expire By : '+dataCredits[pos].expiry_date,
-                                                          // dataCredits[pos].expiry_date,
-                                                      style: TextStyle(
-                                                          color: GlobalVariable
-                                                              .blue_main,
-                                                          fontFamily:
-                                                          GlobalVariable
-                                                              .Gotham,
-                                                          fontSize:
-                                                          9),
-                                                    ),
-                                                    Text(
-                                                          transLog?dataCredits[pos].remarks:dataCredits[pos].remarks,
-                                                          // dataCredits[pos].remarks,
-                                                      style: TextStyle(
-                                                          color: GlobalVariable
-                                                              .yellow_main_thick,
-                                                          fontFamily:
-                                                          GlobalVariable
-                                                              .Gotham,
-                                                          fontSize:
-                                                          11),
-                                                    ),
-                                                  ],
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              // mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Credits Added',
+                                                  style: TextStyle(
+                                                      color: GlobalVariable
+                                                          .blue_main,
+                                                      fontFamily: GlobalVariable
+                                                          .GothamMedium,
+                                                      fontSize: 14),
                                                 ),
-                                              )),
+                                                Text(
+                                                  transLog
+                                                      ? 'Expire By : ' +
+                                                          dataCredits[pos]
+                                                              .expiry_date
+                                                      : 'Expire By : ' +
+                                                          dataCredits[pos]
+                                                              .expiry_date,
+                                                  // dataCredits[pos].expiry_date,
+                                                  style: TextStyle(
+                                                      color: GlobalVariable
+                                                          .blue_main,
+                                                      fontFamily:
+                                                          GlobalVariable.Gotham,
+                                                      fontSize: 9),
+                                                ),
+                                                Text(
+                                                  transLog
+                                                      ? dataCredits[pos].remarks
+                                                      : dataCredits[pos]
+                                                          .remarks,
+                                                  // dataCredits[pos].remarks,
+                                                  style: TextStyle(
+                                                      color: GlobalVariable
+                                                          .yellow_main_thick,
+                                                      fontFamily:
+                                                          GlobalVariable.Gotham,
+                                                      fontSize: 11),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
                                           RichText(
-                                              text: TextSpan(
-                                                  children: <
-                                                      TextSpan>[
-                                                    TextSpan(
-                                                      text:
-                                                      transLog?'+'+dataCredits[pos].points:'+'+dataCredits[pos].points,
+                                              text:
+                                                  TextSpan(children: <TextSpan>[
+                                            TextSpan(
+                                              text: transLog
+                                                  ? '+' +
+                                                      dataCredits[pos].points
+                                                  : '+' +
+                                                      dataCredits[pos].points,
 
-                                                      // '+' + dataCredits[pos].points,
-                                                      style: TextStyle(
-                                                          color: GlobalVariable
-                                                              .primary,
-                                                          fontFamily:
-                                                          GlobalVariable
-                                                              .Gotham,
-                                                          fontSize:
-                                                          16),
-                                                    ),
-                                                    TextSpan(
-                                                      text:
-                                                      transLog?'\nBal : '+dataCredits[pos].points:'\nBal : '+dataCredits[pos].points,
-                                                      // '\nBal : ' + dataCredits[pos].balance,
-                                                      style: TextStyle(
-                                                          color: GlobalVariable
-                                                              .grey_main_,
-                                                          fontFamily:
-                                                          GlobalVariable
-                                                              .GothamMedium,
-                                                          fontSize:
-                                                          9),
-                                                    ),
-                                                  ])),
+                                              // '+' + dataCredits[pos].points,
+                                              style: TextStyle(
+                                                  color: GlobalVariable.primary,
+                                                  fontFamily:
+                                                      GlobalVariable.Gotham,
+                                                  fontSize: 16),
+                                            ),
+                                            TextSpan(
+                                              text: transLog
+                                                  ? '\nBal : ' +
+                                                      dataCredits[pos].points
+                                                  : '\nBal : ' +
+                                                      dataCredits[pos].points,
+                                              // '\nBal : ' + dataCredits[pos].balance,
+                                              style: TextStyle(
+                                                  color:
+                                                      GlobalVariable.grey_main_,
+                                                  fontFamily: GlobalVariable
+                                                      .GothamMedium,
+                                                  fontSize: 9),
+                                            ),
+                                          ])),
                                         ],
                                       ),
                                     ),
                                     Container(
                                       height: 1,
-                                      color: GlobalVariable
-                                          .grey_main,
+                                      color: GlobalVariable.grey_main,
                                     )
                                   ],
                                 ),
@@ -915,6 +907,7 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
       throw Exception('Failed to load album');
     }
   }
+
   Future<void> getMyDebitsData() async {
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
@@ -924,9 +917,9 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
       progressWidget: Platform.isIOS
           ? CupertinoActivityIndicator()
           : Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: CircularProgressIndicator(),
-      ),
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
     );
     await pr.show();
 
@@ -1005,6 +998,7 @@ class DataCredits {
     return data;
   }
 }
+
 class DataDebits {
   String balance;
   String date;
@@ -1017,13 +1011,13 @@ class DataDebits {
 
   DataDebits(
       {this.balance,
-        this.date,
-        this.day,
-        this.expiry_date,
-        this.points,
-        this.remarks,
-        this.title,
-        this.type});
+      this.date,
+      this.day,
+      this.expiry_date,
+      this.points,
+      this.remarks,
+      this.title,
+      this.type});
 
   factory DataDebits.fromJson(Map<String, dynamic> json) {
     return DataDebits(

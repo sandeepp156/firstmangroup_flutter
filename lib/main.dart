@@ -1,12 +1,16 @@
 
+import 'dart:convert';
 import 'dart:ui';
 import 'dart:async';
+import 'package:http/http.dart' as http;
 
 import 'package:firstmangroup_flutter/HomeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'DataMemberDetails.dart';
+import 'customcolor.dart';
 import 'initialpage.dart';
 
 void main() {
@@ -20,6 +24,8 @@ class MyApp extends StatefulWidget {
   _State createState() => _State();
 
 }
+// final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
+
 
 class _State extends State<MyApp> {
   @override
@@ -30,8 +36,9 @@ class _State extends State<MyApp> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     getUser(context);
+
+    super.initState();
 
   }
   @override
@@ -102,8 +109,8 @@ class _State extends State<MyApp> {
 
     }
     else if(prefs.getString('member_id')!='-1'){
-      Timer(Duration(seconds: 3),()=>
-          Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  HomeScreen()),));
+     getDetails();
+
 
     }
 
@@ -113,5 +120,35 @@ class _State extends State<MyApp> {
 
     }
   }
+
+  Future<void> getDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/members.php?member_id=" +
+        prefs.getString('member_id'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+
+      // Map<String, dynamic> map = jsonDecode(json);
+      print('getDetails->' + data.toString());
+
+      setState(() {
+        prefs.setString('memberJson', json);
+        // for (Map i in jsonDecode(json)) {
+        //   dataMemDe.add(DataMemberDetails.fromJson(i));
+        // }
+      });
+      Timer(Duration(seconds: 3),()=>
+          Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  HomeScreen()),));
+
+    } else {
+      print('getDetails->error');
+      throw Exception('Failed to load album');
+    }
+  }
+
 }
 

@@ -6,6 +6,9 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:countup/countup.dart';
+import 'package:firstmangroup_flutter/AccountDetScreen.dart';
+import 'package:firstmangroup_flutter/NotifyScreen.dart';
+import 'package:firstmangroup_flutter/PayoutsScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:delayed_display/delayed_display.dart';
@@ -116,7 +119,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // getHome();
     getHomeData_();
     super.initState();
-
   }
 
   @override
@@ -198,26 +200,37 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 5, bottom: 7, left: 5),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Image.asset(
-                                          'drawable/user_pro.png',
-                                          height: 20,
-                                          width: 20,
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        showId = false;
+                                      });
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return AccountDetScreen();
+                                      }));
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Image.asset(
+                                            'drawable/user_pro.png',
+                                            height: 20,
+                                            width: 20,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Profile',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: GlobalVariable.blue_main,
-                                            fontFamily:
-                                                GlobalVariable.GothamMedium),
-                                      )
-                                    ],
+                                        Text(
+                                          'Profile',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: GlobalVariable.blue_main,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -1029,21 +1042,29 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'drawable/commission.png',
-                height: 20,
-              ),
-              Text(
-                'Payouts',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: GlobalVariable.grey_main_,
-                    fontFamily: GlobalVariable.GothamMedium),
-              )
-            ],
+          InkWell(
+            onTap: (){
+              Navigator.push(
+                      context,
+                      new MaterialPageRoute(builder: (context) => PayoutsScreen()),
+                    );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'drawable/commission.png',
+                  height: 20,
+                ),
+                Text(
+                  'Payouts',
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: GlobalVariable.grey_main_,
+                      fontFamily: GlobalVariable.GothamMedium),
+                )
+              ],
+            ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -1799,24 +1820,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Align(
                         alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'drawable/notification_new.png',
-                              height: 45,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: Text(
-                                'Notifications',
-                                style: TextStyle(
-                                    color: GlobalVariable.blue_main,
-                                    fontSize: 10,
-                                    fontFamily: GlobalVariable.Gotham),
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => NotifyScreen(),
+                                ));
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'drawable/notification_new.png',
+                                height: 45,
                               ),
-                            )
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(top: 3),
+                                child: Text(
+                                  'Notifications',
+                                  style: TextStyle(
+                                      color: GlobalVariable.blue_main,
+                                      fontSize: 10,
+                                      fontFamily: GlobalVariable.Gotham),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       Align(

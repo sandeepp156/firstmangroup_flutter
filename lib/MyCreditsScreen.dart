@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'DataMemberDetails.dart';
 import 'customcolor.dart';
 
 void main() {
@@ -19,6 +21,8 @@ class MyCreditsScreen extends StatefulWidget {
 
 final List<DataCredits> dataCredits = new List<DataCredits>();
 final List<DataDebits> dataDebits = new List<DataDebits>();
+final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
+
 String expCredits = '';
 String totalCredits = '';
 var translistCount = 5;
@@ -28,9 +32,11 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    getMemberData();
     getMyCreditsData();
     getMyDebitsData();
+    super.initState();
+
   }
 
   @override
@@ -96,7 +102,7 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Anil Kumar',
+                            dataMemDe.length!=0?dataMemDe[0].fname+' '+dataMemDe[0].lname:'',
                             style: TextStyle(
                                 color: GlobalVariable.blue_main,
                                 fontFamily: GlobalVariable.GothamMedium,
@@ -105,7 +111,7 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 3),
                             child: Text(
-                              'Code',
+                              dataMemDe.length!=0?dataMemDe[0].code:'',
                               style: TextStyle(
                                   color: GlobalVariable.yellow_main,
                                   fontFamily: GlobalVariable.GothamMedium,
@@ -949,6 +955,18 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
       print('getMyDebits->error');
       throw Exception('Failed to load album');
     }
+  }
+
+  getMemberData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String json = prefs.get('memberJson');
+    // String decodedString = jsonDecode(json);
+    setState(() {
+      for (Map i in jsonDecode(json)) {
+        dataMemDe.add(DataMemberDetails.fromJson(i));
+      }
+    });
+    print(json);
   }
 }
 

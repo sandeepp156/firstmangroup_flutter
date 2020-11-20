@@ -192,7 +192,7 @@ class _BannersScreenState extends State<BannersScreen>
                           fontSize: 12),
                     ),
                   ),
-
+                  
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Row(
@@ -555,9 +555,8 @@ class _BannersScreenState extends State<BannersScreen>
                       ],
                     ),
                   ),
-                  // Container(
-                  //   child: amenities(),
-                  // ),
+                AnimatedSwitcher(
+                  duration: Duration(seconds: 1),child: propertyoptions(),),
 
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
@@ -1035,6 +1034,13 @@ class _BannersScreenState extends State<BannersScreen>
       ],
     );
   }
+  Widget propertyoptions_() {
+    return ListView(
+      children: [
+
+      ],
+    );
+  }
 
   Widget amenities() {
     return Container(
@@ -1184,22 +1190,22 @@ class _BannersScreenState extends State<BannersScreen>
               // Container(color: GlobalVariable.grey_main_,height: 2,),
             ],
           ),
-          ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, pos) {
-                return Container(
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'drawable/meals.png',
-                        height: 20,
-                        width: 20,
-                      )
-                    ],
-                  ),
-                );
-              })
+          // ListView.builder(
+          //     shrinkWrap: true,
+          //     scrollDirection: Axis.vertical,
+          //     itemBuilder: (context, pos) {
+          //       return Container(
+          //         child: Row(
+          //           children: [
+          //             Image.asset(
+          //               'drawable/meals.png',
+          //               height: 20,
+          //               width: 20,
+          //             )
+          //           ],
+          //         ),
+          //       );
+          //     })
         ],
       ),
     );

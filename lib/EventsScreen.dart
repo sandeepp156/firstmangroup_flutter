@@ -30,9 +30,9 @@ class _EventsScreenState extends State<EventsScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    getEventsData(context);
     super.initState();
     // getTrackLeadsData(context);
-    getEventsData(context);
   }
 
   @override

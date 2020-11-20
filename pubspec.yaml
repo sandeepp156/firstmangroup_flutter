@@ -246,6 +246,12 @@ flutter:
     - drawable/loan_icon_act.png
     - drawable/loan_req.png
     - drawable/help.png
+    - drawable/insurancecom.png
+    - drawable/houseblue.png
+    - drawable/tds.png
+    - drawable/faq_white.png
+    - drawable/my_list_act.png
+    - drawable/offers_white.png
 
   #   - images/a_dot_ham.jpeg
 

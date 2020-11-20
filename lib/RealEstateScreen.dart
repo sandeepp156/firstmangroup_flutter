@@ -1,12 +1,20 @@
 // import 'dart:html';
 
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:http/http.dart' as http;
 
 import 'BannersScreen.dart';
+import 'DataBanners.dart';
 import 'MyFmNw.dart';
 import 'initialpage.dart';
 
@@ -15,9 +23,15 @@ void main() {
 }
 
 class RealEstateScreen extends StatefulWidget {
+  final String typeId;
+
+  RealEstateScreen({this.typeId});
+
   @override
   _RealEstateScreenState createState() => _RealEstateScreenState();
 }
+
+final List<DataBanners> dataBanners = new List<DataBanners>();
 
 final controller = PageController(
   initialPage: 0,
@@ -41,6 +55,10 @@ List<Widget> pages = [
 ];
 
 class _RealEstateScreenState extends State<RealEstateScreen> {
+  final String typeId;
+
+  _RealEstateScreenState({this.typeId});
+
   // List<Widget> pages = [
   //  HomePage(),
   //   PayoutsPage(),
@@ -69,6 +87,14 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
   );
 
   @override
+  void initState() {
+    // TODO: implement initState
+    getData();
+    // showProg();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -82,7 +108,6 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                 ),
               ],
             ),
-
           ],
         ),
       ),
@@ -109,7 +134,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12,bottom: 10),
+            padding: const EdgeInsets.only(top: 12, bottom: 10),
             child: Text(
               'Real Estate',
               style: TextStyle(
@@ -132,13 +157,11 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     );
   }
 
-
   Widget ads() {
     return SizedBox(
       height: 130,
       child: Column(
         children: [
-
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Text(
@@ -159,35 +182,62 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-                itemBuilder: (context,pos){
-              return Container(
-                margin: EdgeInsets.only(left: 7),
-                width: 200,
-                color: GlobalVariable.light_blue,
-                child: Image.asset('drawable/bnner1.png',fit: BoxFit.fill,),
-              );
-            }),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, pos) {
+                  return Container(
+                    margin: EdgeInsets.only(left: 7),
+                    width: 200,
+                    color: GlobalVariable.light_blue,
+                    child: Image.asset(
+                      'drawable/bnner1.png',
+                      fit: BoxFit.fill,
+                    ),
+                  );
+                }),
           ),
         ],
-      )
-      ,
+      ),
     );
   }
 
   Widget HomePage() {
     return ListView(
       children: [
-        GestureDetector(
-          onTap: (){
-            // BannersScreen
-            Navigator.push(context, new MaterialPageRoute(builder: (context) =>  BannersScreen()),);
+        SizedBox(
+          height: 175,
+          child: Carousel(
+            images: dataBanners.length == 0
+                ? [
+                    // Image.asset('drawable/bnner1.png'),
+                    Text('Loading'),
+                  ]
+                : dataBanners.map((imgURL) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Image.network(
+                          imgURL.image,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    );
+                  }).toList(),
+            onImageTap: (i) {
+              print('' + i.toString());
 
-          },
-          child: Image.asset(
-            'drawable/bnner1.png',
-            fit: BoxFit.fill,
-            height: 175,
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => BannersScreen(id: dataBanners[i].id)),
+              );
+            },
+            showIndicator: true,
+            borderRadius: false,
+            dotSize: 3.0,
+            dotSpacing: 5.0,
+            dotIncreasedColor: GlobalVariable.white,
+            dotColor: GlobalVariable.grey_main,
+            dotBgColor: Colors.transparent,
+            noRadiusForIndicator: true,
           ),
         ),
         Container(
@@ -196,12 +246,8 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
           color: GlobalVariable.grey_main_,
         ),
         tradegallery(),
-
         gadgets(),
-
-
         ads(),
-
       ],
     );
   }
@@ -263,20 +309,25 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                                   height: 20,
                                   color: GlobalVariable.white,
                                 )),
-                                SizedBox(height: 3,),
-
+                                SizedBox(
+                                  height: 3,
+                                ),
                                 Text(
-                                  'Real Estate',
+                                  'FMG Properties',
                                   style: TextStyle(
                                       fontFamily: GlobalVariable.Gotham,
+                                      fontSize: 12,
                                       color: GlobalVariable.white),
                                 )
                               ],
                             ),
                             ClipRRect(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(5)),
-
-                                child: Image.asset('drawable/exclusae.png',width: 30,)),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(5)),
+                                child: Image.asset(
+                                  'drawable/exclusae.png',
+                                  width: 30,
+                                )),
                           ],
                         ),
                       ),
@@ -312,23 +363,34 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                                   height: 20,
                                   color: GlobalVariable.white,
                                 )),
-                                SizedBox(height: 3,),
+                                SizedBox(
+                                  height: 3,
+                                ),
                                 Text(
                                   'New Properties',
                                   style: TextStyle(
                                       fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.white,fontSize: 12),
+                                      color: GlobalVariable.white,
+                                      fontSize: 12),
                                 )
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 20,right: 10),
+                              padding:
+                                  const EdgeInsets.only(top: 20, right: 10),
                               child: Align(
-                                alignment: Alignment.topRight,
+                                  alignment: Alignment.topRight,
                                   child: Container(
-                                    color: GlobalVariable.red,
-                                      padding: EdgeInsets.only(top: 1,bottom: 1),
-                                      child: Text(' LATEST ',style: TextStyle(fontSize: 7,color: GlobalVariable.white,fontFamily: GlobalVariable.Gotham),))),
+                                      color: GlobalVariable.red,
+                                      padding:
+                                          EdgeInsets.only(top: 1, bottom: 1),
+                                      child: Text(
+                                        ' LATEST ',
+                                        style: TextStyle(
+                                            fontSize: 7,
+                                            color: GlobalVariable.white,
+                                            fontFamily: GlobalVariable.Gotham),
+                                      ))),
                             )
                           ],
                         ),
@@ -365,13 +427,15 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                                   height: 20,
                                   color: GlobalVariable.white,
                                 )),
-                                SizedBox(height: 3,),
-
+                                SizedBox(
+                                  height: 3,
+                                ),
                                 Text(
                                   'Resale Properties',
                                   style: TextStyle(
                                       fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.white,fontSize: 12),
+                                      color: GlobalVariable.white,
+                                      fontSize: 12),
                                 )
                               ],
                             ),
@@ -381,8 +445,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                     ),
                   ],
                 ),
-              )
-              ),
+              )),
         ],
       ),
     );
@@ -420,7 +483,6 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       onTap: () {
                         //MyFmNwScreen
                         // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
-
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -429,9 +491,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                             padding: EdgeInsets.all(7),
                             decoration: BoxDecoration(
                                 color: GlobalVariable.white,
-
-                                borderRadius: BorderRadius.circular(25)
-                            ),
+                                borderRadius: BorderRadius.circular(25)),
                             child: Image.asset(
                               'drawable/tracklead_new.png',
                               height: 30,
@@ -457,18 +517,16 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       onTap: () {
                         //MyFmNwScreen
                         // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
-
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            padding: EdgeInsets.only(top: 7,bottom: 7,left: 3,right: 3),
+                            padding: EdgeInsets.only(
+                                top: 7, bottom: 7, left: 3, right: 3),
                             decoration: BoxDecoration(
                                 color: GlobalVariable.white,
-
-                                borderRadius: BorderRadius.circular(25)
-                            ),
+                                borderRadius: BorderRadius.circular(25)),
                             child: Image.asset(
                               'drawable/cartype.png',
                               height: 30,
@@ -496,7 +554,6 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       onTap: () {
                         //MyFmNwScreen
                         // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
-
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -505,9 +562,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                             padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
                                 color: GlobalVariable.white,
-
-                                borderRadius: BorderRadius.circular(25)
-                            ),
+                                borderRadius: BorderRadius.circular(25)),
                             child: Image.asset(
                               'drawable/extra_add_listing.png',
                               height: 35,
@@ -533,7 +588,6 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       onTap: () {
                         //MyFmNwScreen
                         // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
-
                       },
                       child: Column(
                         // mainAxisAlignment: MainAxisAlignment.end,
@@ -543,9 +597,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                             padding: EdgeInsets.all(7),
                             decoration: BoxDecoration(
                                 color: GlobalVariable.white,
-
-                                borderRadius: BorderRadius.circular(25)
-                            ),
+                                borderRadius: BorderRadius.circular(25)),
                             child: Image.asset(
                               'drawable/extra_short_list.png',
                               height: 30,
@@ -571,7 +623,6 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       onTap: () {
                         //MyFmNwScreen
                         // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
-
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -581,9 +632,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                             padding: EdgeInsets.all(3),
                             decoration: BoxDecoration(
                                 color: GlobalVariable.white,
-
-                                borderRadius: BorderRadius.circular(25)
-                            ),
+                                borderRadius: BorderRadius.circular(25)),
                             child: Image.asset(
                               'drawable/partner.png',
                               height: 40,
@@ -607,8 +656,6 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       ),
                     ),
                   ),
-
-
                 ],
               ),
               SizedBox(
@@ -621,8 +668,6 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     );
   }
 
-
-
   Widget circleBar_(bool isActive) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
@@ -633,5 +678,70 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
           color: isActive ? GlobalVariable.yellow_main : Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10))),
     );
+  }
+
+  Future<void> getData() async {
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/banners.php?city_id=1&type="+widget.typeId);
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      // Map<String, dynamic> map = jsonDecode(json);
+      print('getData->' + data.toString());
+      setState(() {
+        for (Map i in jsonDecode(json)) {
+          dataBanners.add(DataBanners.fromJson(i));
+        }
+      });
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getData->error');
+
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<void> showProg() async {
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+    Future.delayed(Duration(seconds: 3)).whenComplete(() {
+      pr.hide();
+    });
   }
 }

@@ -1263,7 +1263,8 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         SizedBox(
           height: 225,
-          child: Carousel(
+          child:
+          Carousel(
             images: dataBanners.length == 0
                 ? [
                     // Image.asset('drawable/bnner1.png'),
@@ -1294,42 +1295,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context) => BannersScreen(id: dataBanners[i].id)),
               );
             },
-            // dataBanners.map((e) {
-            //   return Builder(
-            //     builder: (BuildContext context) {
-            //       return Image.network(
-            //         e.image,
-            //         fit: BoxFit.cover,
-            //       );
-            //       // Container(
-            //       //        color: Colors.lightGreen
-            //       //      );
-            //     },
-            //   );
-            // }).toList(),
-
-            // images: dataBanners.length == 0
-            //     ?NetworkImage('http://via.placeholder.com/350x150')
-            //     : dataBanners
-            //         .map((e) => NetworkImage(
-            //               e.image,
-            //               // fit: BoxFit.cover,
-            //             ))
-            //         .toList(),
-            // _imageUrls,
-            // [
-            //   NetworkImage('' + dataBanners[0].image),
-            //   NetworkImage('' + dataBanners[1].image),
-            //   // NetworkImage('http://via.placeholder.com/350x150'),
-            //   // ExactAssetImage("assets/images/LaunchImage.jpg")
-            // ],
-            // onImageTap: (pos) {
-            //   // Navigator.push(
-            //   //   context,
-            //   //   new MaterialPageRoute(
-            //   //       builder: (context) => BannersScreen()),
-            //   // );
-            // },
 
             showIndicator: true,
             borderRadius: false,
@@ -1337,27 +1302,10 @@ class _HomeScreenState extends State<HomeScreen> {
             dotSpacing: 5.0,
             dotIncreasedColor: GlobalVariable.white,
             dotColor: GlobalVariable.grey_main,
-            // indicatorBgPadding: 5.0,
             dotBgColor: Colors.transparent,
-
-            // moveIndicatorFromBottom: 180.0,
             noRadiusForIndicator: true,
-            // overlayShadow: true,
-            // overlayShadowColors: Colors.white,
-            // overlayShadowSize: 0.7,
           ),
 
-          // Swiper(
-          //   itemCount: 2,
-          //   autoplay: true,
-          //   itemBuilder: (context, pos) {
-          //     return new Image.network(
-          //       "http://via.placeholder.com/350x150",
-          //       fit: BoxFit.fill,
-          //     );
-          //   },
-          //   pagination: SwiperPagination.dots,
-          // ),
         ),
         Container(
           margin: EdgeInsets.only(bottom: 10),
@@ -1425,7 +1373,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => RealEstateScreen()),
+                                builder: (context) => RealEstateScreen(typeId:'1')),
                           );
                           // Navigator.push(
                           //   context,

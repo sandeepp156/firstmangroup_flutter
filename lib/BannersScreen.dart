@@ -1212,58 +1212,62 @@ class _BannersScreenState extends State<BannersScreen>
   }
 
   Widget bottomMenu() {
-    return Row(
-      children: [
-        Visibility(
-          visible: false,
-          child: Expanded(
+    return SizedBox(
+      height: 45,
+      child: Row(
+        children: [
+          Visibility(
+            // visible: true,
+            visible: false,
+            child: Expanded(
+              child: Container(
+                padding: EdgeInsets.only(top: 15, bottom: 15),
+                color: GlobalVariable.blue_main,
+                child: Text(
+                  'SUBMIT LEAD',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: GlobalVariable.GothamMedium,
+                      color: GlobalVariable.yellow_main,
+                      fontSize: 13),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
             child: Container(
-              padding: EdgeInsets.only(top: 7, bottom: 7),
-              color: GlobalVariable.blue_main,
+              padding: EdgeInsets.only(top: 15, bottom: 15),
+              color: GlobalVariable.yellow_main,
               child: Text(
-                'SUMBIT LEAD',
+                'CALL',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: GlobalVariable.GothamMedium,
-                    color: GlobalVariable.yellow_main,
+                    color: GlobalVariable.blue_main,
                     fontSize: 13),
               ),
             ),
           ),
-        ),
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-            color: GlobalVariable.yellow_main,
-            child: Text(
-              'CALL',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: GlobalVariable.GothamMedium,
-                  color: GlobalVariable.blue_main,
-                  fontSize: 13),
+          Expanded(
+            child: Image.asset(
+              'drawable/fff.png',
+              height: 45,
+              fit: BoxFit.cover,
+              // scale: 3,
             ),
+            //     Container(
+            //   padding: EdgeInsets.only(top: 10, bottom: 10),
+            //   color: GlobalVariable.light_green,
+            //   child: Text(
+            //     '',
+            //     textAlign: TextAlign.center,
+            //     style: TextStyle(
+            //         fontFamily: GlobalVariable.GothamMedium, fontSize: 13),
+            //   ),
+            // ),
           ),
-        ),
-        Expanded(
-          child: Image.asset(
-            'drawable/fff.png',
-            height: 30,
-            fit: BoxFit.fill,
-            // scale: 3,
-          ),
-          //     Container(
-          //   padding: EdgeInsets.only(top: 10, bottom: 10),
-          //   color: GlobalVariable.light_green,
-          //   child: Text(
-          //     '',
-          //     textAlign: TextAlign.center,
-          //     style: TextStyle(
-          //         fontFamily: GlobalVariable.GothamMedium, fontSize: 13),
-          //   ),
-          // ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

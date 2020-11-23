@@ -158,13 +158,16 @@ class _InviteFMScreenState extends State<InviteFMScreen> {
   }
   getMemberData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String json = prefs.get('memberJson');
+
+
+    // print(json);
+
     // String decodedString = jsonDecode(json);
     setState(() {
+      String json = prefs.get('memberJson');
       for (Map i in jsonDecode(json)) {
         dataMemDe.add(DataMemberDetails.fromJson(i));
       }
     });
-    print(json);
   }
 }

@@ -57,6 +57,8 @@ int item_li = 0;
 bool showId = false;
 bool showMenu = false;
 var bannerTitle = 'test';
+var cityId = '0';
+var cityName = 'CityName';
 var bannerDes = 'test';
 var _scale = 0.0;
 int countInt = 0;
@@ -118,6 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
     saveDetails();
     // getHome();
     getHomeData_();
+    getCityAds();
     super.initState();
   }
 
@@ -983,7 +986,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 30,
                 ),
                 Text(
-                  'Vijayawada',
+                  cityName,
                   style: TextStyle(
                       fontSize: 8,
                       fontFamily: GlobalVariable.GothamMedium,
@@ -1043,11 +1046,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           InkWell(
-            onTap: (){
+            onTap: () {
               Navigator.push(
-                      context,
-                      new MaterialPageRoute(builder: (context) => PayoutsScreen()),
-                    );
+                context,
+                new MaterialPageRoute(builder: (context) => PayoutsScreen()),
+              );
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -1263,8 +1266,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         SizedBox(
           height: 225,
-          child:
-          Carousel(
+          child: Carousel(
             images: dataBanners.length == 0
                 ? [
                     // Image.asset('drawable/bnner1.png'),
@@ -1295,7 +1297,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context) => BannersScreen(id: dataBanners[i].id)),
               );
             },
-
             showIndicator: true,
             borderRadius: false,
             dotSize: 3.0,
@@ -1305,7 +1306,6 @@ class _HomeScreenState extends State<HomeScreen> {
             dotBgColor: Colors.transparent,
             noRadiusForIndicator: true,
           ),
-
         ),
         Container(
           margin: EdgeInsets.only(bottom: 10),
@@ -1373,7 +1373,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => RealEstateScreen(typeId:'1')),
+                                builder: (context) =>
+                                    RealEstateScreen(typeId: '1')),
                           );
                           // Navigator.push(
                           //   context,
@@ -1769,7 +1770,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                                 context,
                                 new MaterialPageRoute(
@@ -2262,7 +2263,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> saveDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('member_id', '4');
+    setState(() {
+      prefs.setString('member_id', '4');
+      cityId = prefs.getString('cityId');
+      print("saveDetails"+prefs.getString('cityId'));
+      cityName = prefs.getString('cityName');
+    });
   }
 
   Future<void> clearUser() async {
@@ -2275,12 +2281,42 @@ class _HomeScreenState extends State<HomeScreen> {
     // Navigator.pop(context);
   }
 
-  void sendToScreen(int pos) {
-    print(pos);
-    // Navigator.push(
-    //   context,
-    //   new MaterialPageRoute(
-    //       builder: (context) => BannersScreen(id: dataBanners[pos].id)),
-    // );
+  Future<void> getCityAds() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+
+    print("cityIdddd"+cityId);
+    final response = await http.get(
+        "https://" + GlobalVariable.BASE_URL + "/api/adds.php?city=" + cityId);
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      Map<String, dynamic> map = jsonDecode(json);
+      print('CityAdsData->' + data.toString());
+      setState(() {
+        prefs.setString("cityJson", json);
+      });
+    } else {
+      await pr.hide();
+      print('CityAdsData->error');
+      throw Exception('Failed to load album');
+    }
   }
 }

@@ -39,7 +39,12 @@ dependencies:
   flutter_open_whatsapp: ^0.1.2
   html: ^0.14.0+4
   url_launcher: ^5.7.10
-  shimmer: ^1.1.2
+  syncfusion_flutter_charts: ^18.3.50
+  fl_chart: ^0.12.0
+
+#  shimmer: ^1.1.2
+
+
 
 
 
@@ -249,6 +254,7 @@ flutter:
     - drawable/loan_req.png
     - drawable/help.png
     - drawable/insurancecom.png
+    - drawable/housebadge.png
     - drawable/houseblue.png
     - drawable/tds.png
     - drawable/faq_white.png

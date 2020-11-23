@@ -4,6 +4,7 @@ import 'package:firstmangroup_flutter/DataCities.dart';
 import 'package:firstmangroup_flutter/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'customcolor.dart';
 
@@ -17,9 +18,9 @@ class CitySelectScreen extends StatefulWidget {
 }
 final List<DataCities> dataCities = new List<DataCities>();
 
+int isSelected  = -1;
 
 class _CitySelectScreenState extends State<CitySelectScreen> {
-  int isSelected  = -1;
   @override
   void initState() {
     // TODO: implement initState
@@ -167,10 +168,7 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
       child: InkWell(
         splashColor: GlobalVariable.white,
         onTap: () {
-          Navigator.push(
-              context,
-              new MaterialPageRoute(builder: (context) => HomeScreen(),
-              ));
+          saveCity();
         },
         child: Container(
           width: double.infinity,
@@ -220,6 +218,20 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
 
       throw Exception('Failed to load album');
     }
+  }
+
+  Future<void> saveCity() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setString("cityId", ""+isSelected.toString());
+      prefs.setString("cityName", ""+dataCities[isSelected].title);
+    });
+
+    Navigator.push(
+        context,
+        new MaterialPageRoute(builder: (context) => HomeScreen(),
+        ));
+    //  int isSelected  = -1;
   }
 }
 

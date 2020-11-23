@@ -1,9 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:firstmangroup_flutter/RealEsPayoutsScreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
 import 'DataMemberDetails.dart';
+import 'DataRealEsPayouts.dart';
 import 'customcolor.dart';
 
 void main() {
@@ -16,12 +21,14 @@ class PayoutsScreen extends StatefulWidget {
 }
 
 final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
+final List<DataRealEsPayouts> dataRSP = new List<DataRealEsPayouts>();
 
 class _PayoutsScreenState extends State<PayoutsScreen> {
   @override
   void initState() {
     // TODO: implement initState
     getMemberData();
+    getRealEsPayoutsData();
     super.initState();
   }
 
@@ -63,13 +70,16 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                   Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(right: 10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        dataMemDe.length != 0 ? dataMemDe[0].image : '',
-                        fit: BoxFit.cover,
-                        height: 30,
-                        width: 30,
+                    child: Hero(
+                      tag: 'userImg',
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                          dataMemDe.length != 0 ? dataMemDe[0].image : '',
+                          fit: BoxFit.cover,
+                          height: 30,
+                          width: 30,
+                        ),
                       ),
                     ),
                   )
@@ -120,8 +130,10 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            '1.24 Lac',
-                            // dataMemDe.length != 0 ? dataMemDe[0].code : '',
+                            // '1.24 Lac',
+                            dataMemDe.length != 0
+                                ? dataMemDe[0].total_commission
+                                : 'Lac',
                             style: TextStyle(
                                 color: GlobalVariable.yellow_main,
                                 fontFamily: GlobalVariable.GothamMedium,
@@ -204,30 +216,39 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Column(
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(left: 37),
-                                  padding: EdgeInsets.all(15),
-                                  decoration: BoxDecoration(
-                                      color: GlobalVariable.white,
-                                      borderRadius: BorderRadius.circular(35),
-                                      border: Border.all(
-                                          color: GlobalVariable
-                                              .text_colors_black)),
-                                  child: Image.asset(
-                                    'drawable/houseblue.png',
-                                    height: 30,
-                                    width: 30,
-                                  )),
-                              Text(
-                                'Real Estate\nPayouts',
-                                style: TextStyle(
-                                    color: GlobalVariable.blue_main,
-                                    fontFamily: GlobalVariable.Gotham,
-                                    fontSize: 12),
-                              ),
-                            ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) =>
+                                          RealEsPayoutsScreen(dataRealEsPayouts: dataRSP[0],)));
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(left: 37),
+                                    padding: EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                        color: GlobalVariable.white,
+                                        borderRadius: BorderRadius.circular(35),
+                                        border: Border.all(
+                                            color: GlobalVariable
+                                                .text_colors_black)),
+                                    child: Image.asset(
+                                      'drawable/houseblue.png',
+                                      height: 30,
+                                      width: 30,
+                                    )),
+                                Text(
+                                  'Real Estate\nPayouts',
+                                  style: TextStyle(
+                                      color: GlobalVariable.blue_main,
+                                      fontFamily: GlobalVariable.Gotham,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ),
                           ),
                           // Spacer(),
                           Column(
@@ -264,7 +285,7 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
             ),
             Container(
               margin: EdgeInsets.only(top: 10),
-              padding: EdgeInsets.only(top: 10,bottom: 10,left: 5,right: 5),
+              padding: EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
               width: double.infinity,
               color: GlobalVariable.blue_main,
               child: Row(
@@ -274,12 +295,14 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: Image.asset('drawable/tds.png',height: 35,),
+                          child: Image.asset(
+                            'drawable/tds.png',
+                            height: 35,
+                          ),
                         ),
                         Text(
                           'Download TDS',
                           textAlign: TextAlign.center,
-
                           style: TextStyle(
                               color: GlobalVariable.yellow_main,
                               fontFamily: GlobalVariable.GothamMedium,
@@ -291,7 +314,10 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                   Expanded(
                     child: Column(
                       children: [
-                        Image.asset('drawable/contactrm_white.png',height: 35,),
+                        Image.asset(
+                          'drawable/contactrm_white.png',
+                          height: 35,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 5),
                           child: Text(
@@ -308,7 +334,10 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                   Expanded(
                     child: Column(
                       children: [
-                        Image.asset('drawable/faq_white.png',height: 35,),
+                        Image.asset(
+                          'drawable/faq_white.png',
+                          height: 35,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 5),
                           child: Text(
@@ -328,7 +357,8 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: Image.asset('drawable/my_list_act.png',
+                          child: Image.asset(
+                            'drawable/my_list_act.png',
                             color: GlobalVariable.white,
                             height: 35,
                           ),
@@ -347,7 +377,10 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                   Expanded(
                     child: Column(
                       children: [
-                        Image.asset('drawable/offers_white.png',height: 35,),
+                        Image.asset(
+                          'drawable/offers_white.png',
+                          height: 35,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 5),
                           child: Text(
@@ -361,7 +394,6 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                       ],
                     ),
                   ),
-
                 ],
               ),
             )
@@ -373,14 +405,61 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
 
   getMemberData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String json = prefs.get('memberJson');
+    // print(json);
+
     // String decodedString = jsonDecode(json);
     setState(() {
+      String json = prefs.get('memberJson');
       for (Map i in jsonDecode(json)) {
         dataMemDe.add(DataMemberDetails.fromJson(i));
       }
     });
+  }
 
-    print(json);
+  Future<void> getRealEsPayoutsData() async {
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/property_commissions.php?member_id="+GlobalVariable.member_id+"&payment=0");
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      Map<String, dynamic> map = jsonDecode(json);
+      print('getRealEsPayoutsData->' + data.toString());
+      //countInt
+      setState(() {
+        dataRSP.add(DataRealEsPayouts.fromJson(map));
+      });
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getRealEsPayoutsData->error');
+
+      throw Exception('Failed to load album');
+    }
   }
 }
+
+///api/property_commissions.php?member_id=4&payment=0

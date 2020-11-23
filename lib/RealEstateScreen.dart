@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'BannersScreen.dart';
 import 'DataBanners.dart';
@@ -32,6 +33,7 @@ class RealEstateScreen extends StatefulWidget {
 }
 
 final List<DataBanners> dataBanners = new List<DataBanners>();
+final List<DataAds> dataAds = new List<DataAds>();
 
 final controller = PageController(
   initialPage: 0,
@@ -183,13 +185,18 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
           Expanded(
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
+                itemCount: dataAds.length!=0?dataAds.length:0,
                 itemBuilder: (context, pos) {
                   return Container(
                     margin: EdgeInsets.only(left: 7),
                     width: 200,
+                    height: 200,
                     color: GlobalVariable.light_blue,
-                    child: Image.asset(
-                      'drawable/bnner1.png',
+                    child: Image.network(
+                      dataAds.length!=0?dataAds[pos].image:'',
+                      height: 200,
+                      width: 200,
+
                       fit: BoxFit.fill,
                     ),
                   );
@@ -681,6 +688,16 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
   }
 
   Future<void> getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String jsonAds = prefs.getString("cityJson");
+    print(jsonAds);
+    Map<String, dynamic> map = jsonDecode(jsonAds);
+    setState(() {
+
+      for(Map i in map["realestate_gallery"]){
+        dataAds.add(DataAds.fromJson(i));
+      }
+    });
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
@@ -702,9 +719,6 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     if (response.statusCode == 200) {
       await pr.hide();
 
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      // return Album.fromJson(jsonDecode(response.body));
       final data = jsonDecode(response.body);
       int statusCode = response.statusCode;
       String json = response.body;
@@ -726,22 +740,57 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     }
   }
 
-  Future<void> showProg() async {
-    ProgressDialog pr = ProgressDialog(context);
-    pr = ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
-    pr.style(
-      message: 'Please wait',
-      progressWidget: Platform.isIOS
-          ? CupertinoActivityIndicator()
-          : Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: CircularProgressIndicator(),
-            ),
-    );
-    await pr.show();
-    Future.delayed(Duration(seconds: 3)).whenComplete(() {
-      pr.hide();
-    });
-  }
+
 }
+
+class DataAds {
+    String description;
+    String id;
+    String image;
+    String ref_id;
+    String title;
+    String type;
+
+    DataAds({this.description, this.id, this.image, this.ref_id, this.title, this.type});
+
+    factory DataAds.fromJson(Map<String, dynamic> json) {
+        return DataAds(
+            description: json['description'], 
+            id: json['id'], 
+            image: json['image'], 
+            ref_id: json['ref_id'], 
+            title: json['title'], 
+            type: json['type'], 
+        );
+    }
+
+    Map<String, dynamic> toJson() {
+        final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['description'] = this.description;
+        data['id'] = this.id;
+        data['image'] = this.image;
+        data['ref_id'] = this.ref_id;
+        data['title'] = this.title;
+        data['type'] = this.type;
+        return data;
+    }
+}
+
+// // Future<void> showProg() async {
+//   //   ProgressDialog pr = ProgressDialog(context);
+//   //   pr = ProgressDialog(context,
+//   //       type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+//   //   pr.style(
+//   //     message: 'Please wait',
+//   //     progressWidget: Platform.isIOS
+//   //         ? CupertinoActivityIndicator()
+//   //         : Padding(
+//   //             padding: const EdgeInsets.all(10.0),
+//   //             child: CircularProgressIndicator(),
+//   //           ),
+//   //   );
+//   //   await pr.show();
+//   //   Future.delayed(Duration(seconds: 3)).whenComplete(() {
+//   //     pr.hide();
+//   //   });
+//   // }

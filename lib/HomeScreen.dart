@@ -29,6 +29,7 @@ import 'BannersScreen.dart';
 import 'DataBanners.dart';
 import 'DataBannersText.dart';
 import 'DataHome.dart';
+import 'DataMemberDetails.dart';
 import 'DataTopper.dart';
 import 'EventDetailsScreen.dart';
 import 'EventsScreen.dart';
@@ -76,6 +77,7 @@ List<Widget> pages = [
   ),
 ];
 final List<DataHome> dataHome = new List<DataHome>();
+final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
 final List<DataBanners> dataBanners = new List<DataBanners>();
 final List<DataToppers> dataToppers = new List<DataToppers>();
 final List<DataBannersText> dataBannersText = new List<DataBannersText>();
@@ -1002,10 +1004,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 7, left: 3),
-                child: Image.asset(
-                  'drawable/app_new_icon.png',
-                  height: 30,
-                  width: 30,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    dataMemDe.length != 0 ? dataMemDe[0].image : '',
+                    fit: BoxFit.cover,
+                    height: 30,
+                    width: 30,
+                  ),
                 ),
               ),
             ),
@@ -2268,6 +2274,10 @@ class _HomeScreenState extends State<HomeScreen> {
       cityId = prefs.getString('cityId');
       print("saveDetails"+prefs.getString('cityId'));
       cityName = prefs.getString('cityName');
+      String json = prefs.get('memberJson');
+      for (Map i in jsonDecode(json)) {
+        dataMemDe.add(DataMemberDetails.fromJson(i));
+      }
     });
   }
 
@@ -2298,9 +2308,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     await pr.show();
 
-    print("cityIdddd"+cityId);
+    print("cityIdddd"+prefs.getString('cityId'));
     final response = await http.get(
-        "https://" + GlobalVariable.BASE_URL + "/api/adds.php?city=" + cityId);
+        "https://" + GlobalVariable.BASE_URL + "/api/adds.php?city=" + prefs.getString('cityId'));
 
     if (response.statusCode == 200) {
       await pr.hide();

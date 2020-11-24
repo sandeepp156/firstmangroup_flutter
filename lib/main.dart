@@ -25,7 +25,7 @@ class MyApp extends StatefulWidget {
 
 }
 // final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
-
+var usrName = 'Hi';
 
 class _State extends State<MyApp> {
   @override
@@ -70,10 +70,14 @@ class _State extends State<MyApp> {
                       new Flexible(child: Column(
                         children: [
                           Expanded(child: Text(""), flex: 1,),
-                          new Text("Testing", textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 25,
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: new Text(usrName, textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 25,
+                                  color: GlobalVariable.yellow_main,
+                                  // fontWeight: FontWeight.bold
+                              ),),
+                          ),
                           Container(
                             // padding: EdgeInsets.only(top:10),
                             child: Image.asset(
@@ -136,10 +140,12 @@ class _State extends State<MyApp> {
       print('getDetails->' + data.toString());
 
       setState(() {
+
         prefs.setString('memberJson', json);
-        // for (Map i in jsonDecode(json)) {
-        //   dataMemDe.add(DataMemberDetails.fromJson(i));
-        // }
+        for (Map i in jsonDecode(json)) {
+          dataMemDe.add(DataMemberDetails.fromJson(i));
+        }
+        usrName = 'Hi '+dataMemDe[0].fname;
       });
       Timer(Duration(seconds: 3),()=>
           Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  HomeScreen()),));

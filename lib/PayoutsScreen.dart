@@ -161,7 +161,9 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                           Column(
                             children: [
                               Container(
-                                  margin: EdgeInsets.only(left: 37),
+                                  margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width /
+                                          7),
                                   padding: EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                       color: GlobalVariable.white,
@@ -186,7 +188,9 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                           Column(
                             children: [
                               Container(
-                                  margin: EdgeInsets.only(right: 37),
+                                  margin: EdgeInsets.only(
+                                      right: MediaQuery.of(context).size.width /
+                                          7),
                                   padding: EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                       color: GlobalVariable.white,
@@ -222,7 +226,7 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
                                   context,
                                   new MaterialPageRoute(
                                       builder: (context) =>
-                                          RealEsPayoutsScreen(dataRealEsPayouts: dataRSP[0],)));
+                                          RealEsPayoutsScreen()));
                             },
                             child: Column(
                               children: [
@@ -417,6 +421,7 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
   }
 
   Future<void> getRealEsPayoutsData() async {
+
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
@@ -433,7 +438,9 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
 
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
-        "/api/property_commissions.php?member_id="+GlobalVariable.member_id+"&payment=0");
+        "/api/property_commissions.php?member_id=" +
+        GlobalVariable.member_id +
+        "&payment=0");
 
     if (response.statusCode == 200) {
       await pr.hide();

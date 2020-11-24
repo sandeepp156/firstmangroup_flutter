@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'BannersScreen.dart';
 import 'DataBanners.dart';
 import 'MyFmNw.dart';
+import 'PropertyGalleryScreen.dart';
 import 'initialpage.dart';
 
 void main() {
@@ -161,7 +162,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
 
   Widget ads() {
     return SizedBox(
-      height: 130,
+      height: 175,
       child: Column(
         children: [
           Padding(
@@ -189,13 +190,13 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                 itemBuilder: (context, pos) {
                   return Container(
                     margin: EdgeInsets.only(left: 7),
-                    width: 200,
+                    width: 215,
                     height: 200,
                     color: GlobalVariable.light_blue,
                     child: Image.network(
                       dataAds.length!=0?dataAds[pos].image:'',
                       height: 200,
-                      width: 200,
+                      width: 215,
 
                       fit: BoxFit.fill,
                     ),
@@ -211,7 +212,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     return ListView(
       children: [
         SizedBox(
-          height: 175,
+          height: 225,
           child: Carousel(
             images: dataBanners.length == 0
                 ? [
@@ -286,56 +287,63 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                          ),
-                        ]),
-                        margin: EdgeInsets.only(left: 5),
-                        height: 85,
-                        // width: 125,
-                        // color: Colors.green,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(5.0),
-                                child: Image.asset(
-                                  'drawable/realestate_back.png',
-                                  height: 100,
-                                  fit: BoxFit.fill,
-                                )),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Center(
-                                    child: Image.asset(
-                                  'drawable/searchhouse.png',
-                                  height: 20,
-                                  color: GlobalVariable.white,
-                                )),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                  'FMG Properties',
-                                  style: TextStyle(
-                                      fontFamily: GlobalVariable.Gotham,
-                                      fontSize: 12,
-                                      color: GlobalVariable.white),
-                                )
-                              ],
+                      child: InkWell(
+                        onTap: (){
+                          // PropertyGalleryScreen
+                          Navigator.push(context, new MaterialPageRoute(builder: (context) => PropertyGalleryScreen ()),);
+
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5.0,
                             ),
-                            ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(5)),
-                                child: Image.asset(
-                                  'drawable/exclusae.png',
-                                  width: 30,
-                                )),
-                          ],
+                          ]),
+                          margin: EdgeInsets.only(left: 5),
+                          height: 85,
+                          // width: 125,
+                          // color: Colors.green,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child: Image.asset(
+                                    'drawable/realestate_back.png',
+                                    height: 100,
+                                    fit: BoxFit.fill,
+                                  )),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Center(
+                                      child: Image.asset(
+                                    'drawable/searchhouse.png',
+                                    height: 20,
+                                    color: GlobalVariable.white,
+                                  )),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Text(
+                                    'FMG Properties',
+                                    style: TextStyle(
+                                        fontFamily: GlobalVariable.Gotham,
+                                        fontSize: 12,
+                                        color: GlobalVariable.white),
+                                  )
+                                ],
+                              ),
+                              ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(5)),
+                                  child: Image.asset(
+                                    'drawable/exclusae.png',
+                                    width: 30,
+                                  )),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -690,13 +698,19 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
   Future<void> getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jsonAds = prefs.getString("cityJson");
-    print(jsonAds);
+    print("jsonAds"+jsonAds);
     Map<String, dynamic> map = jsonDecode(jsonAds);
-    setState(() {
 
-      for(Map i in map["realestate_gallery"]){
-        dataAds.add(DataAds.fromJson(i));
+    setState(() {
+      if(map.containsKey('realestate_gallery')){
+        for(Map i in map["realestate_gallery"]){
+          dataAds.add(DataAds.fromJson(i));
+        }
       }
+      else{
+
+      }
+
     });
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,

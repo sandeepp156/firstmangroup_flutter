@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firstmangroup_flutter/DataRealEsPayouts.dart';
-import 'package:fl_chart/fl_chart.dart';
+// import 'package:fl_animated_linechart/chart/animated_line_chart.dart';
+// import 'package:fl_animated_linechart/chart/line_chart.dart';
+// import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+// import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:http/http.dart' as http;
 
 import 'DataMemberDetails.dart';
@@ -18,9 +20,7 @@ void main() {
 }
 
 class RealEsPayoutsScreen extends StatefulWidget {
-  final DataRealEsPayouts dataRealEsPayouts;
 
-  RealEsPayoutsScreen({this.dataRealEsPayouts});
 
   @override
   _RealEsPayoutsScreenState createState() => _RealEsPayoutsScreenState();
@@ -29,19 +29,21 @@ class RealEsPayoutsScreen extends StatefulWidget {
 final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
 final List<DataRealEsPayouts> dataRSP = new List<DataRealEsPayouts>();
 
+// LineChart lineChart = LineChart.fromDateTimeMaps(series, colors, units);
+// LineChart lineChart = LineChart.fromDateTimeMaps([5, 5], [Colors.green, Colors.blue],[]);
+
 int tab = 0;
 int tab_two = 0;
+bool tab_selected=true;
 
 class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
-  final DataRealEsPayouts dataRealEsPayouts;
 
-  _RealEsPayoutsScreenState({this.dataRealEsPayouts});
 
   @override
   void initState() {
     // TODO: implement initState
-    getMemberData();
     getRealEsPayoutsData("0");
+    getMemberData();
     super.initState();
   }
 
@@ -116,7 +118,7 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                             color: GlobalVariable.blue_main,
                             fontFamily: GlobalVariable.GothamMedium)),
                     TextSpan(
-                        text: '2222,00.00',
+                        text:tab_selected?dataRSP.length!=0? dataRSP[0].direct_commissions_total_pending:'sd':dataRSP.length!=0? dataRSP[0].override_commissions_total:'sd',
                         style: TextStyle(
                             color: GlobalVariable.yellow_main,
                             fontFamily: GlobalVariable.GothamMedium,
@@ -130,7 +132,11 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                             color: GlobalVariable.blue_main,
                             fontFamily: GlobalVariable.GothamMedium)),
                     TextSpan(
-                        text: '0.00',
+                        // text: '0.00',
+                        text:tab_selected?dataRSP.length!=0? dataRSP[0].direct_commissions_total_paid:'sd':dataRSP.length!=0? dataRSP[0].override_commissions_total_paid:'sd',
+
+                        // text:dataRSP.length!=0? dataRSP[0].direct_commissions_total_paid:'sd',
+
                         style: TextStyle(
                             color: GlobalVariable.yellow_main,
                             fontFamily: GlobalVariable.GothamMedium,
@@ -149,7 +155,10 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text('2222,00.00',
+                  child: Text(
+                      tab_selected?dataRSP.length!=0? dataRSP[0].direct_commissions_total:'sd':dataRSP.length!=0? dataRSP[0].override_commissions_total:'sd',
+
+                      // dataRSP.length!=0?dataRSP[0].direct_commissions_total:'',
                       style: TextStyle(
                           color: GlobalVariable.yellow_main,
                           fontFamily: GlobalVariable.GothamMedium,
@@ -157,83 +166,94 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                 )
               ],
             ),
-            SizedBox(
-              width: double.infinity,
-              child: graph(),
-            )
-          ], //
+            // AnimatedLineChart(lineChart),
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: graph(),
+            // ),
+          ],
         ),
       ),
     );
   }
 
-  Widget graph() {
-    return Container(
-      child: LineChart(data()),
-    );
-  }
+  // Widget graph() {
+  //   return Container(
+  //     child: LineChart(data()),
+  //   );
+  // }
 
-  LineChartData data(){
-    return LineChartData(
-      lineTouchData: LineTouchData(
-        enabled: false,
-      ),
-      gridData: FlGridData(
-        show: false,
-      ),
-      titlesData:  FlTitlesData(
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 20,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff0E2D6B),
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-          margin: 10,
-          getTitles: (value){
-            switch(value.toInt()){
-              case 2:
-                return 'SEPT';
-              case 7:
-                return 'OCT';
-              case 12:
-                return 'DEC';
-            }
-            return '';
-          }
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '1m';
-              case 2:
-                return '2m';
-              case 3:
-                return '3m';
-              case 4:
-                return '5m';
-              case 5:
-                return '6m';
-            }
-            return '';
-          },
-          margin: 8,
-          reservedSize: 30,
-        )
-      ),
-      lineBarsData: linesBarData2(),
+  // LineChartData data(){
+  //   return LineChartData(
+  //     lineTouchData: LineTouchData(
+  //       enabled: false,
+  //     ),
+  //     gridData: FlGridData(
+  //       show: false,
+  //     ),
+  //     titlesData:  FlTitlesData(
+  //       bottomTitles: SideTitles(
+  //         showTitles: true,
+  //         reservedSize: 20,
+  //         getTextStyles: (value) => const TextStyle(
+  //           color:Colors.red,
+  //           // fontWeight: FontWeight.bold,
+  //           fontSize: 10,
+  //         ),
+  //         margin: 25,
+  //         getTitles: (value){
+  //           switch(value.toInt()){
+  //             case 0:
+  //               return '';
+  //             case 1:
+  //               return 'Nov 20';
+  //             case 2:
+  //               return 'Oct 20';
+  //             case 3:
+  //               return 'Sep 20';
+  //             case 4:
+  //               return 'Aug 20';
+  //             case 5:
+  //               return 'Jul 20';
+  //             case 6:
+  //               return 'Jun 20';
+  //           }
+  //           return '';
+  //         }
+  //       ),
+  //       leftTitles: SideTitles(
+  //         showTitles: true,
+  //         getTextStyles: (value) => const TextStyle(
+  //           color: Color(0xff75729e),
+  //           fontWeight: FontWeight.bold,
+  //           fontSize: 10,
+  //         ),
+  //         getTitles: (value) {
+  //           switch (value.toInt()) {
+  //             case 1:
+  //               return '0';
+  //             case 2:
+  //               return '4,000';
+  //             case 3:
+  //               return '8,000';
+  //             case 4:
+  //               return '12,000';
+  //             case 5:
+  //               return '16,000';
+  //             case 6:
+  //               return '20,000';
+  //           }
+  //           return '';
+  //         },
+  //         margin: 8,
+  //         reservedSize: 30,
+  //       )
+  //     ),
+  //     lineBarsData: linesBarData2(),
+  //
+  //   );
+  // }
 
-    );
-  }
-  
 
   Widget directPayouts() {
     return Container(
@@ -301,17 +321,20 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                   width: 1,
                 ),
 
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(top: 7, bottom: 7),
-                    // color: GlobalVariable.blue_main ,
-                    child: Text(
-                      'Site Visit\nDeduction',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: GlobalVariable.GothamMedium,
-                          color: GlobalVariable.yellow_main,
-                          fontSize: 10),
+                Visibility(
+                  visible: tab_selected,
+                  child: Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(top: 7, bottom: 7),
+                      // color: GlobalVariable.blue_main ,
+                      child: Text(
+                        'Site Visit\nDeduction',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: GlobalVariable.GothamMedium,
+                            color: GlobalVariable.yellow_main,
+                            fontSize: 10),
+                      ),
                     ),
                   ),
                 ),
@@ -362,150 +385,283 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
               ],
             ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: dataRSP[0].direct_commissions.length,
-            // itemCount: widget.dataRealEsPayouts.direct_commissions.length,
-            itemBuilder: (context, pos) {
-              return Container(
-                color: (pos % 2 == 0) ? GlobalVariable.yellow_main : GlobalVariable.light_blue_listSeperate,
-
-                // color: GlobalVariable.yellow_main,
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Text(
-                          dataRSP[0].direct_commissions[pos].lead_id,
-                          // widget.dataRealEsPayouts.direct_commissions[pos].lead_id,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: GlobalVariable.GothamMedium,
-                              color: GlobalVariable.blue_main,
-                              fontSize: 9),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: GlobalVariable.white,
-                      height: 30,
-                      width: 1,
-                    ),
-
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Text(
-                          dataRSP[0].direct_commissions[pos].commission,
-                          // widget.dataRealEsPayouts.direct_commissions[pos].commission,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: GlobalVariable.GothamMedium,
-                              color: GlobalVariable.blue_main,
-                              fontSize: 10),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: GlobalVariable.white,
-                      height: 30,
-                      width: 1,
-                    ),
-
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Text(
-                          dataRSP[0].direct_commissions[pos].tds,
-                          // widget.dataRealEsPayouts.direct_commissions[pos].tds,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: GlobalVariable.GothamMedium,
-                              color: GlobalVariable.blue_main,
-                              fontSize: 10),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: GlobalVariable.white,
-                      height: 30,
-                      width: 1,
-                    ),
-
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        // color: GlobalVariable.blue_main ,
-                        child: Text(
-                          dataRSP[0].direct_commissions[pos].visits,
-                          // widget.dataRealEsPayouts.direct_commissions[pos].visits,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: GlobalVariable.GothamMedium,
-                              color: GlobalVariable.blue_main,
-                              fontSize: 10),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: GlobalVariable.white,
-                      height: 30,
-                      width: 1,
-                    ),
-
-                    Expanded(
-                      child: Container(
-                        // margin: EdgeInsets.only(right: 1),
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        // color: GlobalVariable.blue_main ,
-                        child: Text(
-                          dataRSP[0].direct_commissions[pos].payable_amount.toString(),
-                          // widget.dataRealEsPayouts.direct_commissions[pos].payable_amount.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: GlobalVariable.GothamMedium,
-                              color: GlobalVariable.blue_main,
-                              fontSize: 10),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: GlobalVariable.white,
-                      height: 30,
-                      width: 1,
-                    ),
-
-                    Expanded(
-                      child: Container(
-                        // margin: EdgeInsets.only(right: 1),
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        // color: GlobalVariable.blue_main ,
-                        child: Text(
-                          dataRSP[0].direct_commissions[pos].status,
-                          // widget.dataRealEsPayouts.direct_commissions[pos].status,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: GlobalVariable.GothamMedium,
-                              color:  dataRSP[0].direct_commissions[pos].status ==
-                                      "Pending"
-                                  ? GlobalVariable.red
-                                  : GlobalVariable.light_green,
-                              fontSize: 10),
-                        ),
-                      ),
-                    ),
-
-                    // Container(color: GlobalVariable.grey_main_,height: 2,),
-                  ],
-                ),
-              );
-            },
-
+          Container(
+            height: 200,
+            child:tab_selected?directpayoutsList():referralIncList(),
           ),
         ],
       ),
+    );
+  }
+
+  Widget directpayoutsList(){
+    return  ListView.builder(
+      shrinkWrap: true,
+      itemCount: dataRSP.length==0?0: dataRSP[0].direct_commissions.length,
+      // itemCount: widget.dataRealEsPayouts.direct_commissions.length,
+      itemBuilder: (context, pos) {
+        return Container(
+          color: (pos % 2 == 0) ? GlobalVariable.yellow_main : GlobalVariable.light_blue_listSeperate,
+
+          // color: GlobalVariable.yellow_main,
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    dataRSP[0].direct_commissions[pos].lead_id,
+                    // widget.dataRealEsPayouts.direct_commissions[pos].lead_id,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.blue_main,
+                        fontSize: 9),
+                  ),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.white,
+                height: 30,
+                width: 1,
+              ),
+
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    dataRSP[0].direct_commissions[pos].commission,
+                    // widget.dataRealEsPayouts.direct_commissions[pos].commission,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.blue_main,
+                        fontSize: 10),
+                  ),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.white,
+                height: 30,
+                width: 1,
+              ),
+
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    dataRSP[0].direct_commissions[pos].tds,
+                    // widget.dataRealEsPayouts.direct_commissions[pos].tds,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.blue_main,
+                        fontSize: 10),
+                  ),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.white,
+                height: 30,
+                width: 1,
+              ),
+
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  // color: GlobalVariable.blue_main ,
+                  child: Text(
+                    dataRSP[0].direct_commissions[pos].visits,
+                    // widget.dataRealEsPayouts.direct_commissions[pos].visits,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.blue_main,
+                        fontSize: 10),
+                  ),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.white,
+                height: 30,
+                width: 1,
+              ),
+
+              Expanded(
+                child: Container(
+                  // margin: EdgeInsets.only(right: 1),
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  // color: GlobalVariable.blue_main ,
+                  child: Text(
+                    dataRSP[0].direct_commissions[pos].payable_amount.toString(),
+                    // widget.dataRealEsPayouts.direct_commissions[pos].payable_amount.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.blue_main,
+                        fontSize: 10),
+                  ),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.white,
+                height: 30,
+                width: 1,
+              ),
+
+              Expanded(
+                child: Container(
+                  // margin: EdgeInsets.only(right: 1),
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  // color: GlobalVariable.blue_main ,
+                  child: Text(
+                    dataRSP[0].direct_commissions[pos].status,
+                    // widget.dataRealEsPayouts.direct_commissions[pos].status,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color:  dataRSP[0].direct_commissions[pos].status ==
+                            "Pending"
+                            ? GlobalVariable.red
+                            : GlobalVariable.light_green,
+                        fontSize: 10),
+                  ),
+                ),
+              ),
+
+              // Container(color: GlobalVariable.grey_main_,height: 2,),
+            ],
+          ),
+        );
+      },
+
+    );
+  }
+
+  Widget referralIncList(){
+    return  ListView.builder(
+      shrinkWrap: true,
+      itemCount: dataRSP.length==0?0: dataRSP[0].override_commissions.length,
+      // itemCount: widget.dataRealEsPayouts.direct_commissions.length,
+      itemBuilder: (context, pos) {
+        return Container(
+          color: (pos % 2 == 0) ? GlobalVariable.yellow_main : GlobalVariable.light_blue_listSeperate,
+
+          // color: GlobalVariable.yellow_main,
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    dataRSP[0].override_commissions[pos].tp,
+                    // widget.dataRealEsPayouts.direct_commissions[pos].lead_id,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.blue_main,
+                        fontSize: 9),
+                  ),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.white,
+                height: 30,
+                width: 1,
+              ),
+
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    dataRSP[0].override_commissions[pos].commission,
+                    // widget.dataRealEsPayouts.direct_commissions[pos].commission,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.blue_main,
+                        fontSize: 10),
+                  ),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.white,
+                height: 30,
+                width: 1,
+              ),
+
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    dataRSP[0].override_commissions[pos].tds,
+                    // widget.dataRealEsPayouts.direct_commissions[pos].tds,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.blue_main,
+                        fontSize: 10),
+                  ),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.white,
+                height: 30,
+                width: 1,
+              ),
+
+
+
+              Expanded(
+                child: Container(
+                  // margin: EdgeInsets.only(right: 1),
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  // color: GlobalVariable.blue_main ,
+                  child: Text(
+                    dataRSP[0].override_commissions[pos].payable_amount.toString(),
+                    // widget.dataRealEsPayouts.direct_commissions[pos].payable_amount.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.blue_main,
+                        fontSize: 10),
+                  ),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.white,
+                height: 30,
+                width: 1,
+              ),
+
+              Expanded(
+                child: Container(
+                  // margin: EdgeInsets.only(right: 1),
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  // color: GlobalVariable.blue_main ,
+                  child: Text(
+                    dataRSP[0].override_commissions[pos].status,
+                    // widget.dataRealEsPayouts.direct_commissions[pos].status,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: GlobalVariable.GothamMedium,
+                        color:  dataRSP[0].override_commissions[pos].status ==
+                            "Pending"
+                            ? GlobalVariable.red
+                            : GlobalVariable.light_green,
+                        fontSize: 10),
+                  ),
+                ),
+              ),
+
+              // Container(color: GlobalVariable.grey_main_,height: 2,),
+            ],
+          ),
+        );
+      },
+
     );
   }
 
@@ -525,10 +681,10 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      // getRealEsPayoutsData('0');
+                      getRealEsPayoutsData('0');
                       setState(() {
                         tab = 0;
-
+                        tab_selected= true;
                       });
                     },
                     child: AnimatedContainer(
@@ -554,9 +710,11 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
+                      getRealEsPayoutsData('1');
 
                       setState(() {
                         tab = 1;
+                        tab_selected = false;
                       });
                     },
                     child: AnimatedContainer(
@@ -736,79 +894,78 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
       }
     });
   }
-
-  Widget graph_() {
-    return Container(
-      child: SfCartesianChart(
-        primaryXAxis: CategoryAxis(),
-        // title: ChartTitle(text: 'Half yearly sales analysis'),
-        // Enable legend
-        legend: Legend(isVisible: true),
-        // Enable tooltip
-        // tooltipBehavior: TooltipBehavior(enable: true),
-        series: <LineSeries<SalesData, String>>[
-          // SalesData('Jan', 35),
-          // SalesData('Feb', 28),
-          // SalesData('Mar', 34),
-          // SalesData('Apr', 32),
-          // SalesData('May', 40)
-          LineSeries(
-              dataSource: <SalesData>[
-                SalesData('Jan', 35),
-                SalesData('Feb', 28),
-                SalesData('Mar', 34),
-                SalesData('Apr', 32),
-                SalesData('May', 40),
-                SalesData('Jun', 35),
-                SalesData('Jul', 50),
-                SalesData('Aug', 23),
-                SalesData('Sep', 39),
-              ],
-              xValueMapper: (SalesData sales, _) => sales.year,
-              yValueMapper: (SalesData sales, _) => sales.sales,
-              dataLabelSettings: DataLabelSettings(isVisible: true))
-          // SalesData('Jan', 35),
-          // SalesData('Feb', 28),
-          // SalesData('Mar', 34),
-          // SalesData('Apr', 32),
-          // SalesData('May', 40)
-        ],
-        // xValueMapper: (SalesData sales, _) => sales.year,
-        // yValueMapper: (SalesData sales, _) => sales.sales,
-        // // Enable data label
-        // dataLabelSettings: DataLabelSettings(isVisible: true)
-      ),
-    );
-  }
-
-  List<LineChartBarData>linesBarData2() {
-    return [
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 4),
-          FlSpot(5, 1.8),
-          FlSpot(7, 5),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
-        ],
-        isCurved: true,
-        curveSmoothness: 0,
-        colors: const [
-          Color(0x444af699),
-        ],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-        belowBarData: BarAreaData(
-          show: false,
-        ),
-      ),
-    ];
-  }
+  //
+  // Widget graph_() {
+  //   return Container(
+  //     child: SfCartesianChart(
+  //       primaryXAxis: CategoryAxis(),
+  //       // title: ChartTitle(text: 'Half yearly sales analysis'),
+  //       // Enable legend
+  //       legend: Legend(isVisible: true),
+  //       // Enable tooltip
+  //       // tooltipBehavior: TooltipBehavior(enable: true),
+  //       series: <LineSeries<SalesData, String>>[
+  //         // SalesData('Jan', 35),
+  //         // SalesData('Feb', 28),
+  //         // SalesData('Mar', 34),
+  //         // SalesData('Apr', 32),
+  //         // SalesData('May', 40)
+  //         LineSeries(
+  //             dataSource: <SalesData>[
+  //               SalesData('Jan', 35),
+  //               SalesData('Feb', 28),
+  //               SalesData('Mar', 34),
+  //               SalesData('Apr', 32),
+  //               SalesData('May', 40),
+  //               SalesData('Jun', 35),
+  //               SalesData('Jul', 50),
+  //               SalesData('Aug', 23),
+  //               SalesData('Sep', 39),
+  //             ],
+  //             xValueMapper: (SalesData sales, _) => sales.year,
+  //             yValueMapper: (SalesData sales, _) => sales.sales,
+  //             dataLabelSettings: DataLabelSettings(isVisible: true))
+  //         // SalesData('Jan', 35),
+  //         // SalesData('Feb', 28),
+  //         // SalesData('Mar', 34),
+  //         // SalesData('Apr', 32),
+  //         // SalesData('May', 40)
+  //       ],
+  //       // xValueMapper: (SalesData sales, _) => sales.year,
+  //       // yValueMapper: (SalesData sales, _) => sales.sales,
+  //       // // Enable data label
+  //       // dataLabelSettings: DataLabelSettings(isVisible: true)
+  //     ),
+  //   );
+  // }
+  //
+  // List<LineChartBarData>linesBarData2() {
+  //   return [
+  //     LineChartBarData(
+  //       spots: [
+  //         FlSpot(1, 1),
+  //         FlSpot(3, 4),
+  //         FlSpot(5, 1.8),
+  //         FlSpot(7, 5),
+  //         FlSpot(10, 2),
+  //         FlSpot(12, 2.2),
+  //         FlSpot(13, 1.8),
+  //       ],
+  //       isCurved: true,
+  //       curveSmoothness: 0,
+  //       colors: const [
+  //         Color(0xff0E2D6B),        ],
+  //       barWidth: 4,
+  //       isStrokeCapRound: true,
+  //       dotData: FlDotData(
+  //         show: false,
+  //       ),
+  //       belowBarData: BarAreaData(
+  //         show: false,
+  //       ),
+  //     ),
+  //   ];
+  // }
 }
 
 class SalesData {

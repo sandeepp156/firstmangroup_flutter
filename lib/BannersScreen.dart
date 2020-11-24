@@ -262,14 +262,18 @@ class _BannersScreenState extends State<BannersScreen>
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  dataNewProp.length == 0
-                                      ? 'Bhk'
-                                      : dataNewProp[0].bhk_str ,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.blue_main),
+                                child: SizedBox(
+                                  width: 90,
+                                  child: Text(
+                                    dataNewProp.length == 0
+                                        ? 'Bhk'
+                                        : dataNewProp[0].bhk_str ,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.blue_main),
+                                  ),
                                 ),
                               ),
                             ],

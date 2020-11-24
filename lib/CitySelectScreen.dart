@@ -19,6 +19,7 @@ class CitySelectScreen extends StatefulWidget {
 final List<DataCities> dataCities = new List<DataCities>();
 
 int isSelected  = -1;
+var cityID = '';
 
 class _CitySelectScreenState extends State<CitySelectScreen> {
   @override
@@ -64,6 +65,8 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
                           onTap: (){
                             setState(() {
                               isSelected = pos;
+                              cityID = dataCities[pos].id;
+                              print('CITYIDSELECTED:'+cityID);
                             });
                           },
                           child: Container(
@@ -223,7 +226,7 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
   Future<void> saveCity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      prefs.setString("cityId", ""+isSelected.toString());
+      prefs.setString("cityId", ""+cityID);
       prefs.setString("cityName", ""+dataCities[isSelected].title);
     });
 

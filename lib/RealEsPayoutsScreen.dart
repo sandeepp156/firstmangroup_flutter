@@ -157,9 +157,10 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                 )
               ],
             ),
-            // SizedBox(
-            //   child: graph(),
-            // )
+            SizedBox(
+              width: double.infinity,
+              child: graph(),
+            )
           ], //
         ),
       ),
@@ -168,9 +169,71 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
 
   Widget graph() {
     return Container(
-      child: LineChart(LineChartData()),
+      child: LineChart(data()),
     );
   }
+
+  LineChartData data(){
+    return LineChartData(
+      lineTouchData: LineTouchData(
+        enabled: false,
+      ),
+      gridData: FlGridData(
+        show: false,
+      ),
+      titlesData:  FlTitlesData(
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 20,
+          getTextStyles: (value) => const TextStyle(
+            color: Color(0xff0E2D6B),
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+          margin: 10,
+          getTitles: (value){
+            switch(value.toInt()){
+              case 2:
+                return 'SEPT';
+              case 7:
+                return 'OCT';
+              case 12:
+                return 'DEC';
+            }
+            return '';
+          }
+        ),
+        leftTitles: SideTitles(
+          showTitles: true,
+          getTextStyles: (value) => const TextStyle(
+            color: Color(0xff75729e),
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 1:
+                return '1m';
+              case 2:
+                return '2m';
+              case 3:
+                return '3m';
+              case 4:
+                return '5m';
+              case 5:
+                return '6m';
+            }
+            return '';
+          },
+          margin: 8,
+          reservedSize: 30,
+        )
+      ),
+      lineBarsData: linesBarData2(),
+
+    );
+  }
+  
 
   Widget directPayouts() {
     return Container(
@@ -716,6 +779,35 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
         // dataLabelSettings: DataLabelSettings(isVisible: true)
       ),
     );
+  }
+
+  List<LineChartBarData>linesBarData2() {
+    return [
+      LineChartBarData(
+        spots: [
+          FlSpot(1, 1),
+          FlSpot(3, 4),
+          FlSpot(5, 1.8),
+          FlSpot(7, 5),
+          FlSpot(10, 2),
+          FlSpot(12, 2.2),
+          FlSpot(13, 1.8),
+        ],
+        isCurved: true,
+        curveSmoothness: 0,
+        colors: const [
+          Color(0x444af699),
+        ],
+        barWidth: 4,
+        isStrokeCapRound: true,
+        dotData: FlDotData(
+          show: false,
+        ),
+        belowBarData: BarAreaData(
+          show: false,
+        ),
+      ),
+    ];
   }
 }
 

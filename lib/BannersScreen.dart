@@ -55,9 +55,10 @@ class _BannersScreenState extends State<BannersScreen>
 
   @override
   void initState() {
-    super.initState();
     _tabController = new TabController(vsync: this, length: 3);
     getNewPropData();
+    super.initState();
+
   }
 
   @override

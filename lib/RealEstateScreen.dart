@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'BannersScreen.dart';
 import 'DataBanners.dart';
+import 'ListingsScreen.dart';
 import 'MyFmNw.dart';
 import 'PropertyGalleryScreen.dart';
 import 'initialpage.dart';
@@ -192,7 +193,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                     margin: EdgeInsets.only(left: 7),
                     width: 215,
                     height: 200,
-                    color: GlobalVariable.light_blue,
+                    // color: GlobalVariable.light_blue,
                     child: Image.network(
                       dataAds.length!=0?dataAds[pos].image:'',
                       height: 200,
@@ -412,49 +413,55 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                          ),
-                        ]),
-                        margin: EdgeInsets.only(left: 7),
-                        height: 85,
-                        // width: 125,
-                        // color: Colors.green,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(5.0),
-                                child: Image.asset(
-                                  'drawable/loans.png',
-                                  height: 100,
-                                  fit: BoxFit.fill,
-                                )),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Center(
-                                    child: Image.asset(
-                                  'drawable/house.png',
-                                  height: 20,
-                                  color: GlobalVariable.white,
-                                )),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                  'Resale Properties',
-                                  style: TextStyle(
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.white,
-                                      fontSize: 12),
-                                )
-                              ],
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.push(context, new MaterialPageRoute(builder: (context) => ListingScreen (typeId: widget.typeId,)),);
+
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5.0,
                             ),
-                          ],
+                          ]),
+                          margin: EdgeInsets.only(left: 7),
+                          height: 85,
+                          // width: 125,
+                          // color: Colors.green,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child: Image.asset(
+                                    'drawable/loans.png',
+                                    height: 100,
+                                    fit: BoxFit.fill,
+                                  )),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Center(
+                                      child: Image.asset(
+                                    'drawable/house.png',
+                                    height: 20,
+                                    color: GlobalVariable.white,
+                                  )),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Text(
+                                    'Resale Properties',
+                                    style: TextStyle(
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.white,
+                                        fontSize: 12),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -696,6 +703,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
   }
 
   Future<void> getData() async {
+    dataAds.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jsonAds = prefs.getString("cityJson");
     print("jsonAds"+jsonAds);

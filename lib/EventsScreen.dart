@@ -195,8 +195,8 @@ class _EventsScreenState extends State<EventsScreen> {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       // return Album.fromJson(jsonDecode(response.body));
-      final data = jsonDecode(response.body);
-      int statusCode = response.statusCode;
+      // final data = jsonDecode(response.body);
+      // int statusCode = response.statusCode;
       String json = response.body;
       // Map<String, dynamic> map = jsonDecode(json);
       setState(() {
@@ -205,8 +205,8 @@ class _EventsScreenState extends State<EventsScreen> {
         }
       });
 
-      print('getEventsData->' + data.toString());
-      print('getEventsData->' + dataEvents.length.toString());
+      // print('getEventsData->' + data.toString());
+      // print('getEventsData->' + dataEvents.length.toString());
     } else {
       await pr.hide();
 

@@ -33,6 +33,7 @@ import 'DataMemberDetails.dart';
 import 'DataTopper.dart';
 import 'EventDetailsScreen.dart';
 import 'EventsScreen.dart';
+import 'LoansScreen.dart';
 import 'MyAssistantScreen.dart';
 import 'MyCreditsScreen.dart';
 import 'MyFmNw.dart';
@@ -1440,52 +1441,62 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Expanded(
-                      child: DelayedDisplay(
-                        delay: Duration(milliseconds: 50),
-                        slidingBeginOffset: Offset(0.60, -0.60),
-                        child: Container(
-                          decoration: BoxDecoration(boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 5.0,
-                            ),
-                          ]),
-                          margin: EdgeInsets.only(left: 10),
-                          height: 90,
-                          // width: 125,
-                          // color: Colors.green,
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  child: Image.asset(
-                                    'drawable/loans.png',
-                                    height: 90,
-                                    fit: BoxFit.fill,
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Center(
-                                    child: Image.asset(
-                                  'drawable/loan_icon_act.png',
-                                  fit: BoxFit.fill,
-                                  height: 35,
-                                  // width: 25,
-                                  color: GlobalVariable.white,
-                                )),
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) =>
+                                    LoansScreen(typeId: '1')),
+                          );
+                        },
+                        child: DelayedDisplay(
+                          delay: Duration(milliseconds: 50),
+                          slidingBeginOffset: Offset(0.60, -0.60),
+                          child: Container(
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5.0,
                               ),
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 30),
-                                  child: Text(
-                                    'Loans',
-                                    style: TextStyle(
-                                        fontFamily: GlobalVariable.Gotham,
-                                        color: GlobalVariable.white),
-                                  ),
+                            ]),
+                            margin: EdgeInsets.only(left: 10),
+                            height: 90,
+                            // width: 125,
+                            // color: Colors.green,
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    child: Image.asset(
+                                      'drawable/loans.png',
+                                      height: 90,
+                                      fit: BoxFit.fill,
+                                    )),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Center(
+                                      child: Image.asset(
+                                    'drawable/loan_icon_act.png',
+                                    fit: BoxFit.fill,
+                                    height: 35,
+                                    // width: 25,
+                                    color: GlobalVariable.white,
+                                  )),
                                 ),
-                              )
-                            ],
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 30),
+                                    child: Text(
+                                      'Loans',
+                                      style: TextStyle(
+                                          fontFamily: GlobalVariable.Gotham,
+                                          color: GlobalVariable.white),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),

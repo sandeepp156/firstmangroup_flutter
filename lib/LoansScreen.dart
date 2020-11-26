@@ -34,6 +34,7 @@ class LoansScreen extends StatefulWidget {
 }
 
 final List<DataBanners> dataBanners = new List<DataBanners>();
+final List<DataLoanType> dataLoanType = new List<DataLoanType>();
 // final List<DataAds> dataAds = new List<DataAds>();
 
 List<String> dataCatg = [
@@ -52,6 +53,7 @@ class _LoansScreenState extends State<LoansScreen> {
   void initState() {
     // TODO: implement initState
     getData();
+    getLoanTypeData();
     // showProg();
     super.initState();
   }
@@ -170,13 +172,64 @@ class _LoansScreenState extends State<LoansScreen> {
               width: 110,
               margin: EdgeInsets.only(top: 3, bottom: 12),
             ),
-            ListView(
-              children: [
-
-              ],
+            SizedBox(
+              height: 100,
+              child: ListView.builder(
+                scrollDirection:Axis.horizontal,
+                itemCount: dataLoanType.length==0?0:dataLoanType.length,
+                  itemBuilder: (context,pos){
+                return Container(
+                  margin: EdgeInsets.only(right: 15),
+                  child: Column(
+                    children: [
+                      Image.network(dataLoanType[pos].image,height: 40,width: 50,),
+                      SizedBox(height: 5,),
+                      Text(dataLoanType[pos].title,style: TextStyle(fontSize: 13,color: GlobalVariable.blue_main,fontFamily: GlobalVariable.Gotham),)
+                    ],
+                  ),
+                );
+              }),
             )
           ],
         ),
+        Column(
+          children: [
+            Text(
+              'Bus',
+              style: TextStyle(
+                  color: GlobalVariable.blue_main,
+                  fontFamily: GlobalVariable.GothamMedium,
+                  // height: 1.5,
+                  // decoration:TextDecoration.underline,
+                  fontSize: 12),
+            ),
+            Container(
+              color: GlobalVariable.yellow_main,
+              height: 1,
+              width: 110,
+              margin: EdgeInsets.only(top: 3, bottom: 12),
+            ),
+            SizedBox(
+              height: 100,
+              child: ListView.builder(
+                  scrollDirection:Axis.horizontal,
+                  itemCount: dataLoanType.length==0?0:dataLoanType.length,
+                  itemBuilder: (context,pos){
+                    return Container(
+                      margin: EdgeInsets.only(right: 15),
+                      child: Column(
+                        children: [
+                          Image.network(dataLoanType[pos].image,height: 40,width: 50,),
+                          SizedBox(height: 5,),
+                          Text(dataLoanType[pos].title,style: TextStyle(fontSize: 13,color: GlobalVariable.blue_main,fontFamily: GlobalVariable.Gotham),)
+                        ],
+                      ),
+                    );
+                  }),
+            )
+          ],
+        ),
+
       ],
     );
   }
@@ -228,6 +281,72 @@ class _LoansScreenState extends State<LoansScreen> {
       throw Exception('Failed to load album');
     }
   }
+  Future<void> getLoanTypeData() async {
+    //https://firstmangroup.in/api/loan_types.php
+    // dataAds.clear();
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/loan_types.php");
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      // Map<String, dynamic> map = jsonDecode(json);
+      print('getData->' + data.toString());
+      setState(() {
+        for (Map i in jsonDecode(json)) {
+          dataLoanType.add(DataLoanType.fromJson(i));
+        }
+      });
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getData->error');
+
+      throw Exception('Failed to load album');
+    }
+  }
 }
 
+class DataLoanType {
+    String id;
+    String image;
+    String title;
 
+    DataLoanType({this.id, this.image, this.title});
+
+    factory DataLoanType.fromJson(Map<String, dynamic> json) {
+        return DataLoanType(
+            id: json['id'],
+            image: json['image'],
+            title: json['title'],
+        );
+    }
+
+    Map<String, dynamic> toJson() {
+        final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['id'] = this.id;
+        data['image'] = this.image;
+        data['title'] = this.title;
+        return data;
+    }
+}

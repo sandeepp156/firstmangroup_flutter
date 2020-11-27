@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:delayed_display/delayed_display.dart';
+import 'package:firstmangroup_flutter/ApplyLoanScreen.dart';
 import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,11 +38,19 @@ final List<DataBanners> dataBanners = new List<DataBanners>();
 final List<DataLoanType> dataLoanType = new List<DataLoanType>();
 // final List<DataAds> dataAds = new List<DataAds>();
 
-List<String> dataCatg = [
-  "Home Loan","Personal Loan","Vehicle Loan","Loan Transfer","Mortgage Loan"
+List<String> dataBusiness = [
+  "Submit Lead",
+  "Emi Calculator",
+  "Contact Rm",
+  "Check Eligibility",
+  "Offers"
 ];
-List<String> dataCatgImg = [
-  "","Personal Loan","Vehicle Loan","Loan Transfer","Mortgage Loan"
+List<String> dataBusinessImg = [
+  "drawable/submitlead_white.png",
+  "drawable/emicalculator_white.png",
+  "drawable/contactrm_white.png",
+  "drawable/checkeligibility.png",
+  "drawable/offers_white.png",
 ];
 
 class _LoansScreenState extends State<LoansScreen> {
@@ -137,7 +146,7 @@ class _LoansScreenState extends State<LoansScreen> {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => BannersScreen(id: dataBanners[i].id)),
+                    builder: (context) => BannersScreen(id: dataBanners[i].typeId,typeId: dataBanners[i].type,)),
               );
             },
             showIndicator: true,
@@ -173,63 +182,110 @@ class _LoansScreenState extends State<LoansScreen> {
               margin: EdgeInsets.only(top: 3, bottom: 12),
             ),
             SizedBox(
-              height: 100,
+              height: 75,
               child: ListView.builder(
-                scrollDirection:Axis.horizontal,
-                itemCount: dataLoanType.length==0?0:dataLoanType.length,
-                  itemBuilder: (context,pos){
-                return Container(
-                  margin: EdgeInsets.only(right: 15),
-                  child: Column(
-                    children: [
-                      Image.network(dataLoanType[pos].image,height: 40,width: 50,),
-                      SizedBox(height: 5,),
-                      Text(dataLoanType[pos].title,style: TextStyle(fontSize: 13,color: GlobalVariable.blue_main,fontFamily: GlobalVariable.Gotham),)
-                    ],
-                  ),
-                );
-              }),
-            )
-          ],
-        ),
-        Column(
-          children: [
-            Text(
-              'Bus',
-              style: TextStyle(
-                  color: GlobalVariable.blue_main,
-                  fontFamily: GlobalVariable.GothamMedium,
-                  // height: 1.5,
-                  // decoration:TextDecoration.underline,
-                  fontSize: 12),
-            ),
-            Container(
-              color: GlobalVariable.yellow_main,
-              height: 1,
-              width: 110,
-              margin: EdgeInsets.only(top: 3, bottom: 12),
-            ),
-            SizedBox(
-              height: 100,
-              child: ListView.builder(
-                  scrollDirection:Axis.horizontal,
-                  itemCount: dataLoanType.length==0?0:dataLoanType.length,
-                  itemBuilder: (context,pos){
-                    return Container(
-                      margin: EdgeInsets.only(right: 15),
-                      child: Column(
-                        children: [
-                          Image.network(dataLoanType[pos].image,height: 40,width: 50,),
-                          SizedBox(height: 5,),
-                          Text(dataLoanType[pos].title,style: TextStyle(fontSize: 13,color: GlobalVariable.blue_main,fontFamily: GlobalVariable.Gotham),)
-                        ],
+                  scrollDirection: Axis.horizontal,
+                  itemCount: dataLoanType.length == 0 ? 0 : dataLoanType.length,
+                  itemBuilder: (context, pos) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => ApplyLoanScreen(
+                                  id: dataLoanType[pos].id,
+                                  title: dataLoanType[pos].title)),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 10, left: 10),
+                        child: Column(
+                          children: [
+                            Image.network(
+                              dataLoanType[pos].image,
+                              height: 40,
+                              width: 50,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              dataLoanType[pos].title,
+                              maxLines: 2,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  color: GlobalVariable.blue_main,
+                                  fontFamily: GlobalVariable.Gotham),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }),
             )
           ],
         ),
-
+        Container(
+          color: GlobalVariable.blue_main,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'BUSSINESS GADGETS',
+                  style: TextStyle(
+                      color: GlobalVariable.white,
+                      fontFamily: GlobalVariable.GothamMedium,
+                      // height: 1.5,
+                      // decoration:TextDecoration.underline,
+                      fontSize: 12),
+                ),
+              ),
+              Container(
+                color: GlobalVariable.yellow_main,
+                height: 1,
+                width: 130,
+                margin: EdgeInsets.only(top: 3, bottom: 12),
+              ),
+              SizedBox(
+                height: 80,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount:
+                        dataBusiness.length == 0 ? 0 : dataBusiness.length,
+                    itemBuilder: (context, pos) {
+                      return Container(
+                        margin: EdgeInsets.only(right: 10, left: 10),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: Image.asset(
+                                dataBusinessImg[pos],
+                                height: 35,
+                                width: 40,
+                                color: GlobalVariable.white,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              dataBusiness[pos],
+                              maxLines: 2,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  color: GlobalVariable.yellow_main,
+                                  fontFamily: GlobalVariable.Gotham),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -281,6 +337,7 @@ class _LoansScreenState extends State<LoansScreen> {
       throw Exception('Failed to load album');
     }
   }
+
   Future<void> getLoanTypeData() async {
     //https://firstmangroup.in/api/loan_types.php
     // dataAds.clear();
@@ -298,9 +355,8 @@ class _LoansScreenState extends State<LoansScreen> {
     );
     await pr.show();
 
-    final response = await http.get("https://" +
-        GlobalVariable.BASE_URL +
-        "/api/loan_types.php");
+    final response = await http
+        .get("https://" + GlobalVariable.BASE_URL + "/api/loan_types.php");
 
     if (response.statusCode == 200) {
       await pr.hide();
@@ -328,25 +384,25 @@ class _LoansScreenState extends State<LoansScreen> {
 }
 
 class DataLoanType {
-    String id;
-    String image;
-    String title;
+  String id;
+  String image;
+  String title;
 
-    DataLoanType({this.id, this.image, this.title});
+  DataLoanType({this.id, this.image, this.title});
 
-    factory DataLoanType.fromJson(Map<String, dynamic> json) {
-        return DataLoanType(
-            id: json['id'],
-            image: json['image'],
-            title: json['title'],
-        );
-    }
+  factory DataLoanType.fromJson(Map<String, dynamic> json) {
+    return DataLoanType(
+      id: json['id'],
+      image: json['image'],
+      title: json['title'],
+    );
+  }
 
-    Map<String, dynamic> toJson() {
-        final Map<String, dynamic> data = new Map<String, dynamic>();
-        data['id'] = this.id;
-        data['image'] = this.image;
-        data['title'] = this.title;
-        return data;
-    }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['image'] = this.image;
+    data['title'] = this.title;
+    return data;
+  }
 }

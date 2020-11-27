@@ -236,7 +236,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => BannersScreen(id: dataBanners[i].id)),
+                    builder: (context) => BannersScreen(id: dataBanners[i].typeId,typeId: dataBanners[i].type,)),
               );
             },
             showIndicator: true,

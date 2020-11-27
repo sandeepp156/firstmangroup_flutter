@@ -1301,7 +1301,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => BannersScreen(id: dataBanners[i].id)),
+                    builder: (context) => BannersScreen(id: dataBanners[i].typeId,typeId: dataBanners[i].type,)),
               );
             },
             showIndicator: true,
@@ -1312,6 +1312,7 @@ class _HomeScreenState extends State<HomeScreen> {
             dotColor: GlobalVariable.grey_main,
             dotBgColor: Colors.transparent,
             noRadiusForIndicator: true,
+
           ),
         ),
         Container(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:firstmangroup_flutter/DataNewProperty.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,22 +15,24 @@ void main() {
 }
 
 class BannersScreen extends StatefulWidget {
-  final String id;
+  final String id, typeId;
 
-  BannersScreen({this.id});
+  BannersScreen({this.id, this.typeId});
 
   @override
   _BannersScreenState createState() => _BannersScreenState();
 }
+
+int contentTabs = 0;
 
 final List<DataNewProperty> dataNewProp = new List<DataNewProperty>();
 
 class _BannersScreenState extends State<BannersScreen>
     with SingleTickerProviderStateMixin {
   //https://firstmangroup.in/api/properties_new.php?property_id=102&member=4
-  final String id;
+  final String id, typeId;
 
-  _BannersScreenState({this.id});
+  _BannersScreenState({this.id, this.typeId});
 
   int tab = 0;
   int _amenities = 0;
@@ -56,9 +59,9 @@ class _BannersScreenState extends State<BannersScreen>
   @override
   void initState() {
     _tabController = new TabController(vsync: this, length: 3);
-    getNewPropData();
+    // getNewPropData();
+    getHomeData_();
     super.initState();
-
   }
 
   @override
@@ -172,7 +175,8 @@ class _BannersScreenState extends State<BannersScreen>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10,top: 10,bottom: 5),
+                    padding:
+                        const EdgeInsets.only(left: 10, top: 10, bottom: 5),
                     child: Text(
                       dataNewProp.length == 0 ? 'Title' : dataNewProp[0].title,
                       style: TextStyle(
@@ -193,7 +197,7 @@ class _BannersScreenState extends State<BannersScreen>
                           fontSize: 12),
                     ),
                   ),
-                  
+
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Row(
@@ -208,16 +212,20 @@ class _BannersScreenState extends State<BannersScreen>
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  dataNewProp.length == 0
-                                      ? 'd'
-                                      : dataNewProp[0].area.title +
-                                          ',' +
-                                          dataNewProp[0].city.title,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.blue_main),
+                                child: SizedBox(
+                                  width: 100,
+                                  child: Text(
+                                    dataNewProp.length == 0
+                                        ? 'd'
+                                        : dataNewProp[0].area.title +
+                                            ',' +
+                                            dataNewProp[0].city.title,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.blue_main),
+                                  ),
                                 ),
                               ),
                             ],
@@ -250,7 +258,8 @@ class _BannersScreenState extends State<BannersScreen>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: Row(
                       children: [
                         Expanded(
@@ -268,7 +277,7 @@ class _BannersScreenState extends State<BannersScreen>
                                   child: Text(
                                     dataNewProp.length == 0
                                         ? 'Bhk'
-                                        : dataNewProp[0].bhk_str ,
+                                        : dataNewProp[0].bhk_str,
                                     maxLines: 1,
                                     style: TextStyle(
                                         fontSize: 12,
@@ -293,7 +302,8 @@ class _BannersScreenState extends State<BannersScreen>
                                 child: Text(
                                   dataNewProp.length == 0
                                       ? 'Floors'
-                                      : dataNewProp[0].units_left+' Units Left',
+                                      : dataNewProp[0].units_left +
+                                          ' Units Left',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: GlobalVariable.Gotham,
@@ -307,7 +317,8 @@ class _BannersScreenState extends State<BannersScreen>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: Row(
                       children: [
                         Expanded(
@@ -323,7 +334,7 @@ class _BannersScreenState extends State<BannersScreen>
                                 child: Text(
                                   dataNewProp.length == 0
                                       ? 'Area_disp'
-                                      : dataNewProp[0].area_disp ,
+                                      : dataNewProp[0].area_disp,
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: GlobalVariable.Gotham,
@@ -346,7 +357,7 @@ class _BannersScreenState extends State<BannersScreen>
                                 child: Text(
                                   dataNewProp.length == 0
                                       ? 'Unitsleft'
-                                      : dataNewProp[0].floors +' Floors',
+                                      : dataNewProp[0].floors + ' Floors',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: GlobalVariable.Gotham,
@@ -360,7 +371,8 @@ class _BannersScreenState extends State<BannersScreen>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: Row(
                       children: [
                         Expanded(
@@ -387,38 +399,43 @@ class _BannersScreenState extends State<BannersScreen>
                           ),
                         ),
                         Expanded(
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'drawable/mid_stage.png',
-                                width: 15,
-                                height: 13,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  dataNewProp.length == 0
-                                      ? 'Stage'
-                                      : dataNewProp[0].stage,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.blue_main),
+                          child: Visibility(
+                            visible: dataNewProp.length != 0?dataNewProp[0].stage=='N/A'?false:true:true,
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'drawable/mid_stage.png',
+                                  width: 15,
+                                  height: 13,
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    dataNewProp.length == 0
+                                        ? 'Stage'
+                                        : dataNewProp[0].stage,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.blue_main),
+                                  ),
+                                ),
+                                Container(
+                                  width: 50,
+                                  color: GlobalVariable.red,
+                                  margin: EdgeInsets.only(bottom: 5),
+                                  child: Text(
+                                    'Construction',
+                                    // maxLines: 2,
 
-                              ),
-                              Container(
-                                color: GlobalVariable.red,
-                                margin: EdgeInsets.only(bottom: 5),
-                                child: Text(
-                                  'Construction',
-                                  style: TextStyle(
-                                      fontSize: 8,
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.white),
+                                    style: TextStyle(
+                                        fontSize: 8,
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.white),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -560,9 +577,14 @@ class _BannersScreenState extends State<BannersScreen>
                       ],
                     ),
                   ),
-                AnimatedSwitcher(
-                  duration: Duration(seconds: 1),child: propertyoptions(),),
-
+                  AnimatedSwitcher(
+                    duration: Duration(milliseconds: 500),
+                    child: tab == 0
+                        ? propertyoptions()
+                        : tab == 1
+                            ? amenities()
+                            : nearby(),
+                  ),
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
                     color: Colors.black,
@@ -684,21 +706,21 @@ class _BannersScreenState extends State<BannersScreen>
                   children: [
                     Image.asset(
                       'drawable/brochure.png',
-                      height: 30,
-                      width: 30,
+                      height: 40,
+                      width: 40,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: Image.asset(
                         'drawable/share_new.png',
-                        height: 30,
-                        width: 30,
+                        height: 40,
+                        width: 40,
                       ),
                     ),
                     Image.asset(
                       'drawable/offers_new.png',
-                      height: 30,
-                      width: 30,
+                      height: 40,
+                      width: 40,
                     )
                   ],
                 ),
@@ -714,52 +736,55 @@ class _BannersScreenState extends State<BannersScreen>
     return ListView(
       scrollDirection: Axis.horizontal,
       children: [
-        Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(right: 15, left: 15),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5, bottom: 5),
-                    child: Text(
-                      propertyOptionList[0],
-                      style: TextStyle(
-                          fontFamily: GlobalVariable.Gotham,
-                          fontSize: 10,
-                          color: GlobalVariable.blue_main),
+        Visibility(
+          visible: dataNewProp.length==0?true:dataNewProp[0].flats[0].,
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 15, left: 15),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      child: Text(
+                        propertyOptionList[0],
+                        style: TextStyle(
+                            fontFamily: GlobalVariable.Gotham,
+                            fontSize: 10,
+                            color: GlobalVariable.blue_main),
+                      ),
                     ),
-                  ),
-                  Image.asset(
-                    propertyOptionImgList[0],
-                    height: 15,
-                    width: 20,
-                  )
-                ],
+                    Image.asset(
+                      propertyOptionImgList[0],
+                      height: 15,
+                      width: 20,
+                    )
+                  ],
+                ),
               ),
-            ),
-            // Expanded(
-            //   child: Container(
-            //     width: 100,
-            //     child: ListView.builder(
-            //       scrollDirection: Axis.vertical,
-            //         itemCount: 1,
-            //         itemBuilder: (context,pos_){
-            //       return Container(
-            //         height: 10,width: 10,
-            //         margin: EdgeInsets.only(right: 10,left: 10),
-            //         color: GlobalVariable.blue_main,
-            //         child: Text('2 BHk',
-            //             style: TextStyle(
-            //             fontFamily: GlobalVariable.Gotham,
-            //             fontSize: 10,
-            //             color: GlobalVariable.white),
-            //         ),
-            //       );
-            //     }),
-            //   ),
-            // )
-          ],
+              // Expanded(
+              //   child: Container(
+              //     width: 100,
+              //     child: ListView.builder(
+              //       scrollDirection: Axis.vertical,
+              //         itemCount: 1,
+              //         itemBuilder: (context,pos_){
+              //       return Container(
+              //         height: 10,width: 10,
+              //         margin: EdgeInsets.only(right: 10,left: 10),
+              //         color: GlobalVariable.blue_main,
+              //         child: Text('2 BHk',
+              //             style: TextStyle(
+              //             fontFamily: GlobalVariable.Gotham,
+              //             fontSize: 10,
+              //             color: GlobalVariable.white),
+              //         ),
+              //       );
+              //     }),
+              //   ),
+              // )
+            ],
+          ),
         ),
         Column(
           children: [
@@ -921,7 +946,7 @@ class _BannersScreenState extends State<BannersScreen>
     );
   }
 
-  Widget propertyoptions() {
+  Widget propertyoptions_() {
     return Column(
       children: [
         Container(
@@ -1039,11 +1064,125 @@ class _BannersScreenState extends State<BannersScreen>
       ],
     );
   }
-  Widget propertyoptions_() {
-    return ListView(
-      children: [
 
-      ],
+  Widget propertyoptions() {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SizedBox(height: 50, child: listItem()),
+          SizedBox(
+              height: 150,
+              child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: dataNewProp.length!=0?dataNewProp[0].flats.length:0,
+                  shrinkWrap: true,
+                  itemBuilder: (context, pos) {
+                    return Container(
+                      height: 20,
+                      margin: EdgeInsets.only(bottom: 2),
+                      color: GlobalVariable.blue_main,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: 20, left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: Text(
+                                propertyOptionList[0],
+                                style: TextStyle(
+                                    fontFamily: GlobalVariable.Gotham,
+                                    fontSize: 10,
+                                    color: GlobalVariable.white),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 20, left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: Text(
+                                propertyOptionList[0],
+                                style: TextStyle(
+                                    fontFamily: GlobalVariable.Gotham,
+                                    fontSize: 10,
+                                    color: GlobalVariable.white),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 20, left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: Text(
+                                propertyOptionList[0],
+                                style: TextStyle(
+                                    fontFamily: GlobalVariable.Gotham,
+                                    fontSize: 10,
+                                    color: GlobalVariable.white),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 20, left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: Text(
+                                propertyOptionList[0],
+                                style: TextStyle(
+                                    fontFamily: GlobalVariable.Gotham,
+                                    fontSize: 10,
+                                    color: GlobalVariable.white),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 20, left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: Text(
+                                propertyOptionList[0],
+                                style: TextStyle(
+                                    fontFamily: GlobalVariable.Gotham,
+                                    fontSize: 10,
+                                    color: GlobalVariable.white),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 20, left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: Text(
+                                propertyOptionList[0],
+                                style: TextStyle(
+                                    fontFamily: GlobalVariable.Gotham,
+                                    fontSize: 10,
+                                    color: GlobalVariable.white),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 20, left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: Text(
+                                propertyOptionList[0],
+                                style: TextStyle(
+                                    fontFamily: GlobalVariable.Gotham,
+                                    fontSize: 10,
+                                    color: GlobalVariable.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  })),
+        ],
+      ),
     );
   }
 
@@ -1051,6 +1190,7 @@ class _BannersScreenState extends State<BannersScreen>
     return Container(
       margin: EdgeInsets.only(top: 5),
       child: Column(
+        // mainAxisSize: MainAxisSize.,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -1106,7 +1246,7 @@ class _BannersScreenState extends State<BannersScreen>
                   child: Column(
                     children: [
                       Text(
-                        'Fitness',
+                        'Welfare',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: GlobalVariable.GothamMedium,
@@ -1140,7 +1280,7 @@ class _BannersScreenState extends State<BannersScreen>
                   child: Column(
                     children: [
                       Text(
-                        'Fitness',
+                        'Safety',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: GlobalVariable.GothamMedium,
@@ -1174,7 +1314,7 @@ class _BannersScreenState extends State<BannersScreen>
                   child: Column(
                     children: [
                       Text(
-                        'Fitness',
+                        'Leisure',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: GlobalVariable.GothamMedium,
@@ -1195,22 +1335,53 @@ class _BannersScreenState extends State<BannersScreen>
               // Container(color: GlobalVariable.grey_main_,height: 2,),
             ],
           ),
-          // ListView.builder(
-          //     shrinkWrap: true,
-          //     scrollDirection: Axis.vertical,
-          //     itemBuilder: (context, pos) {
-          //       return Container(
-          //         child: Row(
-          //           children: [
-          //             Image.asset(
-          //               'drawable/meals.png',
-          //               height: 20,
-          //               width: 20,
-          //             )
-          //           ],
-          //         ),
-          //       );
-          //     })
+          SizedBox(
+            height: 120,
+            child: AnimatedList(
+                initialItemCount: dataNewProp[0]
+                    .amenities[_amenities]
+                    .amenities_values
+                    .length,
+                // shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, pos, anim) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(-1, 0),
+                      end: Offset(0, 0),
+                    ).animate(anim),
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Image.network(
+                              dataNewProp[0]
+                                  .amenities[_amenities]
+                                  .amenities_values[pos]
+                                  .image,
+                              height: 20,
+                              width: 20,
+                            ),
+                          ),
+                          Text(
+                            dataNewProp[0]
+                                .amenities[_amenities]
+                                .amenities_values[pos]
+                                .title,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: GlobalVariable.GothamMedium,
+                                color: GlobalVariable.blue_main,
+                                fontSize: 12),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+          )
         ],
       ),
     );
@@ -1295,22 +1466,20 @@ class _BannersScreenState extends State<BannersScreen>
 
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
-        "/api/properties.php?property_id=" +
+        "/api/properties_new.php?property_id=" +
         widget.id +
-        "&member_id=" +
+        "&member=" +
         GlobalVariable.member_id);
 
     if (response.statusCode == 200) {
       await pr.hide();
 
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      // return Album.fromJson(jsonDecode(response.body));
       final data = jsonDecode(response.body);
+
       int statusCode = response.statusCode;
       String json = response.body;
       // Map<String, dynamic> map = jsonDecode(json);
-      print('getNewPropData->' + data.toString() + 'id=' + widget.id);
+      print('getNewPropData->' + data.toString());
       //countInt
       setState(() {
         for (Map i in jsonDecode(json)) {
@@ -1327,5 +1496,78 @@ class _BannersScreenState extends State<BannersScreen>
 
       throw Exception('Failed to load album');
     }
+  }
+
+  Future<void> getHomeData_() async {
+    dataNewProp.clear();
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+    print(widget.id+","+widget.typeId);
+
+    //https://firstmangroup.in/api/properties_new.php?property_id=137&member=4
+   //3= //https://firstmangroup.in/api/properties.php?property_id=133&member_id=4
+   //4= //https://firstmangroup.in/api/properties_new.php?property_id=133&member=4
+    final response = widget.typeId == '4'
+        ? await http.get("https://" +
+                GlobalVariable.BASE_URL +
+                "/api/properties_new.php?property_id="
+            +
+            widget.id +
+
+            "&member=" +
+            GlobalVariable.member_id
+            )
+        : await http.get("https://" +
+                GlobalVariable.BASE_URL +
+                "/api/properties.php?property_id="
+            +
+            widget.id +
+
+            "&member_id=" +
+            GlobalVariable.member_id
+            );
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      // Map<String, dynamic> map = jsonDecode(json);
+      print('getHome->' + data.toString());
+      //countInt
+      setState(() {
+        for (Map i in jsonDecode(json)) {
+          dataNewProp.add(DataNewProperty.fromJson(i));
+          // _imageUrls.add(map[dataBanners][i.length]["image"]);
+        }
+      });
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getHome->error');
+
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Widget nearby() {
+    return Container();
   }
 }

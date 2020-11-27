@@ -244,6 +244,7 @@ flutter:
     - drawable/insurance_back.png
     - drawable/parking.png
     - drawable/insure.png
+    - drawable/submitlead_white.png
     - drawable/winner_back.png
     - drawable/winner_top_per.png
     - drawable/winners_stage.png
@@ -262,6 +263,8 @@ flutter:
     - drawable/faq_white.png
     - drawable/my_list_act.png
     - drawable/offers_white.png
+    - drawable/radio_off.png
+    - drawable/radio_on.png
 
   #   - images/a_dot_ham.jpeg
 

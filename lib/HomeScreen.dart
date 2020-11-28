@@ -6,9 +6,12 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:countup/countup.dart';
+import 'package:firstmangroup_flutter/AboutUsScreen.dart';
 import 'package:firstmangroup_flutter/AccountDetScreen.dart';
+import 'package:firstmangroup_flutter/FAQScreen.dart';
 import 'package:firstmangroup_flutter/NotifyScreen.dart';
 import 'package:firstmangroup_flutter/PayoutsScreen.dart';
+import 'package:firstmangroup_flutter/TACScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:delayed_display/delayed_display.dart';
@@ -652,8 +655,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           padding: const EdgeInsets.only(
                                               left: 10, right: 10),
                                           child: Image.asset(
-                                            'drawable/addlisting.png',
-                                            height: 20,
+                                            'drawable/inventory.png',
+                                            height: 17,
                                             width: 20,
                                           ),
                                         ),
@@ -760,29 +763,42 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, top: 3, left: 5),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Image.asset(
-                                          'drawable/inviteba.png',
-                                          height: 20,
-                                          width: 20,
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      showMenu=false;
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              InviteFMScreen()),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, top: 3, left: 5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Image.asset(
+                                            'drawable/inviteba.png',
+                                            height: 20,
+                                            width: 20,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Invite FM',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: GlobalVariable.blue_main,
-                                            fontFamily:
-                                                GlobalVariable.GothamMedium),
-                                      )
-                                    ],
+                                        Text(
+                                          'Invite FM',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: GlobalVariable.blue_main,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -836,104 +852,156 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, top: 3, left: 5),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Image.asset(
-                                          'drawable/annoucements.png',
-                                          height: 20,
-                                          width: 20,
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      showMenu=false;
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              NotifyScreen()),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, top: 3, left: 5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Image.asset(
+                                            'drawable/annoucements.png',
+                                            height: 20,
+                                            width: 20,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Announcements',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: GlobalVariable.blue_main,
-                                            fontFamily:
-                                                GlobalVariable.GothamMedium),
-                                      )
-                                    ],
+                                        Text(
+                                          'Announcements',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: GlobalVariable.blue_main,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, top: 3, left: 5),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Image.asset(
-                                          'drawable/my_listingss.png',
-                                          height: 20,
-                                          width: 20,
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      showMenu=false;
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                             AboutUsScreen()),//
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, top: 3, left: 5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Image.asset(
+                                            'drawable/my_listingss.png',
+                                            height: 20,
+                                            width: 20,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'About Us',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: GlobalVariable.blue_main,
-                                            fontFamily:
-                                                GlobalVariable.GothamMedium),
-                                      )
-                                    ],
+                                        Text(
+                                          'About Us',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: GlobalVariable.blue_main,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, top: 3, left: 5),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Image.asset(
-                                          'drawable/terms.png',
-                                          height: 20,
-                                          width: 20,
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      showMenu=false;
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              TACScreen()),//
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, top: 3, left: 5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Image.asset(
+                                            'drawable/terms.png',
+                                            height: 20,
+                                            width: 20,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Terms And Service',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: GlobalVariable.blue_main,
-                                            fontFamily:
-                                                GlobalVariable.GothamMedium),
-                                      )
-                                    ],
+                                        Text(
+                                          'Terms And Service',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: GlobalVariable.blue_main,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, top: 3, left: 5),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Image.asset(
-                                          'drawable/faq.png',
-                                          height: 20,
-                                          width: 20,
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      showMenu=false;
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              FAQScreen()),//
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, top: 3, left: 5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Image.asset(
+                                            'drawable/faq.png',
+                                            height: 20,
+                                            width: 20,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'FAQ\'s',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: GlobalVariable.blue_main,
-                                            fontFamily:
-                                                GlobalVariable.GothamMedium),
-                                      )
-                                    ],
+                                        Text(
+                                          'FAQ\'s',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: GlobalVariable.blue_main,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Container(

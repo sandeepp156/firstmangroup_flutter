@@ -182,6 +182,7 @@ flutter:
     - drawable/terms_checked.png
     - drawable/menu.png
     - drawable/home.png
+    - drawable/inventory.png
     - drawable/home_act.png
     - drawable/user_circle.png
     - drawable/sales_list.png

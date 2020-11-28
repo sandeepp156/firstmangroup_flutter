@@ -39,7 +39,7 @@ class _AddLisitingScreenState extends State<AddLisitingScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 12, bottom: 10),
                     child: Text(
-                      'Tracking Leads',
+                      'Enter Property Details',
                       style: TextStyle(
                           color: GlobalVariable.blue_main,
                           fontFamily: GlobalVariable.GothamMedium,

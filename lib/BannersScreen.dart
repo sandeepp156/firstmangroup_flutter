@@ -4,11 +4,15 @@ import 'dart:io';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firstmangroup_flutter/DataNewProperty.dart';
+import 'package:firstmangroup_flutter/EventsScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'customcolor.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 void main() {
   runApp(BannersScreen());
@@ -23,6 +27,13 @@ class BannersScreen extends StatefulWidget {
   _BannersScreenState createState() => _BannersScreenState();
 }
 
+YoutubePlayerController _controller = YoutubePlayerController(
+  initialVideoId: dataNewProp.length==0?'':dataNewProp[0].video_link,
+  flags: YoutubePlayerFlags(
+    autoPlay: true,
+    mute: true,
+  ),
+);
 int contentTabs = 0;
 
 final List<DataNewProperty> dataNewProp = new List<DataNewProperty>();
@@ -69,6 +80,14 @@ class _BannersScreenState extends State<BannersScreen>
     _tabController.dispose();
     super.dispose();
   }
+
+  // GoogleMapController mapController;
+  //
+  // final LatLng _center = const LatLng(45.521563, -122.677433);
+  //
+  // void _onMapCreated(GoogleMapController controller) {
+  //   mapController = controller;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -400,7 +419,11 @@ class _BannersScreenState extends State<BannersScreen>
                         ),
                         Expanded(
                           child: Visibility(
-                            visible: dataNewProp.length != 0?dataNewProp[0].stage=='N/A'?false:true:true,
+                            visible: dataNewProp.length != 0
+                                ? dataNewProp[0].stage == 'Completed'
+                                    ? true
+                                    : false
+                                : false,
                             child: Row(
                               children: [
                                 Image.asset(
@@ -585,10 +608,29 @@ class _BannersScreenState extends State<BannersScreen>
                             ? amenities()
                             : nearby(),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    color: Colors.black,
-                    height: 200,
+                  Visibility(
+                    visible: dataNewProp.length==0?false:true,
+                    child: Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        // color: Colors.black,
+                        height: 200,
+                        child: YoutubePlayer(
+                          controller: _controller,
+                          liveUIColor: Colors.amber,
+                        )
+                        // YoutubePlayer(
+                        //   controller: _controller,
+                        //   showVideoProgressIndicator: true,
+                        //   videoProgressIndicatorColor: Colors.amber,
+                        //   progressColors: ProgressColors(
+                        //     playedColor: Colors.amber,
+                        //     handleColor: Colors.amberAccent,
+                        //   ),
+                        //   onReady () {
+                        // _controller.addListener(listener);
+                        // },
+                        // ),
+                        ),
                   ),
                   Text(
                     'Price Trends',
@@ -628,7 +670,7 @@ class _BannersScreenState extends State<BannersScreen>
                         ),
                       ),
                       Text(
-                        'Chandan Valley',
+                        dataNewProp[0].title,
                         style: TextStyle(
                             color: GlobalVariable.yellow_main,
                             fontSize: 16,
@@ -639,10 +681,10 @@ class _BannersScreenState extends State<BannersScreen>
                   Padding(
                     padding: const EdgeInsets.only(left: 15, top: 7),
                     child: Text(
-                      'Description...',
+                      parseHtmlString(dataNewProp[0].description),
                       style: TextStyle(
                           color: GlobalVariable.blue_main,
-                          fontSize: 14,
+                          fontSize: 12,
                           fontFamily: GlobalVariable.Gotham),
                     ),
                   ),
@@ -653,17 +695,28 @@ class _BannersScreenState extends State<BannersScreen>
                   ),
                   Container(
                     alignment: Alignment.center,
-                    height: 225,
-                    child: Text(
-                      'ListView',
-                      style: TextStyle(color: Colors.black),
-                    ),
+                    height: 200,
+                    child:riders()
+                        //ratings
+                    // Text(
+                    //   'ListView',
+                    //   style: TextStyle(color: Colors.black),
+                    // ),
                   ),
                   Container(
                     alignment: Alignment.center,
                     color: GlobalVariable.grey_main,
                     height: 300,
-                    child: Text(
+                    child:
+                        // GoogleMap(
+                        //   onMapCreated: _onMapCreated,
+                        //   initialCameraPosition: CameraPosition(
+                        //     target: _center,
+                        //     zoom: 11.0,
+                        //   ),
+                        // ),
+
+                        Text(
                       'MapView',
                       style: TextStyle(color: Colors.black),
                     ),
@@ -737,7 +790,8 @@ class _BannersScreenState extends State<BannersScreen>
       scrollDirection: Axis.horizontal,
       children: [
         Visibility(
-          visible: dataNewProp.length==0?true:dataNewProp[0].flats[0].,
+          // visible:true,
+          visible: widget.typeId == '4' ? false : true,
           child: Column(
             children: [
               Container(
@@ -1075,7 +1129,8 @@ class _BannersScreenState extends State<BannersScreen>
               height: 150,
               child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: dataNewProp.length!=0?dataNewProp[0].flats.length:0,
+                  itemCount:
+                      dataNewProp.length != 0 ? dataNewProp[0].flats.length : 0,
                   shrinkWrap: true,
                   itemBuilder: (context, pos) {
                     return Container(
@@ -1394,7 +1449,7 @@ class _BannersScreenState extends State<BannersScreen>
         children: [
           Visibility(
             // visible: true,
-            visible: false,
+            visible: widget.typeId == '4' ? true : false,
             child: Expanded(
               child: Container(
                 padding: EdgeInsets.only(top: 15, bottom: 15),
@@ -1513,30 +1568,24 @@ class _BannersScreenState extends State<BannersScreen>
             ),
     );
     await pr.show();
-    print(widget.id+","+widget.typeId);
+    print(widget.id + "," + widget.typeId);
 
     //https://firstmangroup.in/api/properties_new.php?property_id=137&member=4
-   //3= //https://firstmangroup.in/api/properties.php?property_id=133&member_id=4
-   //4= //https://firstmangroup.in/api/properties_new.php?property_id=133&member=4
+    //3= //https://firstmangroup.in/api/properties.php?property_id=133&member_id=4
+    //4= //https://firstmangroup.in/api/properties_new.php?property_id=133&member=4
     final response = widget.typeId == '4'
         ? await http.get("https://" +
-                GlobalVariable.BASE_URL +
-                "/api/properties_new.php?property_id="
-            +
+            GlobalVariable.BASE_URL +
+            "/api/properties_new.php?property_id=" +
             widget.id +
-
             "&member=" +
-            GlobalVariable.member_id
-            )
+            GlobalVariable.member_id)
         : await http.get("https://" +
-                GlobalVariable.BASE_URL +
-                "/api/properties.php?property_id="
-            +
+            GlobalVariable.BASE_URL +
+            "/api/properties.php?property_id=" +
             widget.id +
-
             "&member_id=" +
-            GlobalVariable.member_id
-            );
+            GlobalVariable.member_id);
 
     if (response.statusCode == 200) {
       await pr.hide();
@@ -1569,5 +1618,18 @@ class _BannersScreenState extends State<BannersScreen>
 
   Widget nearby() {
     return Container();
+  }
+
+  Widget riders() {
+    return Container(
+      child: Row(
+        children: [
+          Text('R\nI\nD\nE\nR\nS',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: GlobalVariable.blue_main,fontFamily: GlobalVariable.Gotham,fontSize: 16),),
+
+        ],
+      ),
+    );
   }
 }

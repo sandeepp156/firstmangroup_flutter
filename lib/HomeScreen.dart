@@ -38,6 +38,7 @@ import 'MyAssistantScreen.dart';
 import 'MyCreditsScreen.dart';
 import 'MyFmNw.dart';
 import 'RealEstateScreen.dart';
+import 'SalesListScreen.dart';
 import 'initialpage.dart';
 import 'main.dart';
 
@@ -518,29 +519,38 @@ class _HomeScreenState extends State<HomeScreen> {
                                             GlobalVariable.GothamMedium),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 5, bottom: 7, left: 5),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Image.asset(
-                                          'drawable/ex_track_lead.png',
-                                          height: 20,
-                                          width: 20,
+                                InkWell(
+                                  onTap: (){
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) => TrackLeadsScreen()),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5, bottom: 7, left: 5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Image.asset(
+                                            'drawable/ex_track_lead.png',
+                                            height: 20,
+                                            width: 20,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Track Lead',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: GlobalVariable.blue_main,
-                                            fontFamily:
-                                                GlobalVariable.GothamMedium),
-                                      )
-                                    ],
+                                        Text(
+                                          'Track Lead',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: GlobalVariable.blue_main,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -572,40 +582,56 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, top: 3, left: 5),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Image.asset(
-                                          'drawable/sales_list_act.png',
-                                          height: 20,
-                                          width: 20,
+                                InkWell(
+                                  onTap: (){
+                                    //SalesListScreen
+                                    // Navigator.pop(context);
+                                    setState(() {
+                                      showMenu = false;
+
+                                    });
+
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) => SalesListScreen()),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, top: 3, left: 5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Image.asset(
+                                            'drawable/sales_list_act.png',
+                                            height: 20,
+                                            width: 20,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Sales List',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: GlobalVariable.blue_main,
-                                            fontFamily:
-                                                GlobalVariable.GothamMedium),
-                                      ),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(bottom: 7,left: 3),
-                                      //   child:
-                                      //   Text(
-                                      //     'Payouts',
-                                      //     style: TextStyle(
-                                      //         fontSize: 7,
-                                      //         color: Colors.red,
-                                      //         fontFamily: GlobalVariable.GothamMedium),
-                                      //   ),
-                                      // ),
-                                    ],
+                                        Text(
+                                          'Sales List',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: GlobalVariable.blue_main,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium),
+                                        ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.only(bottom: 7,left: 3),
+                                        //   child:
+                                        //   Text(
+                                        //     'Payouts',
+                                        //     style: TextStyle(
+                                        //         fontSize: 7,
+                                        //         color: Colors.red,
+                                        //         fontFamily: GlobalVariable.GothamMedium),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 InkWell(

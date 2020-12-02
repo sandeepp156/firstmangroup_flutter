@@ -1,10 +1,16 @@
 
+import 'dart:convert';
 import 'dart:ui';
 import 'dart:async';
+import 'package:http/http.dart' as http;
 
+import 'package:firstmangroup_flutter/HomeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'DataMemberDetails.dart';
+import 'customcolor.dart';
 import 'initialpage.dart';
 
 void main() {
@@ -18,6 +24,8 @@ class MyApp extends StatefulWidget {
   _State createState() => _State();
 
 }
+// final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
+var usrName = 'Hi';
 
 class _State extends State<MyApp> {
   @override
@@ -28,8 +36,9 @@ class _State extends State<MyApp> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     getUser(context);
+
+    super.initState();
 
   }
   @override
@@ -61,10 +70,14 @@ class _State extends State<MyApp> {
                       new Flexible(child: Column(
                         children: [
                           Expanded(child: Text(""), flex: 1,),
-                          new Text("Testing", textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 25,
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: new Text(usrName, textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 25,
+                                  color: GlobalVariable.yellow_main,
+                                  // fontWeight: FontWeight.bold
+                              ),),
+                          ),
                           Container(
                             // padding: EdgeInsets.only(top:10),
                             child: Image.asset(
@@ -88,10 +101,60 @@ class _State extends State<MyApp> {
     );
   }
 
-  Future<String> getUser(BuildContext context) async{
-    Timer(Duration(seconds: 3),()=>
-        Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
-    return "";
+  Future<void> getUser(BuildContext context) async{
+    // Timer(Duration(seconds: 3),()=>
+    //     Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) { return HomeScreen();}),));
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // print('getUser'+prefs.getString('member_id'));
+   if(prefs.getString('member_id')==null||prefs.getString('member_id')=='-1'){
+      Timer(Duration(seconds: 3),()=>
+          Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
+
+    }
+    else if(prefs.getString('member_id')!='-1'){
+     getDetails();
+
+
+    }
+
+    else {
+      Timer(Duration(seconds: 3),()=>
+          Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Initial()),));
+
+    }
   }
+
+  Future<void> getDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/members.php?member_id=" +
+        prefs.getString('member_id'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+
+      // Map<String, dynamic> map = jsonDecode(json);
+      print('getDetails->' + data.toString());
+
+      setState(() {
+
+        prefs.setString('memberJson', json);
+        for (Map i in jsonDecode(json)) {
+          dataMemDe.add(DataMemberDetails.fromJson(i));
+        }
+        usrName = 'Hi '+dataMemDe[0].fname;
+      });
+      Timer(Duration(seconds: 3),()=>
+          Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  HomeScreen()),));
+
+    } else {
+      print('getDetails->error');
+      throw Exception('Failed to load album');
+    }
+  }
+
 }
 

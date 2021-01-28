@@ -24,8 +24,10 @@ class DataMemberDetails {
     String referred_by_code;
     RelationManager relation_manager;
     String total_commission;
+    String type;
+    String type_title;
 
-    DataMemberDetails({this.aadhar, this.address, this.bank, this.cheque, this.code, this.cur_status, this.email, this.fname, this.id, this.image, this.insurance_commission, this.invite_ba_share, this.kyc, this.kyc_image, this.lname, this.loan_commission, this.pancard, this.phone, this.profession, this.questions, this.realestate_commission, this.realestate_manual_commission, this.referred_by_code, this.relation_manager, this.total_commission});
+    DataMemberDetails({this.aadhar, this.address, this.bank, this.cheque, this.code, this.cur_status, this.email, this.fname, this.id, this.image, this.insurance_commission, this.invite_ba_share, this.kyc, this.kyc_image, this.lname, this.loan_commission, this.pancard, this.phone, this.profession, this.questions, this.realestate_commission, this.realestate_manual_commission, this.referred_by_code, this.relation_manager, this.total_commission,this.type,this.type_title});
 
     factory DataMemberDetails.fromJson(Map<String, dynamic> json) {
         return DataMemberDetails(
@@ -54,6 +56,8 @@ class DataMemberDetails {
             referred_by_code: json['referred_by_code'],
             relation_manager: json['relation_manager'] != null ? RelationManager.fromJson(json['relation_manager']) : null,
             total_commission: json['total_commission'],
+            type: json['type'],
+            type_title: json['type_title'],
         );
     }
 
@@ -83,6 +87,8 @@ class DataMemberDetails {
         data['realestate_manual_commission'] = this.realestate_manual_commission;
         data['referred_by_code'] = this.referred_by_code;
         data['total_commission'] = this.total_commission;
+        data['type'] = this.type;
+        data['type_title'] = this.type_title;
         if (this.relation_manager != null) {
             data['relation_manager'] = this.relation_manager.toJson();
         }

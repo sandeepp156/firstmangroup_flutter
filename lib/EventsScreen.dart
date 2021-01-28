@@ -51,13 +51,10 @@ class _EventsScreenState extends State<EventsScreen> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Hero(
-                      tag: 'back_img',
-                      child: Image.asset(
-                        'drawable/back_black.png',
-                        height: 30,
-                        width: 40,
-                      ),
+                    child: Image.asset(
+                      'drawable/back_black.png',
+                      height: 30,
+                      width: 40,
                     ),
                   ),
                   Padding(
@@ -107,7 +104,7 @@ class _EventsScreenState extends State<EventsScreen> {
           Navigator.push(
               context,
               new PageRouteBuilder(
-                  transitionDuration: Duration(seconds: 1),
+                  // transitionDuration: Duration(seconds: 1),
                   pageBuilder: (e,f,g)=>EventDetailsScreen(dataEvents:dataEvents[pos])));
         },
         child: Container(

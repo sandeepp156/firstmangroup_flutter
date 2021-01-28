@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firstmangroup_flutter/DataCities.dart';
 import 'package:firstmangroup_flutter/HomeScreen.dart';
+import 'package:firstmangroup_flutter/PropertyGalleryScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,21 +14,31 @@ void main() {
 }
 
 class CitySelectScreen extends StatefulWidget {
+  final String from;
+
+  CitySelectScreen({this.from});
+
   @override
   _CitySelectScreenState createState() => _CitySelectScreenState();
 }
+
 final List<DataCities> dataCities = new List<DataCities>();
 
-int isSelected  = -1;
+int isSelected = -1;
 var cityID = '';
 
 class _CitySelectScreenState extends State<CitySelectScreen> {
+  final String from;
+
+  _CitySelectScreenState({this.from});
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getCitiesData();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,18 +66,18 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10),
-                  child:
-                  GridView.builder(
-                      gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3),
-                      itemCount: dataCities.length==0?1:dataCities.length,
+                  child: GridView.builder(
+                      gridDelegate:
+                          new SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3),
+                      itemCount: dataCities.length == 0 ? 0 : dataCities.length,
                       itemBuilder: (BuildContext context, int pos) {
                         return InkWell(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               isSelected = pos;
                               cityID = dataCities[pos].id;
-                              print('CITYIDSELECTED:'+cityID);
+                              print('CITYIDSELECTED:' + cityID);
                             });
                           },
                           child: Container(
@@ -82,20 +93,28 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
                                       Expanded(
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            image: DecorationImage(image: NetworkImage(dataCities.length==0?'https://ak6.picdn.net/shutterstock/videos/6982306/thumb/1.jpg':dataCities[pos].image))
-                                          ),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(dataCities
+                                                              .length ==
+                                                          0
+                                                      ? 'https://ak6.picdn.net/shutterstock/videos/6982306/thumb/1.jpg'
+                                                      : dataCities[pos]
+                                                          .image))),
                                           // color: GlobalVariable.yellow_main,
                                         ),
                                       ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 3, bottom: 3),
+                                        padding: const EdgeInsets.only(
+                                            top: 3, bottom: 3),
                                         child: Text(
-                                          dataCities.length==0?'':dataCities[pos].title,
+                                          dataCities.length == 0
+                                              ? ''
+                                              : dataCities[pos].title,
                                           style: TextStyle(
                                               color: GlobalVariable.blue_main,
                                               fontSize: 12,
-                                              fontFamily: GlobalVariable.Gotham),
+                                              fontFamily:
+                                                  GlobalVariable.Gotham),
                                         ),
                                       )
                                     ],
@@ -103,8 +122,14 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
                                   Align(
                                     alignment: Alignment.topRight,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(top: 5,right: 5),
-                                      child: Image.asset(isSelected != null && isSelected == pos ?'drawable/select_city_fill.png':'drawable/select_city.png',height: 15,width: 15,
+                                      padding: const EdgeInsets.only(
+                                          top: 5, right: 5),
+                                      child: Image.asset(
+                                        isSelected != null && isSelected == pos
+                                            ? 'drawable/select_city_fill.png'
+                                            : 'drawable/select_city.png',
+                                        height: 15,
+                                        width: 15,
                                       ),
                                       //isSelected != null && isSelected == index //set condition like this. voila! if isSelected and list index matches it will colored as white else orange.
                                       //                              ? Colors.white
@@ -165,7 +190,7 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
     );
   }
 
-  Widget saveBtn(){
+  Widget saveBtn() {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -192,12 +217,23 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
       ),
     );
   }
+
   Future<void> getCitiesData() async {
     dataCities.clear();
-    final response = await http.get("https://" +
-        GlobalVariable.BASE_URL +
-        "/api/cities.php");
+    final response = await http.get(
+        "https://" + GlobalVariable.BASE_URL + "/api/cities.php",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          // Required for CORS support to work
+          "Access-Control-Allow-Credentials": "true",
+          "Accept": "application/json",
+          // Required for cookies, authorization headers with HTTPS
+          "Access-Control-Allow-Headers":
+              "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+          "Access-Control-Allow-Methods": "POST, OPTIONS"
+        });
 
+    print(response.body);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
@@ -212,9 +248,11 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
           dataCities.add(DataCities.fromJson(i));
         }
       });
+      //call ads.php
+      //PropGallery,propFilter,NewProp<--
+      //
 
       print('getCities->' + data.toString());
-
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -224,20 +262,41 @@ class _CitySelectScreenState extends State<CitySelectScreen> {
     }
   }
 
+  Future<void> getCitiesData__() async {
+    final res = await http
+        .get("https://" + GlobalVariable.BASE_URL + "/api/cities.php");
+
+    if (res.statusCode == 200) {
+      var v = json.decode(res.body);
+      print(v.toString());
+      setState(() {
+        // imageUrl = v['message'];
+      });
+    }
+  }
+
   Future<void> saveCity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      prefs.setString("cityId", ""+cityID);
-      prefs.setString("cityName", ""+dataCities[isSelected].title);
+      prefs.setString("cityId", "" + cityID);
+      prefs.setString("cityName", "" + dataCities[isSelected].title);
     });
 
-    Navigator.push(
-        context,
-        new MaterialPageRoute(builder: (context) => HomeScreen(),
-        ));
+    if (widget.from == '1') {
+      Navigator.pop(context,'hai');
+      /*Navigator.pushReplacement(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => PropertyGalleryScreen(),
+          ));*/
+    } else {
+      Navigator.pushReplacement(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ));
+    }
+
     //  int isSelected  = -1;
   }
 }
-
-
-

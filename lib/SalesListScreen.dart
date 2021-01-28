@@ -189,7 +189,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                 child: Container(
               padding: EdgeInsets.only(top: 10),
               color: GlobalVariable.grey_main,
-              child: ListView.builder(
+              child: dataSalesList.length == 0 ? Center(child: Text('No Data'),) : ListView.builder(
                   itemCount:
                       dataSalesList.length == 0 ? 0 : dataSalesList.length,
                   itemBuilder: (context, pos) {
@@ -267,8 +267,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                        dataSalesList[pos].name,
+                                    child: Text(dataSalesList[pos].name,
                                         style: TextStyle(
                                             fontSize: 11,
                                             color: GlobalVariable.blue_main,
@@ -291,8 +290,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                        dataSalesList[pos].phone,
+                                    child: Text(dataSalesList[pos].phone,
                                         style: TextStyle(
                                             fontSize: 11,
                                             color: GlobalVariable.blue_main,
@@ -346,8 +344,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                        dataSalesList[pos].sqft,
+                                    child: Text(dataSalesList[pos].sqft,
                                         style: TextStyle(
                                             fontSize: 11,
                                             color: GlobalVariable.blue_main,
@@ -377,11 +374,10 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                        dataSalesList[pos].location,
+                                    child: Text(dataSalesList[pos].location,
                                         maxLines: 2,
                                         // softWrap: true,
-                                        
+
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 11,
@@ -406,8 +402,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 12),
-                                  child: Text(
-                                      dataSalesList[pos].date,
+                                  child: Text(dataSalesList[pos].date,
                                       style: TextStyle(
                                           fontSize: 11,
                                           color: GlobalVariable.blue_main,

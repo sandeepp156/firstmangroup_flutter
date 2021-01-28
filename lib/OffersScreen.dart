@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'customcolor.dart';
 
 void main() {
-  runApp(Temp());
+  runApp(OffersScreen());
 }
 
-class Temp extends StatefulWidget {
+class OffersScreen extends StatefulWidget {
   @override
-  _TempState createState() => _TempState();
+  _OffersScreenState createState() => _OffersScreenState();
 }
 
 TextEditingController name = new TextEditingController(),
@@ -19,7 +19,7 @@ var j,pj;
 List<String> gotItems = new List<String>();
 
 
-class _TempState extends State<Temp> {
+class _OffersScreenState extends State<OffersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +49,7 @@ class _TempState extends State<Temp> {
                   Padding(
                     padding: const EdgeInsets.only(top: 12, bottom: 10),
                     child: Text(
-                      'Tracking Leads',
+                      'Offers',
                       style: TextStyle(
                           color: GlobalVariable.blue_main,
                           fontFamily: GlobalVariable.GothamMedium,
@@ -59,6 +59,21 @@ class _TempState extends State<Temp> {
                 ],
               ),
             ),
+            Container(
+              height: 1,
+              color: GlobalVariable.grey_main_,
+            ),
+
+            Expanded(child: Container(
+              alignment: Alignment.center,
+              child:  Text(
+                'No Offers Present Here',
+                style: TextStyle(
+                    color: GlobalVariable.grey_main_,
+                    fontFamily: GlobalVariable.GothamMedium,
+                    fontSize: 18),
+              ),
+            ))
 
 
           ],

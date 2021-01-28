@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firstmangroup_flutter/DataRealEsPayouts.dart';
+
 // import 'package:fl_animated_linechart/chart/animated_line_chart.dart';
 // import 'package:fl_animated_linechart/chart/line_chart.dart';
 // import 'package:fl_chart/fl_chart.dart';
@@ -9,9 +10,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 // import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'DataInsurancePayouts.dart';
+import 'DataLoanPayouts.dart';
+import 'DataManualPayouts.dart';
 import 'DataMemberDetails.dart';
 import 'customcolor.dart';
 
@@ -20,25 +26,29 @@ void main() {
 }
 
 class RealEsPayoutsScreen extends StatefulWidget {
-
-
+  String title;
+  RealEsPayoutsScreen({this.title});
   @override
   _RealEsPayoutsScreenState createState() => _RealEsPayoutsScreenState();
 }
 
 final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
 final List<DataRealEsPayouts> dataRSP = new List<DataRealEsPayouts>();
+final List<SalesData> salesData = new List<SalesData>();
+final List<DataLoanPayouts> dataLoanPayouts = new List<DataLoanPayouts>();
+final List<DataInsurancePayouts> dataInsurancePayouts = new List<DataInsurancePayouts>();
+final List<DataManualPayouts> dataManualPayouts = new List<DataManualPayouts>();
 
 // LineChart lineChart = LineChart.fromDateTimeMaps(series, colors, units);
 // LineChart lineChart = LineChart.fromDateTimeMaps([5, 5], [Colors.green, Colors.blue],[]);
 
 int tab = 0;
 int tab_two = 0;
-bool tab_selected=true;
+bool tab_selected = true;
 
 class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
-
-
+  String title;
+  _RealEsPayoutsScreenState({this.title});
   @override
   void initState() {
     // TODO: implement initState
@@ -75,7 +85,7 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 12, bottom: 10),
                     child: Text(
-                      'Real Estate Payouts',
+                      ''+widget.title,
                       style: TextStyle(
                           color: GlobalVariable.blue_main,
                           fontFamily: GlobalVariable.GothamMedium,
@@ -118,7 +128,13 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                             color: GlobalVariable.blue_main,
                             fontFamily: GlobalVariable.GothamMedium)),
                     TextSpan(
-                        text:tab_selected?dataRSP.length!=0? dataRSP[0].direct_commissions_total_pending:'sd':dataRSP.length!=0? dataRSP[0].override_commissions_total:'sd',
+                        text: tab_selected
+                            ? dataRSP.length != 0
+                                ? dataRSP[0].direct_commissions_total_pending
+                                : 'sd'
+                            : dataRSP.length != 0
+                                ? dataRSP[0].override_commissions_total
+                                : 'sd',
                         style: TextStyle(
                             color: GlobalVariable.yellow_main,
                             fontFamily: GlobalVariable.GothamMedium,
@@ -133,7 +149,13 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                             fontFamily: GlobalVariable.GothamMedium)),
                     TextSpan(
                         // text: '0.00',
-                        text:tab_selected?dataRSP.length!=0? dataRSP[0].direct_commissions_total_paid:'sd':dataRSP.length!=0? dataRSP[0].override_commissions_total_paid:'sd',
+                        text: tab_selected
+                            ? dataRSP.length != 0
+                                ? dataRSP[0].direct_commissions_total_paid
+                                : 'sd'
+                            : dataRSP.length != 0
+                                ? dataRSP[0].override_commissions_total_paid
+                                : 'sd',
 
                         // text:dataRSP.length!=0? dataRSP[0].direct_commissions_total_paid:'sd',
 
@@ -156,7 +178,13 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
-                      tab_selected?dataRSP.length!=0? dataRSP[0].direct_commissions_total:'sd':dataRSP.length!=0? dataRSP[0].override_commissions_total:'sd',
+                      tab_selected
+                          ? dataRSP.length != 0
+                              ? dataRSP[0].direct_commissions_total
+                              : 'sd'
+                          : dataRSP.length != 0
+                              ? dataRSP[0].override_commissions_total
+                              : 'sd',
 
                       // dataRSP.length!=0?dataRSP[0].direct_commissions_total:'',
                       style: TextStyle(
@@ -166,6 +194,32 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                 )
               ],
             ),
+            SizedBox(
+              height: 175,
+              child: SfCartesianChart(
+                // Initialize category axis
+                  primaryXAxis: CategoryAxis(),
+                  // legend: Legend(isVisible: true),
+                  // Enable tooltip
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  series: <LineSeries<SalesData, String>>[
+                    LineSeries<SalesData, String>(
+                      // Bind data source
+                        dataSource: salesData,
+                        // <SalesData>[
+                        //   SalesData('Jan', 2500),
+                        //   SalesData('Feb', 4000),
+                        //   SalesData('Mar', 1000),
+                        //   SalesData('Apr', 3000),
+                        //   SalesData('May', 1700)
+                        // ],
+                        xValueMapper: (SalesData sales, _) =>
+                        sales.year,
+                        yValueMapper: (SalesData sales, _) =>
+                        sales.sales)
+                  ])
+              ,
+            )
             // AnimatedLineChart(lineChart),
             // SizedBox(
             //   width: double.infinity,
@@ -253,7 +307,6 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
   //
   //   );
   // }
-
 
   Widget directPayouts() {
     return Container(
@@ -386,22 +439,24 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
             ),
           ),
           Container(
-            height: 200,
-            child:tab_selected?directpayoutsList():referralIncList(),
+            height: 175,
+            child: tab_selected ? directpayoutsList() : referralIncList(),
           ),
         ],
       ),
     );
   }
 
-  Widget directpayoutsList(){
-    return  ListView.builder(
+  Widget directpayoutsList() {
+    return ListView.builder(
       shrinkWrap: true,
-      itemCount: dataRSP.length==0?0: dataRSP[0].direct_commissions.length,
+      itemCount: dataRSP.length == 0 ? 0 : dataRSP[0].direct_commissions.length,
       // itemCount: widget.dataRealEsPayouts.direct_commissions.length,
       itemBuilder: (context, pos) {
         return Container(
-          color: (pos % 2 == 0) ? GlobalVariable.yellow_main : GlobalVariable.light_blue_listSeperate,
+          color: (pos % 2 == 0)
+              ? GlobalVariable.yellow_main
+              : GlobalVariable.light_blue_listSeperate,
 
           // color: GlobalVariable.yellow_main,
           child: Row(
@@ -494,7 +549,10 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                   padding: EdgeInsets.only(top: 5, bottom: 5),
                   // color: GlobalVariable.blue_main ,
                   child: Text(
-                    dataRSP[0].direct_commissions[pos].payable_amount.toString(),
+                    dataRSP[0]
+                        .direct_commissions[pos]
+                        .payable_amount
+                        .toString(),
                     // widget.dataRealEsPayouts.direct_commissions[pos].payable_amount.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -521,8 +579,8 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: GlobalVariable.GothamMedium,
-                        color:  dataRSP[0].direct_commissions[pos].status ==
-                            "Pending"
+                        color: dataRSP[0].direct_commissions[pos].status ==
+                                "Pending"
                             ? GlobalVariable.red
                             : GlobalVariable.light_green,
                         fontSize: 10),
@@ -535,18 +593,20 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
           ),
         );
       },
-
     );
   }
 
-  Widget referralIncList(){
-    return  ListView.builder(
+  Widget referralIncList() {
+    return ListView.builder(
       shrinkWrap: true,
-      itemCount: dataRSP.length==0?0: dataRSP[0].override_commissions.length,
+      itemCount:
+          dataRSP.length == 0 ? 0 : dataRSP[0].override_commissions.length,
       // itemCount: widget.dataRealEsPayouts.direct_commissions.length,
       itemBuilder: (context, pos) {
         return Container(
-          color: (pos % 2 == 0) ? GlobalVariable.yellow_main : GlobalVariable.light_blue_listSeperate,
+          color: (pos % 2 == 0)
+              ? GlobalVariable.yellow_main
+              : GlobalVariable.light_blue_listSeperate,
 
           // color: GlobalVariable.yellow_main,
           child: Row(
@@ -612,15 +672,16 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                 width: 1,
               ),
 
-
-
               Expanded(
                 child: Container(
                   // margin: EdgeInsets.only(right: 1),
                   padding: EdgeInsets.only(top: 5, bottom: 5),
                   // color: GlobalVariable.blue_main ,
                   child: Text(
-                    dataRSP[0].override_commissions[pos].payable_amount.toString(),
+                    dataRSP[0]
+                        .override_commissions[pos]
+                        .payable_amount
+                        .toString(),
                     // widget.dataRealEsPayouts.direct_commissions[pos].payable_amount.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -647,8 +708,8 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: GlobalVariable.GothamMedium,
-                        color:  dataRSP[0].override_commissions[pos].status ==
-                            "Pending"
+                        color: dataRSP[0].override_commissions[pos].status ==
+                                "Pending"
                             ? GlobalVariable.red
                             : GlobalVariable.light_green,
                         fontSize: 10),
@@ -661,7 +722,6 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
           ),
         );
       },
-
     );
   }
 
@@ -684,7 +744,7 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
                       getRealEsPayoutsData('0');
                       setState(() {
                         tab = 0;
-                        tab_selected= true;
+                        tab_selected = true;
                       });
                     },
                     child: AnimatedContainer(
@@ -834,8 +894,10 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
   }
 
   Future<void> getRealEsPayoutsData(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     dataRSP.clear();
-    print("getREDid"+id);
+    print("getREDid" + id);
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
@@ -853,8 +915,9 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
         "/api/property_commissions.php?member_id=" +
-        GlobalVariable.member_id +
-        "&payment="+id);
+        prefs.getString('member_id') +
+        "&payment=" +
+        id);
 
     if (response.statusCode == 200) {
       await pr.hide();
@@ -870,6 +933,9 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
       //countInt
       setState(() {
         dataRSP.add(DataRealEsPayouts.fromJson(map));
+        for (int j = 0; j < dataRSP[0].direct_commissions_graph.length; j++) {
+          salesData.add(SalesData(dataRSP[0].direct_commissions_graph[j].date.toString(),double.parse(dataRSP[0].direct_commissions_graph[j].total.toString()) ));
+        }
       });
     } else {
       await pr.hide();
@@ -894,78 +960,223 @@ class _RealEsPayoutsScreenState extends State<RealEsPayoutsScreen> {
       }
     });
   }
-  //
-  // Widget graph_() {
-  //   return Container(
-  //     child: SfCartesianChart(
-  //       primaryXAxis: CategoryAxis(),
-  //       // title: ChartTitle(text: 'Half yearly sales analysis'),
-  //       // Enable legend
-  //       legend: Legend(isVisible: true),
-  //       // Enable tooltip
-  //       // tooltipBehavior: TooltipBehavior(enable: true),
-  //       series: <LineSeries<SalesData, String>>[
-  //         // SalesData('Jan', 35),
-  //         // SalesData('Feb', 28),
-  //         // SalesData('Mar', 34),
-  //         // SalesData('Apr', 32),
-  //         // SalesData('May', 40)
-  //         LineSeries(
-  //             dataSource: <SalesData>[
-  //               SalesData('Jan', 35),
-  //               SalesData('Feb', 28),
-  //               SalesData('Mar', 34),
-  //               SalesData('Apr', 32),
-  //               SalesData('May', 40),
-  //               SalesData('Jun', 35),
-  //               SalesData('Jul', 50),
-  //               SalesData('Aug', 23),
-  //               SalesData('Sep', 39),
-  //             ],
-  //             xValueMapper: (SalesData sales, _) => sales.year,
-  //             yValueMapper: (SalesData sales, _) => sales.sales,
-  //             dataLabelSettings: DataLabelSettings(isVisible: true))
-  //         // SalesData('Jan', 35),
-  //         // SalesData('Feb', 28),
-  //         // SalesData('Mar', 34),
-  //         // SalesData('Apr', 32),
-  //         // SalesData('May', 40)
-  //       ],
-  //       // xValueMapper: (SalesData sales, _) => sales.year,
-  //       // yValueMapper: (SalesData sales, _) => sales.sales,
-  //       // // Enable data label
-  //       // dataLabelSettings: DataLabelSettings(isVisible: true)
-  //     ),
-  //   );
-  // }
-  //
-  // List<LineChartBarData>linesBarData2() {
-  //   return [
-  //     LineChartBarData(
-  //       spots: [
-  //         FlSpot(1, 1),
-  //         FlSpot(3, 4),
-  //         FlSpot(5, 1.8),
-  //         FlSpot(7, 5),
-  //         FlSpot(10, 2),
-  //         FlSpot(12, 2.2),
-  //         FlSpot(13, 1.8),
-  //       ],
-  //       isCurved: true,
-  //       curveSmoothness: 0,
-  //       colors: const [
-  //         Color(0xff0E2D6B),        ],
-  //       barWidth: 4,
-  //       isStrokeCapRound: true,
-  //       dotData: FlDotData(
-  //         show: false,
-  //       ),
-  //       belowBarData: BarAreaData(
-  //         show: false,
-  //       ),
-  //     ),
-  //   ];
-  // }
+
+  Future<void> getLoanData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
+    await pr.show();
+
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/loans_commissions.php?member_id=" +
+        prefs.getString('member_id') +
+        "&payment=0");
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      Map<String, dynamic> map = jsonDecode(json);
+      print('getRealEsPayoutsData->' + data.toString());
+      //countInt
+      setState(() {
+        dataLoanPayouts.add(DataLoanPayouts.fromJson(map));
+      });
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getRealEsPayoutsData->error');
+
+      throw Exception('Failed to load album');
+    }
+  }
+  Future<void> getInsuranceData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
+    await pr.show();
+
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/insurance_commissions.php?member_id=" +
+        prefs.getString('member_id') +
+        "&payment=0");
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      Map<String, dynamic> map = jsonDecode(json);
+      print('getRealEsPayoutsData->' + data.toString());
+      //countInt
+      setState(() {
+        dataInsurancePayouts.add(DataInsurancePayouts.fromJson(map));
+      });
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getRealEsPayoutsData->error');
+
+      throw Exception('Failed to load album');
+    }
+  }
+  Future<void> getManualData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
+    await pr.show();
+
+    final response = await http.get("https://" +
+        GlobalVariable.BASE_URL +
+        "/api/manual_commissions.php?member_id=" +
+        prefs.getString('member_id') +
+        "&payment=0");
+
+    if (response.statusCode == 200) {
+      await pr.hide();
+
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // return Album.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      int statusCode = response.statusCode;
+      String json = response.body;
+      Map<String, dynamic> map = jsonDecode(json);
+      print('getRealEsPayoutsData->' + data.toString());
+      //countInt
+      setState(() {
+        dataManualPayouts.add(DataManualPayouts.fromJson(map));
+      });
+    } else {
+      await pr.hide();
+
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('getRealEsPayoutsData->error');
+
+      throw Exception('Failed to load album');
+    }
+  }
+//
+// Widget graph_() {
+//   return Container(
+//     child: SfCartesianChart(
+//       primaryXAxis: CategoryAxis(),
+//       // title: ChartTitle(text: 'Half yearly sales analysis'),
+//       // Enable legend
+//       legend: Legend(isVisible: true),
+//       // Enable tooltip
+//       // tooltipBehavior: TooltipBehavior(enable: true),
+//       series: <LineSeries<SalesData, String>>[
+//         // SalesData('Jan', 35),
+//         // SalesData('Feb', 28),
+//         // SalesData('Mar', 34),
+//         // SalesData('Apr', 32),
+//         // SalesData('May', 40)
+//         LineSeries(
+//             dataSource: <SalesData>[
+//               SalesData('Jan', 35),
+//               SalesData('Feb', 28),
+//               SalesData('Mar', 34),
+//               SalesData('Apr', 32),
+//               SalesData('May', 40),
+//               SalesData('Jun', 35),
+//               SalesData('Jul', 50),
+//               SalesData('Aug', 23),
+//               SalesData('Sep', 39),
+//             ],
+//             xValueMapper: (SalesData sales, _) => sales.year,
+//             yValueMapper: (SalesData sales, _) => sales.sales,
+//             dataLabelSettings: DataLabelSettings(isVisible: true))
+//         // SalesData('Jan', 35),
+//         // SalesData('Feb', 28),
+//         // SalesData('Mar', 34),
+//         // SalesData('Apr', 32),
+//         // SalesData('May', 40)
+//       ],
+//       // xValueMapper: (SalesData sales, _) => sales.year,
+//       // yValueMapper: (SalesData sales, _) => sales.sales,
+//       // // Enable data label
+//       // dataLabelSettings: DataLabelSettings(isVisible: true)
+//     ),
+//   );
+// }
+//
+// List<LineChartBarData>linesBarData2() {
+//   return [
+//     LineChartBarData(
+//       spots: [
+//         FlSpot(1, 1),
+//         FlSpot(3, 4),
+//         FlSpot(5, 1.8),
+//         FlSpot(7, 5),
+//         FlSpot(10, 2),
+//         FlSpot(12, 2.2),
+//         FlSpot(13, 1.8),
+//       ],
+//       isCurved: true,
+//       curveSmoothness: 0,
+//       colors: const [
+//         Color(0xff0E2D6B),        ],
+//       barWidth: 4,
+//       isStrokeCapRound: true,
+//       dotData: FlDotData(
+//         show: false,
+//       ),
+//       belowBarData: BarAreaData(
+//         show: false,
+//       ),
+//     ),
+//   ];
+// }
 }
 
 class SalesData {

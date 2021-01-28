@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firstmangroup_flutter/PayoutsScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 import 'DataMyFms.dart';
 import 'MyFmNwLvLTwo.dart';
@@ -23,14 +25,14 @@ class MyFmNwScreen extends StatefulWidget {
 List<DataMyFms> dataMyFms = new List<DataMyFms>();
 List<DataMyFms> _userDetails = new List<DataMyFms>();
 TextEditingController controller = new TextEditingController();
-var totalFms='0';
+var totalFms = '0';
 
 class _MyFmNwScreenState extends State<MyFmNwScreen> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getMyFMsData(context);
+    getMyFMsData(context, '');
   }
 
   @override
@@ -76,7 +78,7 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                             fontSize: 18),
                       ),
                       Text(
-                        ''+totalFms,
+                        '' + totalFms,
                         style: TextStyle(
                             color: GlobalVariable.yellow_main,
                             fontFamily: GlobalVariable.GothamMedium,
@@ -99,9 +101,11 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                     height: 30,
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: TextField(
-
-                      controller:controller,
-                      onChanged:onSearchTextChanged,
+                      controller: controller,
+                      onChanged: (string) {
+                        getMyFMsData(context, string);
+                      },
+                      // onChanged: onSearchTextChanged,
                       // maxLength: 10,
                       // keyboardType: TextInputType.phone,
                       style: TextStyle(
@@ -130,12 +134,14 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                   ),
                 ),
                 Expanded(
-                  child:
-                        _userDetails.length != 0 || controller.text.isNotEmpty
-                      ? searchUserList()
-                      : userList()
-                      // : Text('Please wait..'),
-                )
+                    child: dataMyFms.length == 0
+                        ? Text('No Data')
+                        :
+                        // _userDetails.length != 0 || controller.text.isNotEmpty
+                        //     ? searchUserList() :
+                        userList()
+                    // : Text('Please wait..'),
+                    )
               ],
             ),
             Align(
@@ -156,9 +162,9 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
         ),
       ),
     );
-
   }
-  Widget userList(){
+
+  Widget userList() {
     return Container(
       color: GlobalVariable.grey_main,
       margin: EdgeInsets.only(bottom: 50),
@@ -168,34 +174,28 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
             return Container(
               color: GlobalVariable.white,
               // padding: EdgeInsets.only(left: 5, top: 10),
-              margin: EdgeInsets.only(
-                  left: 5, right: 5, top: 5),
+              margin: EdgeInsets.only(left: 5, right: 5, top: 5),
               height: 75,
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 5, top: 3, bottom: 3),
+                    padding: const EdgeInsets.only(left: 5, top: 3, bottom: 3),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) =>
-                                  ImageVieW(
-                                      image: dataMyFms[pos]
-                                          .image,
-                                      tag: dataMyFms[pos]
-                                          .id),
+                              builder: (context) => ImageVieW(
+                                  image: dataMyFms[pos].image,
+                                  tag: dataMyFms[pos].id),
                               fullscreenDialog: true),
                         );
                       },
                       child: Hero(
                         tag: dataMyFms[pos].id,
                         child: ClipRRect(
-                          borderRadius:
-                          BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(5),
                           child: Image.network(
                             dataMyFms[pos].image,
                             fit: BoxFit.fill,
@@ -212,37 +212,27 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                             context,
                             new MaterialPageRoute(
                                 builder: (context) =>
-                                    MyFmNwLvLTwo(
-                                        id: dataMyFms[pos]
-                                            .id),
+                                    MyFmNwLvLTwo(id: dataMyFms[pos].id),
                                 fullscreenDialog: true));
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, top: 5),
+                        padding: const EdgeInsets.only(left: 10, top: 5),
                         child:
-                        //Details column
-                        Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                            //Details column
+                            Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                                 dataMyFms[pos].fname +
                                     "" +
                                     dataMyFms[pos].lname,
-                                overflow:
-                                TextOverflow.ellipsis,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontSize: 12,
-                                    color: GlobalVariable
-                                        .blue_main,
-                                    fontFamily:
-                                    GlobalVariable
-                                        .Gotham)),
+                                    color: GlobalVariable.blue_main,
+                                    fontFamily: GlobalVariable.Gotham)),
                             Padding(
-                              padding:
-                              const EdgeInsets.only(
-                                  top: 8, bottom: 8),
+                              padding: const EdgeInsets.only(top: 8, bottom: 8),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -252,22 +242,16 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                                           'Code : ',
                                           style: TextStyle(
                                               fontSize: 9,
-                                              color: GlobalVariable
-                                                  .blue_main,
+                                              color: GlobalVariable.blue_main,
                                               fontFamily:
-                                              GlobalVariable
-                                                  .Gotham),
+                                                  GlobalVariable.Gotham),
                                         ),
-                                        Text(
-                                            dataMyFms[pos]
-                                                .code,
+                                        Text(dataMyFms[pos].code,
                                             style: TextStyle(
                                                 fontSize: 9,
-                                                color: GlobalVariable
-                                                    .blue_main,
+                                                color: GlobalVariable.blue_main,
                                                 fontFamily:
-                                                GlobalVariable
-                                                    .Gotham)),
+                                                    GlobalVariable.Gotham)),
                                       ],
                                     ),
                                   ),
@@ -279,16 +263,12 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                                           height: 15,
                                           width: 20,
                                         ),
-                                        Text(
-                                            dataMyFms[pos]
-                                                .phone,
+                                        Text(dataMyFms[pos].phone,
                                             style: TextStyle(
                                                 fontSize: 9,
-                                                color: GlobalVariable
-                                                    .blue_main,
+                                                color: GlobalVariable.blue_main,
                                                 fontFamily:
-                                                GlobalVariable
-                                                    .Gotham))
+                                                    GlobalVariable.Gotham))
                                       ],
                                     ),
                                   )
@@ -306,16 +286,12 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                                         height: 15,
                                         width: 20,
                                       ),
-                                      Text(
-                                          dataMyFms[pos]
-                                              .address,
+                                      Text(dataMyFms[pos].address,
                                           style: TextStyle(
                                               fontSize: 9,
-                                              color: GlobalVariable
-                                                  .blue_main,
+                                              color: GlobalVariable.blue_main,
                                               fontFamily:
-                                              GlobalVariable
-                                                  .Gotham)),
+                                                  GlobalVariable.Gotham)),
                                     ],
                                   ),
                                 ),
@@ -327,19 +303,13 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                                         height: 15,
                                         width: 20,
                                       ),
-                                      Text(
-                                          dataMyFms[pos]
-                                              .profession,
-                                          overflow:
-                                          TextOverflow
-                                              .ellipsis,
+                                      Text(dataMyFms[pos].profession,
+                                          overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               fontSize: 9,
-                                              color: GlobalVariable
-                                                  .blue_main,
+                                              color: GlobalVariable.blue_main,
                                               fontFamily:
-                                              GlobalVariable
-                                                  .Gotham))
+                                                  GlobalVariable.Gotham))
                                     ],
                                   ),
                                 )
@@ -356,30 +326,37 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: Container(
-                            // color: GlobalVariable.blue_main,
-                            child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(
-                                    // top: 5,
-                                      bottom: 3),
-                                  child: Image.asset(
-                                    'drawable/eye.png',
-                                    height: 10,
+                          child: InkWell(
+                            onTap: () {
+                              // Navi
+                              Navigator.push(context,
+                                  CupertinoPageRoute(
+                                      builder: (context) {
+                                        return PayoutsScreen(id: dataMyFms[pos].id,);
+                                      }));
+                            },
+                            child: Container(
+                              // color: GlobalVariable.blue_main,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        // top: 5,
+                                        bottom: 3),
+                                    child: Image.asset(
+                                      'drawable/eye.png',
+                                      height: 10,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'Payouts',
-                                  style: TextStyle(
-                                      color: GlobalVariable
-                                          .white,
-                                      fontSize: 8),
-                                )
-                              ],
+                                  Text(
+                                    'Payouts',
+                                    style: TextStyle(
+                                        color: GlobalVariable.white,
+                                        fontSize: 8),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -387,48 +364,61 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                           child: Row(
                             children: [
                               Expanded(
-                                child: Container(
-                                    color: GlobalVariable
-                                        .yellow_main,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment
-                                          .center,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets
-                                              .only(
-                                            // top: 5,
-                                              bottom:
-                                              3),
-                                          child:
-                                          Image.asset(
-                                            'drawable/phone_icon.png',
-                                            height: 10,
-                                            color:
-                                            GlobalVariable
-                                                .white,
+                                child: InkWell(
+                                  onTap: () {
+                                    UrlLauncher.launch(
+                                        "tel://" + dataMyFms[pos].phone);
+
+                                    // String url() {
+                                    //
+                                    // }
+                                  },
+                                  child: Container(
+                                      color: GlobalVariable.yellow_main,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                // top: 5,
+                                                bottom: 3),
+                                            child: Image.asset(
+                                              'drawable/phone_icon.png',
+                                              height: 10,
+                                              color: GlobalVariable.white,
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          'Call FM',
-                                          style: TextStyle(
-                                              color:
-                                              GlobalVariable
-                                                  .white,
-                                              fontSize: 8),
-                                        )
-                                      ],
-                                    )),
+                                          Text(
+                                            'Call FM',
+                                            style: TextStyle(
+                                                color: GlobalVariable.white,
+                                                fontSize: 8),
+                                          )
+                                        ],
+                                      )),
+                                ),
                               ),
                               Expanded(
-                                child: Image.asset(
-                                  'drawable/fff.png',
-                                  fit: BoxFit.cover,
-                                  height: 45,
+                                child: InkWell(
+                                  onTap: () {
+                                    if (Platform.isAndroid) {
+                                      // add the [https]
+                                      return "https://wa.me/" +
+                                          dataMyFms[pos].phone; // new line
+                                    } else {
+                                      // add the [https]
+                                      return "https://api.whatsapp.com/send?phone=" +
+                                          dataMyFms[pos].phone; // new line
+                                    }
+                                  },
+                                  child: Image.asset(
+                                    'drawable/fff.png',
+                                    fit: BoxFit.cover,
+                                    height: 45,
 
-                                  // height: 15,
+                                    // height: 15,
+                                  ),
                                 ),
                               ),
                             ],
@@ -444,8 +434,7 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
     );
   }
 
-
-  Widget searchUserList(){
+  Widget searchUserList() {
     return Container(
       color: GlobalVariable.grey_main,
       margin: EdgeInsets.only(bottom: 50),
@@ -455,34 +444,28 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
             return Container(
               color: GlobalVariable.white,
               // padding: EdgeInsets.only(left: 5, top: 10),
-              margin: EdgeInsets.only(
-                  left: 5, right: 5, top: 5),
+              margin: EdgeInsets.only(left: 5, right: 5, top: 5),
               height: 75,
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 5, top: 3, bottom: 3),
+                    padding: const EdgeInsets.only(left: 5, top: 3, bottom: 3),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) =>
-                                  ImageVieW(
-                                      image: dataMyFms[pos]
-                                          .image,
-                                      tag: dataMyFms[pos]
-                                          .id),
+                              builder: (context) => ImageVieW(
+                                  image: dataMyFms[pos].image,
+                                  tag: dataMyFms[pos].id),
                               fullscreenDialog: true),
                         );
                       },
                       child: Hero(
                         tag: _userDetails[pos].id,
                         child: ClipRRect(
-                          borderRadius:
-                          BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(5),
                           child: Image.network(
                             _userDetails[pos].image,
                             fit: BoxFit.fill,
@@ -498,38 +481,27 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) =>
-                                    ImageVieW(
-                                        image: _userDetails[pos]
-                                            .image,
-                                        tag: _userDetails[pos]
-                                            .id),
+                                builder: (context) => ImageVieW(
+                                    image: _userDetails[pos].image,
+                                    tag: _userDetails[pos].id),
                                 fullscreenDialog: true));
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, top: 5),
+                        padding: const EdgeInsets.only(left: 10, top: 5),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                                 dataMyFms[pos].fname +
                                     "" +
                                     dataMyFms[pos].lname,
-                                overflow:
-                                TextOverflow.ellipsis,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontSize: 12,
-                                    color: GlobalVariable
-                                        .blue_main,
-                                    fontFamily:
-                                    GlobalVariable
-                                        .Gotham)),
+                                    color: GlobalVariable.blue_main,
+                                    fontFamily: GlobalVariable.Gotham)),
                             Padding(
-                              padding:
-                              const EdgeInsets.only(
-                                  top: 8, bottom: 8),
+                              padding: const EdgeInsets.only(top: 8, bottom: 8),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -539,22 +511,16 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                                           'Code : ',
                                           style: TextStyle(
                                               fontSize: 9,
-                                              color: GlobalVariable
-                                                  .blue_main,
+                                              color: GlobalVariable.blue_main,
                                               fontFamily:
-                                              GlobalVariable
-                                                  .Gotham),
+                                                  GlobalVariable.Gotham),
                                         ),
-                                        Text(
-                                            _userDetails[pos]
-                                                .code,
+                                        Text(_userDetails[pos].code,
                                             style: TextStyle(
                                                 fontSize: 9,
-                                                color: GlobalVariable
-                                                    .blue_main,
+                                                color: GlobalVariable.blue_main,
                                                 fontFamily:
-                                                GlobalVariable
-                                                    .Gotham)),
+                                                    GlobalVariable.Gotham)),
                                       ],
                                     ),
                                   ),
@@ -566,16 +532,12 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                                           height: 15,
                                           width: 20,
                                         ),
-                                        Text(
-                                            _userDetails[pos]
-                                                .phone,
+                                        Text(_userDetails[pos].phone,
                                             style: TextStyle(
                                                 fontSize: 9,
-                                                color: GlobalVariable
-                                                    .blue_main,
+                                                color: GlobalVariable.blue_main,
                                                 fontFamily:
-                                                GlobalVariable
-                                                    .Gotham))
+                                                    GlobalVariable.Gotham))
                                       ],
                                     ),
                                   )
@@ -593,16 +555,12 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                                         height: 15,
                                         width: 20,
                                       ),
-                                      Text(
-                                          _userDetails[pos]
-                                              .address,
+                                      Text(_userDetails[pos].address,
                                           style: TextStyle(
                                               fontSize: 9,
-                                              color: GlobalVariable
-                                                  .blue_main,
+                                              color: GlobalVariable.blue_main,
                                               fontFamily:
-                                              GlobalVariable
-                                                  .Gotham)),
+                                                  GlobalVariable.Gotham)),
                                     ],
                                   ),
                                 ),
@@ -614,19 +572,13 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                                         height: 15,
                                         width: 20,
                                       ),
-                                      Text(
-                                          _userDetails[pos]
-                                              .profession,
-                                          overflow:
-                                          TextOverflow
-                                              .ellipsis,
+                                      Text(_userDetails[pos].profession,
+                                          overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               fontSize: 9,
-                                              color: GlobalVariable
-                                                  .blue_main,
+                                              color: GlobalVariable.blue_main,
                                               fontFamily:
-                                              GlobalVariable
-                                                  .Gotham))
+                                                  GlobalVariable.Gotham))
                                     ],
                                   ),
                                 )
@@ -646,13 +598,11 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                           child: Container(
                             // color: GlobalVariable.blue_main,
                             child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding:
-                                  const EdgeInsets.only(
-                                    // top: 5,
+                                  padding: const EdgeInsets.only(
+                                      // top: 5,
                                       bottom: 3),
                                   child: Image.asset(
                                     'drawable/eye.png',
@@ -662,9 +612,7 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                                 Text(
                                   'Payouts',
                                   style: TextStyle(
-                                      color: GlobalVariable
-                                          .white,
-                                      fontSize: 8),
+                                      color: GlobalVariable.white, fontSize: 8),
                                 )
                               ],
                             ),
@@ -675,35 +623,25 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
                             children: [
                               Expanded(
                                 child: Container(
-                                    color: GlobalVariable
-                                        .yellow_main,
+                                    color: GlobalVariable.yellow_main,
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment
-                                          .center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Padding(
-                                          padding:
-                                          const EdgeInsets
-                                              .only(
-                                            // top: 5,
-                                              bottom:
-                                              3),
-                                          child:
-                                          Image.asset(
+                                          padding: const EdgeInsets.only(
+                                              // top: 5,
+                                              bottom: 3),
+                                          child: Image.asset(
                                             'drawable/phone_icon.png',
                                             height: 10,
-                                            color:
-                                            GlobalVariable
-                                                .white,
+                                            color: GlobalVariable.white,
                                           ),
                                         ),
                                         Text(
                                           'Call FM',
                                           style: TextStyle(
-                                              color:
-                                              GlobalVariable
-                                                  .white,
+                                              color: GlobalVariable.white,
                                               fontSize: 8),
                                         )
                                       ],
@@ -730,10 +668,12 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
           }),
     );
   }
-  Future<void> getMyFMsData(BuildContext context) async {
+
+  Future<void> getMyFMsData(BuildContext context, String s) async {
+    dataMyFms.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    ProgressDialog pr = ProgressDialog(context);
+    /* ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
     pr.style(
@@ -745,17 +685,18 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
               child: CircularProgressIndicator(),
             ),
     );
-    await pr.show();
+    await pr.show();*/
 
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
         "/api/tps.php?" +
-        "member_id=" +
-        GlobalVariable.member_id +
-        "&search=");
+        "member_id=4" +
+        // prefs.getString('member_id') +
+        "&search=" +
+        s);
 
     if (response.statusCode == 200) {
-      await pr.hide();
+      // await pr.hide();
 
       // If the server did return a 200 OK response,
       // then parse the JSON.
@@ -774,7 +715,7 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
 
       print('getMyFMsData->' + data.toString());
     } else {
-      await pr.hide();
+      // await pr.hide();
 
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -785,7 +726,7 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
   }
 
   onSearchTextChanged(String text) async {
-    dataMyFms.clear();
+    _userDetails.clear();
     if (text.isEmpty) {
       setState(() {});
       return;
@@ -796,7 +737,6 @@ class _MyFmNwScreenState extends State<MyFmNwScreen> {
           userDetail.lname.toUpperCase().contains(text.toUpperCase()))
         setState(() {
           _userDetails.add(userDetail);
-
         });
     });
 
@@ -829,11 +769,13 @@ class _ImageVieWState extends State<ImageVieW> {
           // alignment: Alignment.center,
           children: [
             Center(
-              child: Hero(
-                  tag: widget.tag,
-                  child: InteractiveViewer(
-                      child: Image.network('' + widget.image))),
-            ),
+                child:
+                    // Hero(
+                    //     tag: widget.tag,
+                    //     child:
+                    InteractiveViewer(child: Image.network('' + widget.image))
+                // ),
+                ),
             Align(
                 alignment: Alignment.topRight,
                 child: InkWell(

@@ -1,6 +1,13 @@
-import 'package:firstmangroup_flutter/DataMemberDetails.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:firstmangroup_flutter/DataMemberDetails.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'customcolor.dart';
 
 void main() {
@@ -20,13 +27,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final DataMemberDetails dataMemberDetails;
 
   _EditProfileScreenState({this.dataMemberDetails});
+
   TextEditingController fnameCtrl = new TextEditingController(),
-                        lnameCtrl = new TextEditingController(),
-                        phoneCtrl = new TextEditingController(),
-                        emailCtrl = new TextEditingController(),
-                        aadharCtrl = new TextEditingController(),
-                        profCtrl = new TextEditingController(),
-                        addressCtrl = new TextEditingController();
+      lnameCtrl = new TextEditingController(),
+      phoneCtrl = new TextEditingController(),
+      emailCtrl = new TextEditingController(),
+      aadharCtrl = new TextEditingController(),
+      profCtrl = new TextEditingController(),
+      addressCtrl = new TextEditingController();
 
   @override
   void initState() {
@@ -34,6 +42,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setDetails();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,7 +132,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 )
               ],
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             Column(
               children: [
                 Container(
@@ -132,21 +143,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 Row(
                   children: [
-
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10,left: 15),
+                      padding: const EdgeInsets.only(bottom: 10, left: 15),
                       child: Text(
-                        '*',style: TextStyle(color: GlobalVariable.red,fontFamily: GlobalVariable.GothamMedium),
+                        '*',
+                        style: TextStyle(
+                            color: GlobalVariable.red,
+                            fontFamily: GlobalVariable.GothamMedium),
                       ),
                     ),
                     Flexible(
                       child: TextField(
                         controller: fnameCtrl,
-                        maxLength: 10,
-                        keyboardType: TextInputType.phone,
+                        // maxLength: 10,
+                        // keyboardType: TextInputType.phone,
                         style: TextStyle(
                             fontFamily: GlobalVariable.Gotham,
-                            color: GlobalVariable.blue_main, fontSize: 16),
+                            color: GlobalVariable.blue_main,
+                            fontSize: 16),
                         decoration: InputDecoration(
                             counterText: "",
                             // contentPadding: EdgeInsets.only(bottom: -10, top: 0.0),
@@ -170,21 +184,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 Row(
                   children: [
-
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10,left: 15),
+                      padding: const EdgeInsets.only(bottom: 10, left: 15),
                       child: Text(
-                        '*',style: TextStyle(color: GlobalVariable.red,fontFamily: GlobalVariable.GothamMedium),
+                        '*',
+                        style: TextStyle(
+                            color: GlobalVariable.red,
+                            fontFamily: GlobalVariable.GothamMedium),
                       ),
                     ),
                     Flexible(
                       child: TextField(
                         controller: lnameCtrl,
-                        maxLength: 10,
-                        keyboardType: TextInputType.phone,
+                        // maxLength: 10,
+                        // keyboardType: TextInputType.phone,
                         style: TextStyle(
                             fontFamily: GlobalVariable.Gotham,
-                            color: GlobalVariable.blue_main, fontSize: 16),
+                            color: GlobalVariable.blue_main,
+                            fontSize: 16),
                         decoration: InputDecoration(
                             counterText: "",
                             // contentPadding: EdgeInsets.only(bottom: -10, top: 0.0),
@@ -201,17 +218,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                   ],
-                ), Container(
+                ),
+                Container(
                   height: 1,
                   color: GlobalVariable.grey_main_,
                 ),
                 Row(
                   children: [
-
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10,left: 15),
+                      padding: const EdgeInsets.only(bottom: 10, left: 15),
                       child: Text(
-                        '*',style: TextStyle(color: GlobalVariable.red,fontFamily: GlobalVariable.GothamMedium),
+                        '*',
+                        style: TextStyle(
+                            color: GlobalVariable.red,
+                            fontFamily: GlobalVariable.GothamMedium),
                       ),
                     ),
                     Flexible(
@@ -222,7 +242,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         keyboardType: TextInputType.phone,
                         style: TextStyle(
                             fontFamily: GlobalVariable.Gotham,
-                            color: GlobalVariable.blue_main, fontSize: 16),
+                            color: GlobalVariable.blue_main,
+                            fontSize: 16),
                         decoration: InputDecoration(
                             counterText: "",
                             // contentPadding: EdgeInsets.only(bottom: -10, top: 0.0),
@@ -239,28 +260,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                   ],
-                ),  Container(
+                ),
+                Container(
                   height: 1,
                   color: GlobalVariable.grey_main_,
                 ),
                 Row(
                   children: [
-
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10,left: 15),
+                      padding: const EdgeInsets.only(bottom: 10, left: 15),
                       child: Text(
-                        '*',style: TextStyle(color: GlobalVariable.red,fontFamily: GlobalVariable.GothamMedium),
+                        '*',
+                        style: TextStyle(
+                            color: GlobalVariable.red,
+                            fontFamily: GlobalVariable.GothamMedium),
                       ),
                     ),
                     Flexible(
                       child: TextField(
                         enabled: false,
                         controller: emailCtrl,
-                        maxLength: 10,
-                        keyboardType: TextInputType.phone,
+                        // maxLength: 10,
+                        // keyboardType: TextInputType.phone,
                         style: TextStyle(
                             fontFamily: GlobalVariable.Gotham,
-                            color: GlobalVariable.blue_main, fontSize: 16),
+                            color: GlobalVariable.blue_main,
+                            fontSize: 16),
                         decoration: InputDecoration(
                             counterText: "",
                             // contentPadding: EdgeInsets.only(bottom: -10, top: 0.0),
@@ -277,28 +302,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                   ],
-                ),  Container(
+                ),
+                Container(
                   height: 1,
                   color: GlobalVariable.grey_main_,
                 ),
                 Row(
                   children: [
-
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10,left: 15),
+                      padding: const EdgeInsets.only(bottom: 10, left: 15),
                       child: Text(
-                        '*',style: TextStyle(color: GlobalVariable.red,fontFamily: GlobalVariable.GothamMedium),
+                        '*',
+                        style: TextStyle(
+                            color: GlobalVariable.red,
+                            fontFamily: GlobalVariable.GothamMedium),
                       ),
                     ),
                     Flexible(
                       child: TextField(
                         enabled: false,
                         controller: aadharCtrl,
-                        maxLength: 10,
-                        keyboardType: TextInputType.phone,
+                        // maxLength: 10,
+                        // keyboardType: TextInputType.phone,
                         style: TextStyle(
                             fontFamily: GlobalVariable.Gotham,
-                            color: GlobalVariable.blue_main, fontSize: 16),
+                            color: GlobalVariable.blue_main,
+                            fontSize: 16),
                         decoration: InputDecoration(
                             counterText: "",
                             // contentPadding: EdgeInsets.only(bottom: -10, top: 0.0),
@@ -315,27 +344,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                   ],
-                ),  Container(
+                ),
+                Container(
                   height: 1,
                   color: GlobalVariable.grey_main_,
                 ),
                 Row(
                   children: [
-
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10,left: 15),
+                      padding: const EdgeInsets.only(bottom: 10, left: 15),
                       child: Text(
-                        '*',style: TextStyle(color: GlobalVariable.red,fontFamily: GlobalVariable.GothamMedium),
+                        '*',
+                        style: TextStyle(
+                            color: GlobalVariable.red,
+                            fontFamily: GlobalVariable.GothamMedium),
                       ),
                     ),
                     Flexible(
                       child: TextField(
                         controller: profCtrl,
                         // maxLength: 10,
-                        keyboardType: TextInputType.phone,
+                        // keyboardType: TextInputType.phone,
                         style: TextStyle(
                             fontFamily: GlobalVariable.Gotham,
-                            color: GlobalVariable.blue_main, fontSize: 16),
+                            color: GlobalVariable.blue_main,
+                            fontSize: 16),
                         decoration: InputDecoration(
                             counterText: "",
                             // contentPadding: EdgeInsets.only(bottom: -10, top: 0.0),
@@ -352,27 +385,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                   ],
-                ),  Container(
+                ),
+                Container(
                   height: 1,
                   color: GlobalVariable.grey_main_,
                 ),
                 Row(
                   children: [
-
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10,left: 15),
+                      padding: const EdgeInsets.only(bottom: 10, left: 15),
                       child: Text(
-                        '*',style: TextStyle(color: GlobalVariable.red,fontFamily: GlobalVariable.GothamMedium),
+                        '*',
+                        style: TextStyle(
+                            color: GlobalVariable.red,
+                            fontFamily: GlobalVariable.GothamMedium),
                       ),
                     ),
                     Flexible(
                       child: TextField(
                         controller: addressCtrl,
                         // maxLength: 10,
-                        keyboardType: TextInputType.phone,
+                        // keyboardType: TextInputType.phone,
                         style: TextStyle(
                             fontFamily: GlobalVariable.Gotham,
-                            color: GlobalVariable.blue_main, fontSize: 16),
+                            color: GlobalVariable.blue_main,
+                            fontSize: 16),
                         decoration: InputDecoration(
                             counterText: "",
                             // contentPadding: EdgeInsets.only(bottom: -10, top: 0.0),
@@ -394,33 +431,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   height: 1,
                   color: GlobalVariable.grey_main_,
                 ),
-
               ],
             ),
             Expanded(
-              child
-                  : Container(
-                color:Colors.grey[400],
+              child: Container(
+                color: Colors.grey[400],
               ),
             ),
-            Container(color: GlobalVariable.blue_main,
-            padding: EdgeInsets.only(top: 10,bottom: 10),
-            width: double.infinity,
-            child: Center(
-              child: Text('SAVE',
-                style: TextStyle(
-                    color: GlobalVariable.yellow_main,
-                    fontFamily: GlobalVariable.GothamMedium,
-                    fontSize: 18),
+            InkWell(
+              onTap: () {
+                updateProfile(); //edit-profile.php
+              },
+              child: Container(
+                color: GlobalVariable.blue_main,
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                width: double.infinity,
+                child: Center(
+                  child: Text(
+                    'SAVE',
+                    style: TextStyle(
+                        color: GlobalVariable.yellow_main,
+                        fontFamily: GlobalVariable.GothamMedium,
+                        fontSize: 18),
+                  ),
+                ),
               ),
-            ),),
-
+            ),
           ],
         ),
       ),
     );
   }
-  void setDetails(){
+
+  void setDetails() {
     fnameCtrl.text = widget.dataMemberDetails.fname;
     lnameCtrl.text = widget.dataMemberDetails.lname;
     phoneCtrl.text = widget.dataMemberDetails.phone;
@@ -428,5 +471,56 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     aadharCtrl.text = widget.dataMemberDetails.aadhar;
     profCtrl.text = widget.dataMemberDetails.profession;
     addressCtrl.text = widget.dataMemberDetails.address;
+  }
+
+  Future<void> updateProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+      message: 'Please wait',
+      progressWidget: Platform.isIOS
+          ? CupertinoActivityIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircularProgressIndicator(),
+            ),
+    );
+    await pr.show();
+    var queryParameters = {
+      'member_id': '' +prefs.getString('member_id'),
+      'fname': '' + fnameCtrl.text.toString(),
+      'lname': '' + lnameCtrl.text.toString(),
+      'phone': '' + phoneCtrl.text.toString(),
+      'email': '' + emailCtrl.text.toString(),
+      'profession': profCtrl.text.toString(),
+      'address': '' + addressCtrl.text.toString(),
+      'aadhar': '' + aadharCtrl.text.toString(),
+    };
+
+    var uri = Uri.https(
+        GlobalVariable.BASE_URL, '/api/edit-profile.php', queryParameters);
+    print(uri);
+    Response response = await get(uri);
+/*    // final response = await http
+    //     .get("https://" + GlobalVariable.BASE_URL + "/api/inventory_sale.php");*/
+    if (response.statusCode == 200) {
+      await pr.hide();
+      final data = jsonDecode(response.body);
+      String json = response.body;
+      print('updateProfile->' + data.toString());
+      Map<String, dynamic> map = jsonDecode(json);
+      if (map['status'] == 'Success') {
+      } else {
+        print('updateProfile:status' + map['status']);
+      }
+
+    } else {
+      await pr.hide();
+      print('updateProfile->error');
+      throw Exception('Failed to load album');
+    }
   }
 }

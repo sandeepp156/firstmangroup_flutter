@@ -193,7 +193,7 @@ class _MyOfficeScreenState extends State<MyOfficeScreen> {
                     child: Container(
                   padding: EdgeInsets.only(top: 10),
                   color: GlobalVariable.grey_main,
-                  child: ListView.builder(
+                  child: dataMyOffice.length == 0 ? Center(child: Text('No Data'),):ListView.builder(
                       itemCount:
                           dataMyOffice.length == 0 ? 0 : dataMyOffice.length,
                       itemBuilder: (context, pos) {
@@ -232,7 +232,9 @@ class _MyOfficeScreenState extends State<MyOfficeScreen> {
     return Container(
       margin: EdgeInsets.only(bottom: 15, left: 10, right: 10),
       // padding: EdgeInsets.only(top: 10),
-      color: GlobalVariable.blue_main,
+      decoration: BoxDecoration(color: GlobalVariable.blue_main, boxShadow: [
+        BoxShadow(color: Colors.grey, offset: Offset(5, 5), spreadRadius: 1)
+      ]),
       width: double.infinity,
       child: Column(
         children: [
@@ -381,12 +383,31 @@ class _MyOfficeScreenState extends State<MyOfficeScreen> {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 5),
-                                child: Text(dataMyOffice[pos].views,
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: GlobalVariable.blue_main,
-                                        fontFamily:
-                                            GlobalVariable.GothamMedium)),
+                                child: Row(
+                                  children: [
+                                    Text(dataMyOffice[pos].views + ' ',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: GlobalVariable.blue_main,
+                                            fontFamily:
+                                                GlobalVariable.GothamMedium)),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {},
+                                        child: Text('(Click Here)',
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              color: GlobalVariable
+                                                  .text_colors_black,
+                                              fontFamily:
+                                                  GlobalVariable.GothamMedium,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            )),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -396,7 +417,7 @@ class _MyOfficeScreenState extends State<MyOfficeScreen> {
                   ),
                 ),
                 Container(
-                  height: 175,
+                  height: 200,
                   // color: GlobalVariable.grey_main,
                   child: Stack(
                     children: [
@@ -417,7 +438,7 @@ class _MyOfficeScreenState extends State<MyOfficeScreen> {
                                 height: 15,
                                 width: 20,
                               ),
-                              Text(' ' + dataMyOffice[pos].views,
+                              Text(' ' + dataMyOffice[pos].views + ' Views',
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.white,

@@ -869,6 +869,8 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
   }
 
   Future<void> getMyCreditsData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
@@ -886,7 +888,7 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
         "/api/member_credits.php?+member_id=+" +
-        GlobalVariable.member_id);
+        prefs.getString('member_id'));
 
     if (response.statusCode == 200) {
       await pr.hide();
@@ -915,6 +917,8 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
   }
 
   Future<void> getMyDebitsData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
@@ -932,7 +936,7 @@ class _MyCreditsScreenState extends State<MyCreditsScreen> {
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
         "/api/member_debits.php?+member_id=+" +
-        GlobalVariable.member_id);
+        prefs.getString('member_id'));
 
     if (response.statusCode == 200) {
       await pr.hide();

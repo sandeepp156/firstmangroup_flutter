@@ -5,6 +5,10 @@ import 'dart:io';
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:delayed_display/delayed_display.dart';
+import 'package:firstmangroup_flutter/NewPropertyGalleyScreen.dart';
+import 'package:firstmangroup_flutter/PartnershipDetails.dart';
+import 'package:firstmangroup_flutter/ShortListPropScreen.dart';
+import 'package:firstmangroup_flutter/SiteVisitScreen.dart';
 import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,10 +18,13 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'AddListingScreen.dart';
 import 'BannersScreen.dart';
 import 'DataBanners.dart';
+import 'DataMemberDetails.dart';
 import 'ListingsScreen.dart';
 import 'MyFmNw.dart';
+import 'ProjectPartnerScreen.dart';
 import 'PropertyGalleryScreen.dart';
 import 'initialpage.dart';
 
@@ -26,9 +33,9 @@ void main() {
 }
 
 class RealEstateScreen extends StatefulWidget {
-  final String typeId;
+  final String typeId, type_mem;
 
-  RealEstateScreen({this.typeId});
+  RealEstateScreen({this.typeId, this.type_mem});
 
   @override
   _RealEstateScreenState createState() => _RealEstateScreenState();
@@ -36,10 +43,12 @@ class RealEstateScreen extends StatefulWidget {
 
 final List<DataBanners> dataBanners = new List<DataBanners>();
 final List<DataAds> dataAds = new List<DataAds>();
+final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
 
 final controller = PageController(
   initialPage: 0,
 );
+String cityId = '0';
 bool tem = true;
 bool tem1 = false;
 int item_li = 0;
@@ -59,9 +68,9 @@ List<Widget> pages = [
 ];
 
 class _RealEstateScreenState extends State<RealEstateScreen> {
-  final String typeId;
+  final String typeId, type_mem;
 
-  _RealEstateScreenState({this.typeId});
+  _RealEstateScreenState({this.typeId, this.type_mem});
 
   // List<Widget> pages = [
   //  HomePage(),
@@ -93,6 +102,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    getDetails();
     getData();
     // showProg();
     super.initState();
@@ -187,7 +197,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
           Expanded(
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: dataAds.length!=0?dataAds.length:0,
+                itemCount: dataAds.length != 0 ? dataAds.length : 0,
                 itemBuilder: (context, pos) {
                   return Container(
                     margin: EdgeInsets.only(left: 7),
@@ -195,10 +205,9 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                     height: 200,
                     // color: GlobalVariable.light_blue,
                     child: Image.network(
-                      dataAds.length!=0?dataAds[pos].image:'',
+                      dataAds.length != 0 ? dataAds[pos].image : '',
                       height: 200,
                       width: 215,
-
                       fit: BoxFit.fill,
                     ),
                   );
@@ -218,7 +227,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
             images: dataBanners.length == 0
                 ? [
                     // Image.asset('drawable/bnner1.png'),
-                    Text('Loading'),
+                    Center(child: Text('Loading')),
                   ]
                 : dataBanners.map((imgURL) {
                     return Builder(
@@ -236,7 +245,10 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => BannersScreen(id: dataBanners[i].typeId,typeId: dataBanners[i].type,)),
+                    builder: (context) => BannersScreen(
+                          id: dataBanners[i].typeId,
+                          typeId: dataBanners[i].type,
+                        )),
               );
             },
             showIndicator: true,
@@ -289,10 +301,13 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           // PropertyGalleryScreen
-                          Navigator.push(context, new MaterialPageRoute(builder: (context) => PropertyGalleryScreen ()),);
-
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => PropertyGalleryScreen()),
+                          );
                         },
                         child: Container(
                           decoration: BoxDecoration(boxShadow: [
@@ -349,74 +364,90 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                          ),
-                        ]),
-                        margin: EdgeInsets.only(left: 7),
-                        height: 85,
-                        // width: 125,
-                        // color: Colors.green,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(5.0),
-                                child: Image.asset(
-                                  'drawable/realestate_back.png',
-                                  height: 100,
-                                  fit: BoxFit.fill,
-                                )),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Center(
-                                    child: Image.asset(
-                                  'drawable/new_prop.png',
-                                  height: 20,
-                                  color: GlobalVariable.white,
-                                )),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                  'New Properties',
-                                  style: TextStyle(
-                                      fontFamily: GlobalVariable.Gotham,
-                                      color: GlobalVariable.white,
-                                      fontSize: 12),
-                                )
-                              ],
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) =>
+                                    NewPropertyGalleyScreen()),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5.0,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 20, right: 10),
-                              child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Container(
-                                      color: GlobalVariable.red,
-                                      padding:
-                                          EdgeInsets.only(top: 1, bottom: 1),
-                                      child: Text(
-                                        ' LATEST ',
-                                        style: TextStyle(
-                                            fontSize: 7,
-                                            color: GlobalVariable.white,
-                                            fontFamily: GlobalVariable.Gotham),
-                                      ))),
-                            )
-                          ],
+                          ]),
+                          margin: EdgeInsets.only(left: 7),
+                          height: 85,
+                          // width: 125,
+                          // color: Colors.green,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child: Image.asset(
+                                    'drawable/realestate_back.png',
+                                    height: 100,
+                                    fit: BoxFit.fill,
+                                  )),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Center(
+                                      child: Image.asset(
+                                    'drawable/new_prop.png',
+                                    height: 20,
+                                    color: GlobalVariable.white,
+                                  )),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Text(
+                                    'New Properties',
+                                    style: TextStyle(
+                                        fontFamily: GlobalVariable.Gotham,
+                                        color: GlobalVariable.white,
+                                        fontSize: 12),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 20, right: 10),
+                                child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Container(
+                                        color: GlobalVariable.red,
+                                        padding:
+                                            EdgeInsets.only(top: 1, bottom: 1),
+                                        child: Text(
+                                          ' LATEST ',
+                                          style: TextStyle(
+                                              fontSize: 7,
+                                              color: GlobalVariable.white,
+                                              fontFamily:
+                                                  GlobalVariable.Gotham),
+                                        ))),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
                       child: InkWell(
-                        onTap: (){
-                          Navigator.push(context, new MaterialPageRoute(builder: (context) => ListingScreen (typeId: widget.typeId,)),);
-
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => ListingScreen(
+                                      typeId: widget.typeId,
+                                    )),
+                          );
                         },
                         child: Container(
                           decoration: BoxDecoration(boxShadow: [
@@ -503,6 +534,11 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
+                        Navigator.push(
+                          context,
+                          new CupertinoPageRoute(
+                              builder: (context) => TrackLeadsScreen()),
+                        );
                         //MyFmNwScreen
                         // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
                       },
@@ -538,7 +574,28 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                     child: InkWell(
                       onTap: () {
                         //MyFmNwScreen
-                        // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
+
+                        if (dataMemDe.length != 0) {
+                          if (dataMemDe[0].kyc == '' ||
+                              dataMemDe[0].kyc == null) {
+                            print('kyc not done');
+                            // _onWillPop();
+                            if (Platform.isAndroid) {
+                              _onWillPop();
+                            } else if (Platform.isIOS) {
+                              displayDialog();
+                            }
+                          } else {
+                            print('kyc  done');
+                            Navigator.push(
+                              context,
+                              new CupertinoPageRoute(
+                                  builder: (context) => SiteVisitScreen()),
+                            );
+                          }
+                        } else {
+                          print('kyc checking');
+                        }
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -574,6 +631,32 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
+                        if (dataMemDe.length != 0) {
+                          if (dataMemDe[0].kyc == '' ||
+                              dataMemDe[0].kyc == null) {
+                            print('kyc not done');
+                            // _onWillPop();
+                            if (Platform.isAndroid) {
+                              _onWillPop();
+                            } else if (Platform.isIOS) {
+                              displayDialog();
+                            }
+                          } else {
+                            print('kyc done');
+                            Navigator.push(
+                              context,
+                              new CupertinoPageRoute(
+                                  builder: (context) => AddLisitingScreen()),
+                            );
+                          }
+                        } else {
+                          print('kyc checking');
+                        }
+                        /*  Navigator.push(
+                          context,
+                          new CupertinoPageRoute(
+                              builder: (context) => AddLisitingScreen()),
+                        );*/
                         //MyFmNwScreen
                         // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
                       },
@@ -609,7 +692,11 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                     child: InkWell(
                       onTap: () {
                         //MyFmNwScreen
-                        // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => ShortListPropScreen()),
+                        );
                       },
                       child: Column(
                         // mainAxisAlignment: MainAxisAlignment.end,
@@ -640,41 +727,50 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        //MyFmNwScreen
-                        // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 3),
-                            padding: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                color: GlobalVariable.white,
-                                borderRadius: BorderRadius.circular(25)),
-                            child: Image.asset(
-                              'drawable/partner.png',
-                              height: 40,
+                  Visibility(
+                    visible: true,
+                    // visible: widget.type_mem == '3' ? false : true,
+                    child: Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            new CupertinoPageRoute(
+                                builder: (context) => ProjectPartnerScreen()),
+                          );
+                          //MyFmNwScreen
+                          // Navigator.push(context, new MaterialPageRoute(builder: (context) =>  MyFmNwScreen()),);
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 15),
+                              padding: EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                  color: GlobalVariable.white,
+                                  borderRadius: BorderRadius.circular(25)),
+                              child: Image.asset(
+                                'drawable/partner.png',
+                                height: 40,
 
-                              // fit: BoxFit.fitHeight,
-                              // width: 40,
-                              // color: GlobalVariable.text_colors_black,
+                                // fit: BoxFit.fitHeight,
+                                // width: 40,
+                                // color: GlobalVariable.text_colors_black,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3),
-                            child: Text(
-                              'Track Lead',
-                              style: TextStyle(
-                                  color: GlobalVariable.yellow_main,
-                                  fontSize: 10,
-                                  fontFamily: GlobalVariable.Gotham),
-                            ),
-                          )
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 3),
+                              child: Text(
+                                'Project\nPartner',
+                                style: TextStyle(
+                                    color: GlobalVariable.yellow_main,
+                                    fontSize: 10,
+                                    fontFamily: GlobalVariable.Gotham),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -702,23 +798,52 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     );
   }
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Alert !'),
+            content: new Text('KYC not completed'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('OK'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
+  void displayDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => new CupertinoAlertDialog(
+        title: new Text("Alert !"),
+        content: new Text("\nKYC not done"),
+        actions: [
+          CupertinoDialogAction(
+              onPressed: () => Navigator.of(context).pop(true),
+              isDefaultAction: true,
+              child: new Text("Close"))
+        ],
+      ),
+    );
+  }
+
   Future<void> getData() async {
     dataAds.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jsonAds = prefs.getString("cityJson");
-    print("jsonAds"+jsonAds);
+    print("jsonAds" + jsonAds);
     Map<String, dynamic> map = jsonDecode(jsonAds);
 
     setState(() {
-      if(map.containsKey('realestate_gallery')){
-        for(Map i in map["realestate_gallery"]){
+      if (map.containsKey('realestate_gallery')) {
+        for (Map i in map["realestate_gallery"]) {
           dataAds.add(DataAds.fromJson(i));
         }
-      }
-      else{
-
-      }
-
+      } else {}
     });
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
@@ -736,7 +861,9 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
 
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
-        "/api/banners.php?city_id=1&type="+widget.typeId);
+        "/api/banners.php?city_id=1&type=" +
+        widget.typeId);
+    print('/api/banners.php?city_id=' + cityId + '&type=' + widget.typeId);
 
     if (response.statusCode == 200) {
       await pr.hide();
@@ -762,40 +889,58 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     }
   }
 
-
+  Future<void> getDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // prefs.setString('member_id', '4');
+      cityId = prefs.getString('cityId');
+      print("Details" + prefs.getString('memberJson'));
+      cityName = prefs.getString('cityName');
+      String json = prefs.get('memberJson');
+      for (Map i in jsonDecode(json)) {
+        dataMemDe.add(DataMemberDetails.fromJson(i));
+      }
+    });
+  }
 }
 
 class DataAds {
-    String description;
-    String id;
-    String image;
-    String ref_id;
-    String title;
-    String type;
+  String description;
+  String id;
+  String image;
+  String ref_id;
+  String title;
+  String type;
 
-    DataAds({this.description, this.id, this.image, this.ref_id, this.title, this.type});
+  DataAds(
+      {this.description,
+      this.id,
+      this.image,
+      this.ref_id,
+      this.title,
+      this.type});
 
-    factory DataAds.fromJson(Map<String, dynamic> json) {
-        return DataAds(
-            description: json['description'], 
-            id: json['id'], 
-            image: json['image'], 
-            ref_id: json['ref_id'], 
-            title: json['title'], 
-            type: json['type'], 
-        );
-    }
+  factory DataAds.fromJson(Map<String, dynamic> json) {
+    return DataAds(
+      description: json['description'],
+      id: json['id'],
+      image: json['image'],
+      ref_id: json['ref_id'],
+      title: json['title'],
+      type: json['type'],
+    );
+  }
 
-    Map<String, dynamic> toJson() {
-        final Map<String, dynamic> data = new Map<String, dynamic>();
-        data['description'] = this.description;
-        data['id'] = this.id;
-        data['image'] = this.image;
-        data['ref_id'] = this.ref_id;
-        data['title'] = this.title;
-        data['type'] = this.type;
-        return data;
-    }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['description'] = this.description;
+    data['id'] = this.id;
+    data['image'] = this.image;
+    data['ref_id'] = this.ref_id;
+    data['title'] = this.title;
+    data['type'] = this.type;
+    return data;
+  }
 }
 
 // // Future<void> showProg() async {
@@ -816,3 +961,5 @@ class DataAds {
 //   //     pr.hide();
 //   //   });
 //   // }
+
+//project disable if id =3

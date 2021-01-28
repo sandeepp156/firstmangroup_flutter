@@ -17,11 +17,13 @@ import 'package:flutter/material.dart';
     static var light_blue=Colors.blue;
     static var light_blue_listSeperate=Colors.blue[200];
     static var BASE_URL = 'firstmangroup.in';
-    static var member_id = '4';
+    var member_id = '4';
     //member_id=4
     //https://firstmangroup.in/api/
     static var GothamMedium = 'GothamMedium';
     static var Gotham = 'Gotham';
     static var GothamLight = 'GothamLight';
+
+
 
   }

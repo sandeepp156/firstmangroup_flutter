@@ -3,30 +3,20 @@ import 'package:flutter/material.dart';
 import 'customcolor.dart';
 
 void main() {
-  runApp(Temp());
+  runApp(ImagePickedScreen());
 }
-
-class Temp extends StatefulWidget {
+class ImagePickedScreen extends StatefulWidget {
   @override
-  _TempState createState() => _TempState();
+  _ImagePickedScreenState createState() => _ImagePickedScreenState();
 }
 
-TextEditingController name = new TextEditingController(),
-    pname = new TextEditingController();
-
-int length,name_length,pname_length;
-var j,pj;
-List<String> gotItems = new List<String>();
-
-
-class _TempState extends State<Temp> {
+class _ImagePickedScreenState extends State<ImagePickedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            // appbar
             Container(
               alignment: Alignment.centerLeft,
               // height: 45,
@@ -60,11 +50,9 @@ class _TempState extends State<Temp> {
               ),
             ),
 
-
           ],
         ),
       ),
     );
   }
-
 }

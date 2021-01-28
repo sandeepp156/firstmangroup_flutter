@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firstmangroup_flutter/ApplyLoanScreen.dart';
+import 'package:firstmangroup_flutter/LeadDetailsScreen.dart';
 import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/cupertino.dart';
@@ -189,12 +190,19 @@ class _InsuranceScreenState extends State<InsuranceScreen> {
                   itemBuilder: (context, pos) {
                     return InkWell(
                       onTap: () {
+                        // print(dataLoanType[pos].title);
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => ApplyLoanScreen(
-                                  id: dataLoanType[pos].id,
-                                  title: dataLoanType[pos].title)),
+                              builder: (context) => LeadDetailsScreen(
+                                  id: '2',
+                                  loanid: '',
+                                  loanTitle: dataLoanType[pos].title,
+                                  from: 'insurance',
+                                  bankName: '0',
+                                  propType: '',
+                                  propId: '',
+                              )),
                         );
                       },
                       child: Container(
@@ -254,31 +262,48 @@ class _InsuranceScreenState extends State<InsuranceScreen> {
                     itemCount:
                         dataBusiness.length == 0 ? 0 : dataBusiness.length,
                     itemBuilder: (context, pos) {
-                      return Container(
-                        margin: EdgeInsets.only(right: 20, left: 20),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5, bottom: 5),
-                              child: Image.asset(
-                                dataBusinessImg[pos],
-                                height: 35,
-                                width: 40,
-                                color: GlobalVariable.white,
+                      return InkWell(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => LeadDetailsScreen(
+                                  id: '2',
+                                  loanid: '',
+                                  loanTitle: 'Type of Insurance',
+                                  from: 'insurance',
+                                  bankName: '0',
+                                  propType: '',
+                                  propId: '',
+                                )),
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 20, left: 20),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                child: Image.asset(
+                                  dataBusinessImg[pos],
+                                  height: 35,
+                                  width: 40,
+                                  color: GlobalVariable.white,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              dataBusiness[pos],
-                              maxLines: 2,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: GlobalVariable.yellow_main,
-                                  fontFamily: GlobalVariable.Gotham),
-                            )
-                          ],
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                dataBusiness[pos],
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    color: GlobalVariable.yellow_main,
+                                    fontFamily: GlobalVariable.Gotham),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     }),
@@ -307,7 +332,7 @@ class _InsuranceScreenState extends State<InsuranceScreen> {
               child: CircularProgressIndicator(),
             ),
     );
-    await pr.show();
+    // await pr.show();
 
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
@@ -315,7 +340,7 @@ class _InsuranceScreenState extends State<InsuranceScreen> {
         widget.typeId.toString());
 
     if (response.statusCode == 200) {
-      await pr.hide();
+      // await pr.hide();
 
       final data = jsonDecode(response.body);
       int statusCode = response.statusCode;
@@ -328,7 +353,7 @@ class _InsuranceScreenState extends State<InsuranceScreen> {
         }
       });
     } else {
-      await pr.hide();
+      // await pr.hide();
 
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -354,13 +379,13 @@ class _InsuranceScreenState extends State<InsuranceScreen> {
               child: CircularProgressIndicator(),
             ),
     );
-    await pr.show();
+    // await pr.show();
 
     final response = await http
         .get("https://" + GlobalVariable.BASE_URL + "/api/insurance_types.php");
 
     if (response.statusCode == 200) {
-      await pr.hide();
+      // await pr.hide();
 
       final data = jsonDecode(response.body);
       int statusCode = response.statusCode;
@@ -373,7 +398,7 @@ class _InsuranceScreenState extends State<InsuranceScreen> {
         }
       });
     } else {
-      await pr.hide();
+      // await pr.hide();
 
       // If the server did not return a 200 OK response,
       // then throw an exception.

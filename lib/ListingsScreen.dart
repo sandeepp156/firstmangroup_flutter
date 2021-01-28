@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'BannersScreen.dart';
 import 'DataBanners.dart';
+import 'DataMemberDetails.dart';
 import 'MyFmNw.dart';
 import 'PropertyGalleryScreen.dart';
 import 'initialpage.dart';
@@ -32,7 +33,7 @@ class ListingScreen extends StatefulWidget {
   @override
   _RealEstateScreenState createState() => _RealEstateScreenState();
 }
-
+final List<DataMemberDetails> dataMemDe = new List<DataMemberDetails>();
 final List<DataBanners> dataBanners = new List<DataBanners>();
 // final List<DataAds> dataAds = new List<DataAds>();
 
@@ -45,6 +46,7 @@ int item_li = 0;
 bool showId = false;
 bool showMenu = false;
 var _scale = 0.0;
+var cityId = '0',cityName;
 List<Widget> pages = [
   Container(
     color: Colors.black,
@@ -62,29 +64,6 @@ class _RealEstateScreenState extends State<ListingScreen> {
 
   _RealEstateScreenState({this.typeId});
 
-  // List<Widget> pages = [
-  //  HomePage(),
-  //   PayoutsPage(),
-  //   SaleListPage(),
-  //   MyOfficePage(),
-  // ];
-  //
-  // List<Widget> pages = [
-  //   widget.HomePage,
-  //   Container(
-  //     child: Image.asset(
-  //       "assets/in2.png",
-  //       fit: BoxFit.fill,
-  //     ),
-  //   ),
-  //   Container(
-  //     child: Image.asset(
-  //       "assets/in3.png",
-  //       fit: BoxFit.fill,
-  //     ),
-  //   )
-  // ];
-
   final controller = PageController(
     initialPage: 0,
   );
@@ -92,6 +71,7 @@ class _RealEstateScreenState extends State<ListingScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    getDetails();
     getData();
     // showProg();
     super.initState();
@@ -111,6 +91,30 @@ class _RealEstateScreenState extends State<ListingScreen> {
                 ),
               ],
             ),
+            SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Image.asset('drawable/filterfill.png',height: 50,),
+                  InkWell(
+                    onTap: (){
+                      if(dataMemDe.length!=0){
+                        if(dataMemDe[0].kyc.length==0||dataMemDe[0].kyc==''){
+                          print('KYC Not Done');
+                        }
+                        else{
+                          print('KYC Done');
+                        }
+                      }
+                    },
+                      child: Image.asset('drawable/add.png',height: 50,)),
+                  SizedBox(height: 10,)
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -279,20 +283,7 @@ class _RealEstateScreenState extends State<ListingScreen> {
     // dataAds.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jsonAds = prefs.getString("cityJson");
-    // print("jsonAds"+jsonAds);
-    // Map<String, dynamic> map = jsonDecode(jsonAds);
-    //
-    // setState(() {
-    //   if(map.containsKey('realestate_gallery')){
-    //     for(Map i in map["realestate_gallery"]){
-    //       dataAds.add(DataAds.fromJson(i));
-    //     }
-    //   }
-    //   else{
-    //
-    //   }
-    //
-    // });
+
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
@@ -309,7 +300,7 @@ class _RealEstateScreenState extends State<ListingScreen> {
 
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
-        "/api/banners.php?city_id=1&type="+widget.typeId.toString());
+        "/api/banners.php?city_id="+cityId+"&type="+widget.typeId.toString());
 
     if (response.statusCode == 200) {
       await pr.hide();
@@ -335,7 +326,21 @@ class _RealEstateScreenState extends State<ListingScreen> {
     }
   }
 
+  Future<void> getDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // prefs.setString('member_id', '4');
+      cityId = prefs.getString('cityId');
+      print("Details" + prefs.getString('memberJson'));
+      cityName = prefs.getString('cityName');
+      String json = prefs.get('memberJson');
+      for (Map i in jsonDecode(json)) {
+        dataMemDe.add(DataMemberDetails.fromJson(i));
+      }
+    });
+  }
 
 }
 
 
+//https://firstmangroup.in/api/inventories_list.php?type=1&city=1&area=271&category=1&price=100000-6291956&sqft=100-+5728&possession=1&start=0&end=50

@@ -104,7 +104,7 @@ class _NotifyScreenState extends State<NotifyScreen> {
           Navigator.push(
               context,
               new PageRouteBuilder(
-                  transitionDuration: Duration(seconds: 1),
+                  // transitionDuration: Duration(seconds: 1),
                   pageBuilder: (e,f,g)=>NotifyDetails(dataNotify:dataNotify[pos])));
         },
         child: Container(

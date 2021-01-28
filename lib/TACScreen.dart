@@ -7,16 +7,20 @@ void main() {
   runApp(TACScreen());
 }
 class TACScreen extends StatefulWidget {
+  final String s;
+  TACScreen({this.s});
   @override
   _TACScreenState createState() => _TACScreenState();
 }
 
 class _TACScreenState extends State<TACScreen> {
+  final String s;
+  _TACScreenState({this.s});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             Container(
               alignment: Alignment.centerLeft,
@@ -57,12 +61,12 @@ class _TACScreenState extends State<TACScreen> {
               child: Card(
                 elevation: 5,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 8,right: 10,top: 8,bottom: 30),
+                  padding: const EdgeInsets.only(left: 8,right: 10,top: 8),
                   child: Text(
-                    parseHtmlString('Terms....'),
+                    widget.s,
                     style: TextStyle(
-                        color: GlobalVariable.blue_main,
-                        fontFamily: GlobalVariable.GothamMedium,
+                        color: GlobalVariable.text_colors_black,
+                        fontFamily: GlobalVariable.Gotham,
                         fontSize: 14),
                   ),
                 ),

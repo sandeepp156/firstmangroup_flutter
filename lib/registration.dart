@@ -23,8 +23,19 @@ class Registration extends StatefulWidget {
 TextEditingController phCntrl = new TextEditingController();
 
 class _RegistrationState extends State<Registration> {
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    // phCntrl.clear();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -151,13 +162,12 @@ class _RegistrationState extends State<Registration> {
       Scaffold.of(context).showSnackBar(
           new SnackBar(content: Text('Enter valid Mobile Number')));
     } else {
-      Navigator.push(
+       /* Navigator.push(
         context,
         new MaterialPageRoute(
             builder: (context) => OTPVScreen(text: phCntrl.text.toString())),
-      );
-      // callOtp(context);
-
+      );*/
+      callOtp(context);
     }
   }
 
@@ -178,27 +188,33 @@ class _RegistrationState extends State<Registration> {
     var queryParameters = {
       'phone': '' + phCntrl.text.toString(),
     };
-    var uri =
-        Uri.https(GlobalVariable.BASE_URL, '/new/app/member', queryParameters);
+    var uri = Uri.https(
+        GlobalVariable.BASE_URL, '/api/member_otp.php', queryParameters);
     print(uri);
     Response response = await get(uri);
     int statusCode = response.statusCode;
     String json = response.body;
+    print('' + json.toString());
     Map<String, dynamic> map = jsonDecode(json);
     if (statusCode == 200) {
-      print('$json');
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
       await pr.hide();
       if (map['status'] == 'Success') {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           new MaterialPageRoute(
-              builder: (context) => OTPVScreen(text: phCntrl.text.toString())),
+              builder: (context) => OTPVScreen(text: phCntrl.text.toString(),otp: map['OTP'],)),
         );
+        // phCntrl.clear();
+
       } else {
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(map['message'])));
+        phCntrl.clear();
+
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text(map['message'])));
         // showMyDialog(context, map['message']);
       }
     }
   }
 }
+
+//member_otp.php?phone=

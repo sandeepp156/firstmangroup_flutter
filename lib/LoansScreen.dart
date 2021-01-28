@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firstmangroup_flutter/ApplyLoanScreen.dart';
+import 'package:firstmangroup_flutter/LeadDetailsScreen.dart';
 import 'package:firstmangroup_flutter/TrackLeadsScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/cupertino.dart';
@@ -189,6 +190,7 @@ class _LoansScreenState extends State<LoansScreen> {
                   itemBuilder: (context, pos) {
                     return InkWell(
                       onTap: () {
+                        // print(dataLoanType[pos].title);
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
@@ -254,31 +256,49 @@ class _LoansScreenState extends State<LoansScreen> {
                     itemCount:
                         dataBusiness.length == 0 ? 0 : dataBusiness.length,
                     itemBuilder: (context, pos) {
-                      return Container(
-                        margin: EdgeInsets.only(right: 20, left: 20),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5, bottom: 5),
-                              child: Image.asset(
-                                dataBusinessImg[pos],
-                                height: 35,
-                                width: 40,
-                                color: GlobalVariable.white,
+                      return InkWell(
+                        onTap: (){
+                          if(pos==0){
+                            // Navigator.push(context, route)
+                            Navigator.push(
+                              context,
+                              new CupertinoPageRoute(
+                                  builder: (context) => LeadDetailsScreen(
+                                    from: 'loan',
+                                      id: '1',
+                                      loanid: '0',
+                                    loanTitle : '0',
+                                    bankName: '0',
+                                  )),
+                            );
+                          }
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 20, left: 20),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                child: Image.asset(
+                                  dataBusinessImg[pos],
+                                  height: 35,
+                                  width: 40,
+                                  color: GlobalVariable.white,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              dataBusiness[pos],
-                              maxLines: 2,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: GlobalVariable.yellow_main,
-                                  fontFamily: GlobalVariable.Gotham),
-                            )
-                          ],
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                dataBusiness[pos],
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    color: GlobalVariable.yellow_main,
+                                    fontFamily: GlobalVariable.Gotham),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     }),
@@ -307,7 +327,7 @@ class _LoansScreenState extends State<LoansScreen> {
               child: CircularProgressIndicator(),
             ),
     );
-    await pr.show();
+    // await pr.show();
 
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
@@ -315,7 +335,7 @@ class _LoansScreenState extends State<LoansScreen> {
         widget.typeId.toString());
 
     if (response.statusCode == 200) {
-      await pr.hide();
+      // await pr.hide();
 
       final data = jsonDecode(response.body);
       int statusCode = response.statusCode;
@@ -328,7 +348,7 @@ class _LoansScreenState extends State<LoansScreen> {
         }
       });
     } else {
-      await pr.hide();
+      // await pr.hide();
 
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -354,14 +374,14 @@ class _LoansScreenState extends State<LoansScreen> {
               child: CircularProgressIndicator(),
             ),
     );
-    await pr.show();
+    // await pr.show();
 
     final response = await http
         .get("https://" + GlobalVariable.BASE_URL + "/api/loan_types.php");
 
     if (response.statusCode == 200) {
-      await pr.hide();
-
+      // await pr.hide();
+      //
       final data = jsonDecode(response.body);
       int statusCode = response.statusCode;
       String json = response.body;
@@ -373,7 +393,7 @@ class _LoansScreenState extends State<LoansScreen> {
         }
       });
     } else {
-      await pr.hide();
+      // await pr.hide();
 
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -407,3 +427,11 @@ class DataLoanType {
     return data;
   }
 }
+
+
+//: https://firstmangroup.in/api/cities.php
+// : https://firstmangroup.in/api/category.php?
+// https://firstmangroup.in/api/loan_types.php
+// https://firstmangroup.in/api/areas.php?city=1
+// https://firstmangroup.in/api/properties_list.php?city=1
+//  https://firstmangroup.in/api/insurance_types.php

@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'customcolor.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
@@ -221,6 +222,8 @@ class _MyAssistantScreenState extends State<MyAssistantScreen> {
   }
 
   Future<void> getDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
@@ -237,7 +240,7 @@ class _MyAssistantScreenState extends State<MyAssistantScreen> {
     final response = await http.get("https://" +
         GlobalVariable.BASE_URL +
         "/api/members.php?member_id=" +
-        GlobalVariable.member_id);
+        prefs.getString('member_id'));
     if (response.statusCode == 200) {
       await pr.hide();
       final data = jsonDecode(response.body);

@@ -479,7 +479,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen>
 
 
     final response = await http
-        .get("https://" + GlobalVariable.BASE_URL + "/api/members_active.php?member="+GlobalVariable.member_id+"&status="+type);
+        .get("https://" + GlobalVariable.BASE_URL + "/api/members_active.php?member="+prefs.getString('member_id')+"&status="+type);
 
     if (response.statusCode == 200) {
       // await pr.hide();

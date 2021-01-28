@@ -1,14 +1,18 @@
+import 'package:firstmangroup_flutter/EventsScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import 'customcolor.dart';
 
 void main() {
-  runApp(Temp());
+  runApp(AdsScreen());
 }
 
-class Temp extends StatefulWidget {
+class AdsScreen extends StatefulWidget {
+  String text;
+  AdsScreen({this.text});
   @override
-  _TempState createState() => _TempState();
+  _AdsScreenState createState() => _AdsScreenState();
 }
 
 TextEditingController name = new TextEditingController(),
@@ -19,12 +23,14 @@ var j,pj;
 List<String> gotItems = new List<String>();
 
 
-class _TempState extends State<Temp> {
+class _AdsScreenState extends State<AdsScreen> {
+  String text;
+  _AdsScreenState({this.text});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             // appbar
             Container(
@@ -49,7 +55,7 @@ class _TempState extends State<Temp> {
                   Padding(
                     padding: const EdgeInsets.only(top: 12, bottom: 10),
                     child: Text(
-                      'Tracking Leads',
+                      'News',
                       style: TextStyle(
                           color: GlobalVariable.blue_main,
                           fontFamily: GlobalVariable.GothamMedium,
@@ -59,6 +65,20 @@ class _TempState extends State<Temp> {
                 ],
               ),
             ),
+            Container(
+              margin: EdgeInsets.only(left: 10,right: 10),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child:Html(data: widget.text,),
+               /*   Text(parseHtmlString(widget.text),   style: TextStyle(
+                      color: GlobalVariable.text_colors_black,
+                      fontFamily:
+                      GlobalVariable.Gotham),),*/
+                ),
+              ),
+            )
+
 
 
           ],

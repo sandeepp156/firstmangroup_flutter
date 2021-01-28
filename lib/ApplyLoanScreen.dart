@@ -140,7 +140,14 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
                                   Navigator.push(
                                     context,
                                     new MaterialPageRoute(
-                                        builder: (context) => LeadDetailsScreen()),
+                                        builder: (context) => LeadDetailsScreen(
+                                          from: 'loan',
+                                          id: '1',
+                                          loanid: dataLoanDetails[pos].id,
+                                          loanTitle :widget.title,
+                                          bankName:dataLoanDetails[pos].title,
+                                          bankId:dataLoanDetails[pos].id,
+                                        )),
                                   );
                                 },
                                 child: Container(

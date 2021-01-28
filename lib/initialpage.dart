@@ -1,6 +1,7 @@
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:firstmangroup_flutter/registration.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(Initial());
@@ -34,6 +35,10 @@ class _initialState extends State<Initial> {
   }
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

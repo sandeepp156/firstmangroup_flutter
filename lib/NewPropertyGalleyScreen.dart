@@ -18,22 +18,26 @@ import 'DataPropGallery.dart';
 import 'customcolor.dart';
 
 void main() {
-  runApp(PropertyGalleryScreen());
+  runApp(NewPropertyGalleyScreen());
 }
 
-class PropertyGalleryScreen extends StatefulWidget {
+class NewPropertyGalleyScreen extends StatefulWidget {
   @override
-  _PropertyGalleryScreenState createState() => _PropertyGalleryScreenState();
+  _NewPropertyGalleyScreenState createState() =>
+      _NewPropertyGalleyScreenState();
 }
 
 final List<DataCategory> dataCategory = new List<DataCategory>();
 final List<DataPropGallery> dataPropGallery = new List<DataPropGallery>();
+final List<String> ids = new List<String>();
 int isSelected = 0;
 bool popupFilter = false;
 String category = '', page = '0', sorting = '', city = '';
+int shortlistIndex = -1;
 int sortBy = -1;
 
-class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
+
+class _NewPropertyGalleyScreenState extends State<NewPropertyGalleyScreen> {
   @override
   void initState() {
     // TODO: implement initState
@@ -82,7 +86,7 @@ class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 12, bottom: 10),
                         child: Text(
-                          'Property Gallery',
+                          'New Property Gallery',
                           style: TextStyle(
                               color: GlobalVariable.blue_main,
                               fontFamily: GlobalVariable.GothamMedium,
@@ -206,6 +210,7 @@ class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
                                 ? 0
                                 : dataPropGallery.length,
                             itemBuilder: (context, pos) {
+                              bool s = shortlistIndex ==pos;
                               return InkWell(
                                 onTap: () {
                                   Navigator.push(
@@ -274,6 +279,34 @@ class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
                                                 ),
                                               ),
                                             ),
+                                            Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  print('$pos');
+                                                  setState(() {
+                                                    shortlistIndex=pos;
+                                                    ids.add(dataPropGallery[pos].id);
+                                                  });
+                                                  // saveShortlistitems (dataPropGallery[pos]);
+                                                  checkCart(dataPropGallery[pos]);
+                                                },
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right: 15,bottom: 15),
+                                                      child: Image.asset(
+                                                        ids.length==0?'drawable/short_unselect.png':ids.contains(dataPropGallery[pos].id)?'drawable/short_select.png':'drawable/short_unselect.png',
+                                                        height: 35,
+                                                        // color: GlobalVariable.text_colors_black,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -392,7 +425,7 @@ class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => FilterScreen(type: '0',)),
+                              builder: (context) => FilterScreen(type:'1')),
                         );
                       },
                       child: Image.asset(
@@ -415,8 +448,6 @@ class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
                 ],
               ),
             ),
-
-            //popup
             Visibility(
               visible: popupFilter,
               child: Container(
@@ -647,6 +678,7 @@ class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
                 ),
               ),
             )
+
           ],
         ),
       ),
@@ -689,12 +721,12 @@ class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
           dataCategory.add(DataCategory.fromJson(i));
         }
         var jj = {'id': '-1', 'title': 'All'};
-        var jjk = {'id': '0', 'title': 'Trending'};
-        var jjkk = {'id': '0', 'title': 'Luxury'};
-        var jjkl = {'id': '0', 'title': 'Budget'};
-        dataCategory.insert(0, DataCategory.fromJson(jjkl));
-        dataCategory.insert(0, DataCategory.fromJson(jjkk));
-        dataCategory.insert(0, DataCategory.fromJson(jjk));
+        /*   var jjk = {'id': '0', 'title': 'Trending'};
+        var jjkk = {'id': '0', 'title': 'Luxury'};*/
+        // var jjkl = {'id': '0', 'title': 'Budget'};
+        // dataCategory.insert(0, DataCategory.fromJson(jjkl));
+        /* dataCategory.insert(0, DataCategory.fromJson(jjkk));
+        dataCategory.insert(0, DataCategory.fromJson(jjk));*/
         dataCategory.insert(0, DataCategory.fromJson(jj));
         print('' + dataCategory.length.toString());
         // dataCategory.add(DataCategory());
@@ -750,7 +782,7 @@ class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
         'https://' + GlobalVariable.BASE_URL + '/api/properties.php',
         headers: s=='All'?queryPrams:queryParams_);*/
 
-    var uri = Uri.https(GlobalVariable.BASE_URL, '/api/properties.php',
+    var uri = Uri.https(GlobalVariable.BASE_URL, '/api/properties_new.php',
         s == 'All' ? queryPrams : queryParams_);
     print(uri);
     Response response = await get(uri);
@@ -782,6 +814,111 @@ class _PropertyGalleryScreenState extends State<PropertyGalleryScreen> {
       throw Exception('Failed to load album');
     }
   }
+
+  Future<void> saveShortlistitems(DataPropGallery dataPropGallery) async {
+    print('saveShortlistitems');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString('srtlst', '');
+    if(prefs.getString('srtlst')==null||prefs.getString('srtlst').length==0){
+      List<String> temp = new List<String>();
+      temp.add(dataPropGallery.toString());
+      prefs.setString('srtlst', temp.toString());
+      print('saveShortlistitems='+temp.toString());
+    }
+    else{
+     var s =  prefs.getString('srtlst');
+
+      print('saveShortlistitems:else'+s.toString());
+
+    }
+
+
+  }
+  Future<void> checkCart(DataPropGallery dataPropGallery) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> temp = new List<String>();
+    final data = jsonDecode(prefs.getStringList('cart').toString()??"0");
+    print("data:"+data.toString());
+
+    if (data!=null||data.toString()!="null") {
+      for (Map i in data) {
+        temp.add(i.toString());
+      }
+      if (data.toString().contains(dataPropGallery.id)) { //widget.product.id
+        // Fluttertoast.showToast(msg: 'Already in Cart');
+      } else {
+        // savetoCart();
+        String id = dataPropGallery.id;
+        String price =dataPropGallery.priceDisp;
+        String title = dataPropGallery.title;
+        String views = dataPropGallery.views;
+        String image = dataPropGallery.image1;
+        String address = dataPropGallery
+            .area
+            .title +
+            ',' +
+            dataPropGallery
+                .city
+                .title;
+        Map tempMap = {
+          '"id"': '"$id"',
+          '"price"': '"$price"',
+          '"title"': '"$title"',
+          '"views"': '"$views"',
+          '"image"': '"$image"',
+          '"address"': '"$address"',
+          '"quantity"': '"1"',
+
+        };
+        temp.add(tempMap.toString());
+        print(temp.toString());
+        prefs.setStringList('cart', temp);
+      }
+    }
+    else if(data==null||data.toString()=="null"){
+      String id = dataPropGallery.id;
+      String price = dataPropGallery.priceDisp;
+      String title = dataPropGallery.title;
+      String views = dataPropGallery.views;
+      String image = dataPropGallery.image1;
+      String address =dataPropGallery
+          .area
+          .title +
+          ',' +
+          dataPropGallery
+              .city.title;
+      Map tempMap = {
+        '"id"': '"$id"',
+        '"price"': '"$price"',
+        '"title"': '"$title"',
+        '"views"': '"$views"',
+        '"image"': '"$image"',
+        '"address"': '"$address"',
+        '"quantity"': '"1"',
+      };
+      temp.add(tempMap.toString());
+      print(temp.toString());
+      prefs.setStringList('cart', temp);
+    }
+
+
+  }
+
+  // Future<void> checkList() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   List<String> temp = new List<String>();
+  //   final data = jsonDecode(prefs.getStringList('cart').toString()??"0");
+  //   print("data:"+data.toString());
+  //   if (data!=null||data.toString()!="null") {
+  //     for (Map i in data) {
+  //       temp.add(i.toString());
+  //     }
+  //     if (data.toString().contains(dataPropGallery.)) { //widget.product.id
+  //       // Fluttertoast.showToast(msg: 'Already in Cart');
+  //     }
+  //   }
+  // }
+
 
 //https://firstmangroup.in/api/properties.php?fil_type=trending&page=0&sorting=&city=1
 // https://firstmangroup.in/api/category.php

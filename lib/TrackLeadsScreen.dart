@@ -25,12 +25,13 @@ final List<DataTrackLeads> dataTrackLeads = new List<DataTrackLeads>();
 
 class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
   int isSelected = 0;
+  int tab =1;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getTrackLeadsData(context);
+    getTrackLeadsData(context,'1');
   }
 
   @override
@@ -80,37 +81,51 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                     height: 2,
                   ),
                   Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
-                        child: Container(
-                          height: 36,
+                        child: InkWell(
+                          onTap: (){
+                            getTrackLeadsData(context,'1');
 
-                          // padding: EdgeInsets.only(top: 10),
-                          color: GlobalVariable.blue_main,
-                          child: Stack(
-                            children: [
-                              Center(
-                                child: Text(
-                                  'RealEstate Leads',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      // decoration: TextDecoration.underline,
+                            setState(() {
+                              tab = 1;
+                            });
+                          },
+                          child: AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
 
-                                      fontFamily: GlobalVariable.GothamMedium,
-                                      color: GlobalVariable.white,
-                                      fontSize: 13),
+                            height: 36,
+
+                            // padding: EdgeInsets.only(top: 10),
+                            color: tab==1?GlobalVariable.blue_main:Colors.transparent,
+                            child: Stack(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'RealEstate Leads',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        // decoration: TextDecoration.underline,
+
+                                        fontFamily: GlobalVariable.GothamMedium,
+                                        color: tab==1?GlobalVariable.white:GlobalVariable.blue_main,
+                                        fontSize: 13),
+                                  ),
                                 ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  height: 1,
-                                  width: double.infinity,
-                                  color: GlobalVariable.yellow_main,
-                                ),
-                              )
-                            ],
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Visibility(
+                                    visible:tab==1? true:false,
+
+                                    child: Container(
+                                      height: 1,
+                                      width: double.infinity,
+                                      color: GlobalVariable.yellow_main,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -120,35 +135,49 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                         height: 35,
                       ),
                       Expanded(
-                        child: Container(
-                          height: 36,
+                        child: InkWell(
+                          onTap: (){
+                            getTrackLeadsData(context,'2');
 
-                          // padding: EdgeInsets.only(top: 10,bottom: 10),
+                            setState(() {
+                              tab=2;
+                            });
+                          },
+                          child: AnimatedContainer(
+                            height: 36,
 
-                          color: GlobalVariable.white,
-                          child: Stack(
-                            children: [
-                              Center(
-                                child: Text(
-                                  'Loan Leads',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: GlobalVariable.GothamMedium,
-                                      fontSize: 13),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Visibility(
-                                  visible: false,
-                                  child: Container(
-                                    height: 1,
-                                    width: double.infinity,
-                                    color: GlobalVariable.yellow_main,
+                            // padding: EdgeInsets.only(top: 10,bottom: 10),
+
+                            color: tab==2?GlobalVariable.blue_main:Colors.transparent,
+                            duration: Duration(milliseconds: 300),
+
+                            child: Stack(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'Loan Leads',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontFamily: GlobalVariable.GothamMedium,
+                                        color: tab==2?GlobalVariable.white:GlobalVariable.blue_main,
+
+                                        fontSize: 13),
                                   ),
                                 ),
-                              )
-                            ],
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Visibility(
+                                    visible:tab==2? true:false,
+                                    child: Container(
+                                      height: 1,
+                                      width: double.infinity,
+
+                                      color: GlobalVariable.yellow_main,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -158,35 +187,48 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                         height: 35,
                       ),
                       Expanded(
-                        child: Container(
-                          height: 36,
+                        child: InkWell(
+                          onTap: (){
+                            getTrackLeadsData(context,'3');
 
-                          // padding: EdgeInsets.only(top: 10,bottom: 10),
+                            setState(() {
+                              tab=3;
+                            });
+                          },
+                          child: AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
 
-                          color: GlobalVariable.white,
-                          child: Stack(
-                            children: [
-                              Center(
-                                child: Text(
-                                  'Insurance Leads',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: GlobalVariable.GothamMedium,
-                                      fontSize: 13),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Visibility(
-                                  visible: false,
-                                  child: Container(
-                                    height: 1,
-                                    width: double.infinity,
-                                    color: GlobalVariable.yellow_main,
+                            height: 36,
+
+                            // padding: EdgeInsets.only(top: 10,bottom: 10),
+
+                            color: tab==3?GlobalVariable.blue_main:Colors.transparent,
+                            child: Stack(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'Insurance Leads',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontFamily: GlobalVariable.GothamMedium,
+                                        color: tab==3?GlobalVariable.white:GlobalVariable.blue_main,
+
+                                        fontSize: 13),
                                   ),
                                 ),
-                              )
-                            ],
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Visibility(
+                                    visible:tab==3? true:false,
+                                    child: Container(
+                                      height: 1,
+                                      width: double.infinity,
+                                      color: GlobalVariable.yellow_main,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -227,7 +269,10 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontFamily: GlobalVariable.GothamMedium,
-                                      color: GlobalVariable.blue_main,
+                                      color: isSelected != null &&
+                                              isSelected == pos
+                                          ? GlobalVariable.blue_main
+                                          : GlobalVariable.grey_main_,
                                       fontSize: 12),
                                 ),
                               ),
@@ -254,7 +299,9 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(top: 10),
-                color: GlobalVariable.grey_main,
+                color: dataTrackLeads.length == 0
+                    ? Colors.transparent
+                    : GlobalVariable.grey_main,
                 child: dataTrackLeads.length == 0
                     ? Text('No Leads')
                     : dataTrackLeads[isSelected].leads.length == 0
@@ -266,7 +313,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                 ? 0
                                 : dataTrackLeads[isSelected].leads.length == 0
                                     ? 0
-                                    :dataTrackLeads[isSelected].leads.length,
+                                    : dataTrackLeads[isSelected].leads.length,
                             itemBuilder: (context, pos) {
                               return trackLeaditem(
                                   context, pos); //trackLeadItem
@@ -326,10 +373,15 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             padding: const EdgeInsets.only(left: 10),
                             child: Text(
                                 dataTrackLeads.length == 0
-                                    ? dataTrackLeads[isSelected].leads.length == 0
+                                    ? dataTrackLeads[isSelected].leads.length ==
+                                            0
                                         ? ''
-                                        : dataTrackLeads[isSelected].leads[pos].phone
-                                    :  dataTrackLeads[isSelected].leads[pos].phone,
+                                        : dataTrackLeads[isSelected]
+                                            .leads[pos]
+                                            .phone
+                                    : dataTrackLeads[isSelected]
+                                        .leads[pos]
+                                        .phone,
 
                                 // 'Vijayawada',
                                 style: TextStyle(
@@ -356,9 +408,12 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                             child: Text(
                                 dataTrackLeads.length == 0
                                     ? ''
-                                    : dataTrackLeads[isSelected].leads.length == 0
+                                    : dataTrackLeads[isSelected].leads.length ==
+                                            0
                                         ? ''
-                                        : dataTrackLeads[isSelected].leads[pos].date,
+                                        : dataTrackLeads[isSelected]
+                                            .leads[pos]
+                                            .date,
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: GlobalVariable.blue_main,
@@ -389,7 +444,10 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                               child: Text(
                                   dataTrackLeads.length == 0
                                       ? ''
-                                      : dataTrackLeads[isSelected].leads.length == 0
+                                      : dataTrackLeads[isSelected]
+                                                  .leads
+                                                  .length ==
+                                              0
                                           ? ''
                                           : dataTrackLeads[isSelected]
                                               .leads[pos]
@@ -418,7 +476,10 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                               child: Text(
                                   dataTrackLeads.length == 0
                                       ? ''
-                                      : dataTrackLeads[isSelected].leads.length == 0
+                                      : dataTrackLeads[isSelected]
+                                                  .leads
+                                                  .length ==
+                                              0
                                           ? ''
                                           : dataTrackLeads[isSelected]
                                               .leads[pos]
@@ -456,7 +517,10 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                 child: Text(
                                     dataTrackLeads.length == 0
                                         ? ''
-                                        : dataTrackLeads[isSelected].leads.length == 0
+                                        : dataTrackLeads[isSelected]
+                                                    .leads
+                                                    .length ==
+                                                0
                                             ? ''
                                             : dataTrackLeads[isSelected]
                                                     .leads[pos]
@@ -495,9 +559,14 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                   // 'Vijayawada',
                                   dataTrackLeads.length == 0
                                       ? ''
-                                      : dataTrackLeads[isSelected].leads.length == 0
+                                      : dataTrackLeads[isSelected]
+                                                  .leads
+                                                  .length ==
+                                              0
                                           ? ''
-                                          : dataTrackLeads[isSelected].leads[pos].amount,
+                                          : dataTrackLeads[isSelected]
+                                              .leads[pos]
+                                              .amount,
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: GlobalVariable.blue_main,
@@ -528,9 +597,12 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                 // 'Vijayawada',
                                 dataTrackLeads.length == 0
                                     ? ''
-                                    : dataTrackLeads[isSelected].leads.length == 0
+                                    : dataTrackLeads[isSelected].leads.length ==
+                                            0
                                         ? ''
-                                        : dataTrackLeads[isSelected].leads[pos].loanReq,
+                                        : dataTrackLeads[isSelected]
+                                            .leads[pos]
+                                            .loanReq,
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: GlobalVariable.blue_main,
@@ -556,7 +628,8 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
                                 // 'Vijayawada',
                                 dataTrackLeads.length == 0
                                     ? ''
-                                    : dataTrackLeads[isSelected].leads.length == 0
+                                    : dataTrackLeads[isSelected].leads.length ==
+                                            0
                                         ? ''
                                         : dataTrackLeads[isSelected]
                                             .leads[pos]
@@ -952,7 +1025,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
     );
   }
 
-  Future<void> getTrackLeadsData(BuildContext context) async {
+  Future<void> getTrackLeadsData(BuildContext context,String type) async {
     dataTrackLeads.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -974,7 +1047,7 @@ class _TrackLeadsScreenState extends State<TrackLeadsScreen> {
         GlobalVariable.BASE_URL +
         "/api/leads.php?member_id=" +
         prefs.getString("member_id") +
-        "+&type=1");
+        "+&type="+type);
 
     if (response.statusCode == 200) {
       await pr.hide();

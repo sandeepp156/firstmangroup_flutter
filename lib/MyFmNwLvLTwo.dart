@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 import 'DataMyFms.dart';
 import 'MyFmNw.dart';
+import 'PayoutsScreen.dart';
 import 'customcolor.dart';
 
 void main() {
@@ -295,31 +296,40 @@ class _MyFmNwLvLTwoState extends State<MyFmNwLvLTwo> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 75,
-                    color: GlobalVariable.blue_main,
-                    child: Column(
-                      mainAxisAlignment:
-                      MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding:
-                          const EdgeInsets.only(
-                            // top: 5,
-                              bottom: 3),
-                          child: Image.asset(
-                            'drawable/eye.png',
-                            height: 15,
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context,
+                          CupertinoPageRoute(
+                              builder: (context) {
+                                return PayoutsScreen(id: dataMyFms[pos].id,);
+                              }));
+                    },
+                    child: Container(
+                      width: 75,
+                      color: GlobalVariable.blue_main,
+                      child: Column(
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding:
+                            const EdgeInsets.only(
+                              // top: 5,
+                                bottom: 3),
+                            child: Image.asset(
+                              'drawable/eye.png',
+                              height: 15,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Payouts',
-                          style: TextStyle(
-                              color: GlobalVariable
-                                  .white,
-                              fontSize: 9),
-                        )
-                      ],
+                          Text(
+                            'Payouts',
+                            style: TextStyle(
+                                color: GlobalVariable
+                                    .white,
+                                fontSize: 9),
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],

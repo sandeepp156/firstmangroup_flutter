@@ -8,6 +8,15 @@ void main() {
 bool tem=true;
 bool tem1=false;
 int item_li=0;
+ final controller = PageController(
+
+  initialPage: 0,
+);
+List<Widget> pages = [
+  Container(child: Image.asset("assets/in1.png", fit: BoxFit.fill,),),
+  Container(child: Image.asset("assets/in2.png", fit: BoxFit.fill,),),
+  Container(child: Image.asset("assets/in3.png", fit: BoxFit.fill,),)
+];
 class Initial extends StatefulWidget {
   @override
   _initialState createState() => _initialState();
@@ -79,54 +88,47 @@ class _initialState extends State<Initial> {
     );
   }
 
-  static final controller = PageController(
-    
-    initialPage: 0,
-  );
-  List<Widget> pages = [
-    Container(child: Image.asset("assets/in1.png", fit: BoxFit.fill,),),
-    Container(child: Image.asset("assets/in2.png", fit: BoxFit.fill,),),
-    Container(child: Image.asset("assets/in3.png", fit: BoxFit.fill,),)
-  ];
 
-  Widget arrows(BuildContext context) {
-    return Container(
-        alignment: Alignment.bottomRight,
-        height: double.infinity,width: double.infinity,
-        padding:const EdgeInsets.only(bottom: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Visibility(
-              child: new
-              IconButton(iconSize:40,icon: new Image.asset('assets/right.png'), onPressed: () {
-                if(item_li==0)
-                  controller.nextPage(duration: Duration(milliseconds: 180), curve: Curves.linear);
-                else
-                  controller.nextPage(duration: Duration(milliseconds: 180), curve: Curves.linear);
-              },),visible: tem,),
-            Visibility(child: Padding(
-              padding: const EdgeInsets.only(bottom: 13),
-              child: InkWell(
-                  onTap:(){
-                    Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Registration()),);
-                  },
-                  child: Text("Get Started",style: TextStyle(color: Colors.white,fontSize: 25),)),
-            ), visible: tem1,)
-          ],
-        )
-    );
-  }
-  Widget circleBar(bool isActive) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 150),
-      margin: EdgeInsets.symmetric(horizontal: 8),
-      height: isActive ? 10 : 5,
-      width: isActive ? 10 : 5,
-      decoration: BoxDecoration(
-          color: isActive ? GlobalVariable.yellow_main : Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-    );
-  }
+
+
+}
+Widget arrows(BuildContext context) {
+  return Container(
+      alignment: Alignment.bottomRight,
+      height: double.infinity,width: double.infinity,
+      padding:const EdgeInsets.only(bottom: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Visibility(
+            child: new
+            IconButton(iconSize:40,icon: new Image.asset('assets/right.png'), onPressed: () {
+              if(item_li==0)
+                controller.nextPage(duration: Duration(milliseconds: 180), curve: Curves.linear);
+              else
+                controller.nextPage(duration: Duration(milliseconds: 180), curve: Curves.linear);
+            },),visible: tem,),
+          Visibility(child: Padding(
+            padding: const EdgeInsets.only(bottom: 13),
+            child: InkWell(
+                onTap:(){
+                  Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) =>  Registration()),);
+                },
+                child: Text("Get Started",style: TextStyle(color: Colors.white,fontSize: 25),)),
+          ), visible: tem1,)
+        ],
+      )
+  );
+}
+Widget circleBar(bool isActive) {
+  return AnimatedContainer(
+    duration: Duration(milliseconds: 150),
+    margin: EdgeInsets.symmetric(horizontal: 8),
+    height: isActive ? 10 : 5,
+    width: isActive ? 10 : 5,
+    decoration: BoxDecoration(
+        color: isActive ? GlobalVariable.yellow_main : Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(10))),
+  );
 }

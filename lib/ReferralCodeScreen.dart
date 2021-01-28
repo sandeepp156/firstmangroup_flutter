@@ -1,3 +1,4 @@
+import 'package:firstmangroup_flutter/EnterDetailsScreen.dart';
 import 'package:firstmangroup_flutter/OTPVScreen.dart';
 import 'package:firstmangroup_flutter/customcolor.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,9 +19,8 @@ TextEditingController phCntrl = new TextEditingController();
 class _ReferralCodeScreenState extends State<ReferralCodeScreen> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return
+      Scaffold(
         body: SafeArea(
           child: Builder(
             builder: (BuildContext context) {
@@ -62,14 +62,14 @@ class _ReferralCodeScreenState extends State<ReferralCodeScreen> {
                             decoration: InputDecoration(
                                 counterText: "",
                                 contentPadding:
-                                    EdgeInsets.only(bottom: -15, top: 0.0),
+                                EdgeInsets.only(bottom: -15, top: 0.0),
                                 enabledBorder: new UnderlineInputBorder(
                                     borderSide: new BorderSide(
-                                  color: GlobalVariable.blue_main,
-                                )),
+                                      color: GlobalVariable.blue_main,
+                                    )),
                                 // border: InputBorder.none,
                                 hintStyle: TextStyle(
-                                  fontFamily: GlobalVariable.Gotham,
+                                    fontFamily: GlobalVariable.Gotham,
                                     color: GlobalVariable.grey_main_,
                                     fontSize: 18),
                                 hintText: 'Enter Referral Code'),
@@ -90,6 +90,10 @@ class _ReferralCodeScreenState extends State<ReferralCodeScreen> {
                       child: InkWell(
                         onTap: () {
                           // sendOtp(context);
+                          Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(builder: (context) => EnterDetailsScreen()),
+                          );
                         },
                         child: Stack(
                           alignment: Alignment.centerRight,
@@ -119,8 +123,7 @@ class _ReferralCodeScreenState extends State<ReferralCodeScreen> {
             },
           ),
         ),
-      ),
-    );
+      );
   }
 
   sendOtp(BuildContext context) {
